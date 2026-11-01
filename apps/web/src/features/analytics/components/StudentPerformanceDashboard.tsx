@@ -1,0 +1,257 @@
+"use client";
+
+import React from "react";
+import { MathBanglaText } from "@/components/math-bangla/MathBanglaText";
+import { toBanglaNumerals } from "@/components/math-bangla/bangla-numerals";
+import type { StudentAnalyticsDashboardResponse } from "../types/analytics.types";
+
+interface StudentPerformanceDashboardProps {
+  initialData: StudentAnalyticsDashboardResponse;
+}
+
+export function StudentPerformanceDashboard({
+  initialData,
+}: StudentPerformanceDashboardProps): React.JSX.Element {
+  const {
+    snapshot,
+    subject_matrix,
+    topic_weaknesses,
+    recommendations_bn,
+    weekly_study_trend,
+  } = initialData;
+
+  const maxMinutes = Math.max(
+    60,
+    ...weekly_study_trend.map((d) => d.active_minutes)
+  );
+
+  return (
+    <div className="space-y-6">
+      {/* Tier 1: Executive Snapshot KPIs */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div
+          data-testid="kpi-overall-mastery"
+          className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+        >
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+            সার্বিক দক্ষতা (Overall Mastery)
+          </p>
+          <p className="mt-2 font-heading text-3xl font-bold text-[#0F2942]">
+            {toBanglaNumerals(Math.round(snapshot.overall_mastery_pct))}%
+          </p>
+          <p className="mt-1 text-xs text-slate-500">
+            {toBanglaNumerals(snapshot.proficient_or_mastered_objectives)} /{" "}
+            {toBanglaNumerals(snapshot.total_tracked_objectives)} শিখনফল অর্জিত
+          </p>
+        </div>
+
+        <div
+          data-testid="kpi-active-study-time"
+          className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+        >
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+            সক্রিয় পাঠের সময় (৭ দিন)
+          </p>
+          <p className="mt-2 font-heading text-3xl font-bold text-[#0D9488]">
+            {toBanglaNumerals(snapshot.active_study_minutes_7d)} মিনিট
+          </p>
+          <p className="mt-1 text-xs text-slate-500">
+            সম্পন্ন টিউটর পাঠ:{" "}
+            {toBanglaNumerals(snapshot.completed_tutor_sessions_7d)} টি
+          </p>
+        </div>
+
+        <div
+          data-testid="kpi-exams-taken"
+          className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+        >
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+            পরীক্ষায় অংশগ্রহণ (৩০ দিন)
+          </p>
+          <p className="mt-2 font-heading text-3xl font-bold text-[#0F2942]">
+            {toBanglaNumerals(snapshot.exams_taken_30d)} টি
+          </p>
+          <p className="mt-1 text-xs text-slate-500">
+            মূল্যায়নকৃত কুইজ ও মডেল টেস্ট
+          </p>
+        </div>
+
+        <div
+          data-testid="kpi-exam-avg"
+          className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+        >
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+            পরীক্ষার গড় নম্বর
+          </p>
+          <p className="mt-2 font-heading text-3xl font-bold text-emerald-700">
+            {toBanglaNumerals(Math.round(snapshot.average_exam_score_pct))}%
+          </p>
+          <p className="mt-1 text-xs text-slate-500">
+            রুব্রিক ও নৈর্ব্যক্তিক মূল্যায়নের ভিত্তিতে
+          </p>
+        </div>
+      </div>
+
+      {/* Tier 2 & Tier 5: Subject Performance Matrix + 7-Day Active Study Trend */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-7">
+          <h2 className="font-heading text-lg font-bold text-[#0F2942]">
+            বিষয়ভিত্তিক দক্ষতার ম্যাট্রিক্স (Subject Performance Matrix)
+          </h2>
+          <div className="mt-4 space-y-4">
+            {subject_matrix.map((subj) => (
+              <div
+                key={subj.subject_id}
+                data-testid={`subject-row-${subj.subject_id}`}
+                className="rounded-xl border border-slate-100 bg-slate-50/70 p-4"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-semibold text-slate-800">
+                      {subj.subject_name_bn}
+                    </h3>
+                    <p className="text-xs text-slate-500">
+                      অর্জিত শিখনফল: {toBanglaNumerals(subj.mastered_objectives)} /{" "}
+                      {toBanglaNumerals(subj.tracked_objectives)}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <span className="rounded-full bg-[#0D9488]/10 px-2.5 py-1 text-xs font-bold text-[#0D9488]">
+                      {subj.status_bn} (
+                      {toBanglaNumerals(Math.round(subj.average_mastery_pct))}%)
+                    </span>
+                  </div>
+                </div>
+                <div className="mt-2.5 h-2.5 w-full overflow-hidden rounded-full bg-slate-200">
+                  <div
+                    className="h-full rounded-full bg-[#0D9488]"
+                    style={{
+                      width: `${Math.min(100, Math.round(subj.average_mastery_pct))}%`,
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-5">
+          <h2 className="font-heading text-lg font-bold text-[#0F2942]">
+            সাপ্তাহিক পড়াশোনার ধারাবাহিকতা (৭ দিন)
+          </h2>
+          <p className="mt-1 text-xs text-slate-500">
+            প্রতিদিনের সক্রিয় পড়াশোনার সময় (মিনিট)
+          </p>
+          <div className="mt-6 flex h-44 items-end justify-between gap-2 border-b border-slate-200 pb-2">
+            {weekly_study_trend.map((pt) => {
+              const heightPct = Math.max(
+                8,
+                Math.round((pt.active_minutes / maxMinutes) * 100)
+              );
+              return (
+                <div
+                  key={pt.date}
+                  className="flex flex-1 flex-col items-center gap-1.5"
+                >
+                  <span className="text-[11px] font-semibold text-slate-600">
+                    {toBanglaNumerals(pt.active_minutes)}মি.
+                  </span>
+                  <div
+                    className="w-full max-w-[32px] rounded-t-lg bg-[#0F2942] transition-all"
+                    style={{ height: `${heightPct}%` }}
+                  />
+                  <span className="text-[10px] text-slate-500">
+                    {pt.date.slice(5)}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Tier 3 & Tier 4: Topic Weakness Detector + Actionable Bangla Recommendations */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-6">
+          <h2 className="font-heading text-lg font-bold text-[#0F2942]">
+            অতিরিক্ত অনুশীলন প্রয়োজন এমন টপিক (Topic Weakness Detector)
+          </h2>
+          <div className="mt-4 space-y-3">
+            {topic_weaknesses.length === 0 ? (
+              <p className="text-sm text-emerald-700">
+                চমৎকার! বর্তমানে কোনো টপিকে বড় ধরনের দুর্বলতা নেই।
+              </p>
+            ) : (
+              topic_weaknesses.map((weak) => (
+                <div
+                  key={weak.learning_objective_id}
+                  data-testid={`weak-topic-${weak.learning_objective_id}`}
+                  className="rounded-xl border border-amber-200 bg-amber-50/70 p-4"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <span className="text-xs font-semibold text-amber-800">
+                        {weak.subject_name_bn} • {weak.chapter_name_bn}
+                      </span>
+                      <div className="mt-0.5 font-semibold text-slate-800">
+                        <MathBanglaText content={weak.title_bn} />
+                      </div>
+                    </div>
+                    <span className="rounded-lg bg-amber-200/70 px-2.5 py-1 text-xs font-bold text-amber-950">
+                      দক্ষতা: {toBanglaNumerals(Math.round(weak.mastery_score))}%
+                    </span>
+                  </div>
+                  {weak.misconception_tags.length > 0 ? (
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {weak.misconception_tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded bg-white px-2 py-0.5 text-[11px] font-medium text-amber-900"
+                        >
+                          ভুল ধারণা: {tag}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-6">
+          <h2 className="font-heading text-lg font-bold text-[#0F2942]">
+            এআই টিউটরের পরামর্শ (Actionable Bangla Recommendations)
+          </h2>
+          <div className="mt-4 space-y-3">
+            {recommendations_bn.map((rec, idx) => (
+              <div
+                key={`${rec.type}-${idx}`}
+                data-testid={`recommendation-card-${idx}`}
+                className="flex flex-col justify-between rounded-xl border border-teal-200 bg-teal-50/60 p-4 sm:flex-row sm:items-center"
+              >
+                <div className="space-y-1">
+                  <span className="inline-block rounded bg-[#0D9488] px-2 py-0.5 text-[10px] font-bold uppercase text-white">
+                    {rec.priority === "high" ? "জরুরি পদক্ষেপ" : "পরবর্তী পদক্ষেপ"}
+                  </span>
+                  <div className="font-semibold text-slate-900">
+                    <MathBanglaText content={rec.title_bn} />
+                  </div>
+                  <div className="text-xs text-slate-700">
+                    <MathBanglaText content={rec.description_bn} />
+                  </div>
+                </div>
+                <a
+                  href="/tutor"
+                  className="mt-3 inline-flex shrink-0 items-center justify-center rounded-xl bg-[#0F2942] px-3.5 py-2 text-xs font-semibold text-white hover:bg-[#0F2942]/90 sm:mt-0"
+                >
+                  {rec.action_label_bn}
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

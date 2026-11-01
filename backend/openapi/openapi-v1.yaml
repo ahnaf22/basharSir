@@ -1,0 +1,680 @@
+openapi: 3.1.0
+info:
+  title: AI Home Tutor Bangladesh REST API
+  version: 1.0.0
+  description: >
+    Versioned REST API (`/api/v1`) for AI Home Tutor Bangladesh (Classes 1–10, starting with Classes 6–8 Bangla Medium).
+    Enforces NCTB Curriculum-First grounding, stateful 13-stage AI tutoring, and evidence-based mastery tracking.
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local Native Development Server
+
+paths:
+  /health:
+    get:
+      operationId: getHealthStatus
+      summary: Platform health and readiness probe
+      tags:
+        - System
+      parameters:
+        - in: header
+          name: X-Correlation-Id
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Platform is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '503':
+          description: Platform is degraded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /auth/register/student:
+    post:
+      operationId: registerStudent
+      summary: Register a student profile and dispatch BD SMS OTP to student & guardian
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name_en
+                - phone
+                - guardian_phone
+                - current_class_level
+              properties:
+                name_en:
+                  type: string
+                name_bn:
+                  type: string
+                  nullable: true
+                phone:
+                  type: string
+                  example: '+8801712345678'
+                guardian_phone:
+                  type: string
+                  example: '+8801812345679'
+                current_class_level:
+                  type: integer
+                  minimum: 1
+                  maximum: 10
+                medium:
+                  type: string
+                  enum: [bangla, english_version, english_medium, madrasa]
+                password:
+                  type: string
+                  nullable: true
+                school_name:
+                  type: string
+                  nullable: true
+                district:
+                  type: string
+                  nullable: true
+      responses:
+        '201':
+          description: Student registered and OTP dispatched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSuccessResponse'
+
+  /auth/register/guardian:
+    post:
+      operationId: registerGuardian
+      summary: Register a parent/guardian account
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name_en
+                - phone
+              properties:
+                name_en:
+                  type: string
+                name_bn:
+                  type: string
+                  nullable: true
+                phone:
+                  type: string
+                relation_type:
+                  type: string
+                  enum: [father, mother, legal_guardian]
+                password:
+                  type: string
+                  nullable: true
+                preferred_language:
+                  type: string
+                  enum: [bn, en]
+                weekly_report_channel:
+                  type: string
+                  enum: [sms, whatsapp, email, push]
+      responses:
+        '201':
+          description: Guardian registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSuccessResponse'
+
+  /auth/otp/send:
+    post:
+      operationId: sendOtp
+      summary: Send 6-digit BD SMS OTP (Rate-limited to 3 per 5 minutes)
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - phone
+              properties:
+                phone:
+                  type: string
+                purpose:
+                  type: string
+                  enum: [login, phone_verification, guardian_consent]
+      responses:
+        '200':
+          description: OTP sent
+        '429':
+          description: OTP rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+
+  /auth/otp/verify:
+    post:
+      operationId: verifyOtp
+      summary: Verify 6-digit BD SMS OTP and issue Sanctum access token
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - phone
+                - code
+              properties:
+                phone:
+                  type: string
+                code:
+                  type: string
+                purpose:
+                  type: string
+                  enum: [login, phone_verification, guardian_consent]
+      responses:
+        '200':
+          description: OTP verified
+
+  /auth/login:
+    post:
+      operationId: loginUser
+      summary: Authenticate user with phone and password
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - phone
+                - password
+              properties:
+                phone:
+                  type: string
+                password:
+                  type: string
+                device_name:
+                  type: string
+      responses:
+        '200':
+          description: Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSuccessResponse'
+
+  /auth/logout:
+    post:
+      operationId: logoutUser
+      summary: Revoke active Sanctum token
+      tags:
+        - Authentication
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Logged out
+
+  /students/me:
+    get:
+      operationId: getStudentProfile
+      summary: Retrieve active student profile and consent status
+      tags:
+        - Students
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Student profile
+    patch:
+      operationId: updateStudentProfile
+      summary: Update student profile preferences and daily study target
+      tags:
+        - Students
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Updated student profile
+
+  /students/{studentCode}:
+    get:
+      operationId: getStudentByCode
+      summary: Retrieve student profile by code (Enforces StudentOwnershipPolicy cross-tenant isolation)
+      tags:
+        - Students
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: studentCode
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Student profile
+        '403':
+          description: Cross-tenant access denied
+
+  /guardians/children:
+    get:
+      operationId: listGuardianChildren
+      summary: List all linked and invited children for the authenticated guardian
+      tags:
+        - Guardians
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Linked children list
+
+  /guardians/children/link:
+    post:
+      operationId: linkChildToGuardian
+      summary: Link a student profile to the authenticated guardian account
+      tags:
+        - Guardians
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                student_code:
+                  type: string
+                student_phone:
+                  type: string
+                is_primary_payer:
+                  type: boolean
+      responses:
+        '201':
+          description: Linked child record
+
+  /guardians/consent/approve:
+    post:
+      operationId: approveMinorConsent
+      summary: Record explicit PDPA 2026 consent for a linked minor student
+      tags:
+        - Guardians
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - student_code
+              properties:
+                student_code:
+                  type: string
+                ai_tutoring:
+                  type: boolean
+                handwritten_ocr:
+                  type: boolean
+                group_study:
+                  type: boolean
+                verification_method:
+                  type: string
+                  enum: [otp_sms, signed_form, guardian_portal]
+      responses:
+        '200':
+          description: Consent approved and recorded
+
+  /guardians/consent/revoke:
+    post:
+      operationId: revokeMinorConsent
+      summary: Withdraw PDPA 2026 data processing consent and pause student AI access
+      tags:
+        - Guardians
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - student_code
+              properties:
+                student_code:
+                  type: string
+      responses:
+        '200':
+          description: Consent withdrawn
+
+  /curriculum/active:
+    get:
+      operationId: getActiveCurriculum
+      summary: Retrieve active published NCTB curriculum version and grade levels
+      tags:
+        - Curriculum
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Active curriculum version
+
+  /subjects:
+    get:
+      operationId: listSubjects
+      summary: List subjects for active class & curriculum version
+      tags:
+        - Curriculum
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: grade_level
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 10
+      responses:
+        '200':
+          description: Subject list
+
+  /subjects/{subject}/chapters:
+    get:
+      operationId: listChapters
+      summary: List chapters for a subject
+      tags:
+        - Curriculum
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: subject
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Chapter list
+
+  /chapters/{chapter}/topics:
+    get:
+      operationId: listTopics
+      summary: List topics, learning objectives, and prerequisite DAG for a chapter
+      tags:
+        - Curriculum
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: chapter
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Topic and learning objective list
+
+  /chapters/{chapter}/resources:
+    get:
+      operationId: listChapterResources
+      summary: List published notes, summaries, definitions, worked examples, and formula sheets for a chapter
+      tags:
+        - AcademicContent
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: chapter
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Chapter learning resources
+
+  /resources:
+    post:
+      operationId: createLearningResource
+      summary: Create a draft learning resource in the Academic Content CMS (Admin/Reviewer only)
+      tags:
+        - AcademicContent
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Created draft learning resource
+
+  /resources/{resource}/workflow:
+    post:
+      operationId: transitionResourceWorkflow
+      summary: Transition learning resource workflow state (Draft -> In Review -> Approved -> Published)
+      tags:
+        - AcademicContent
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: resource
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Updated workflow status
+
+  /resources/{resource}/pdf:
+    get:
+      operationId: downloadWatermarkedPdf
+      summary: Generate and download watermarked offline PDF for a published chapter resource
+      tags:
+        - AcademicContent
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: resource
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: PDF binary stream
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+
+  /resources/{resource}/annotations:
+    put:
+      operationId: saveResourceAnnotation
+      summary: Save student bookmark, highlights, and personal study notes for a resource
+      tags:
+        - AcademicContent
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: resource
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Saved annotation
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Sanctum
+
+  schemas:
+    ResponseMeta:
+      type: object
+      required:
+        - correlation_id
+        - curriculum_version
+      properties:
+        correlation_id:
+          type: string
+          example: req_01JBM9X7Z2K8
+        curriculum_version:
+          type: string
+          example: NCTB-2026-BM-v1.0
+
+    ErrorEnvelope:
+      type: object
+      required:
+        - success
+        - error
+        - meta
+      properties:
+        success:
+          type: boolean
+          const: false
+        error:
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+              example: VALIDATION_ERROR
+            message:
+              type: string
+            details:
+              type: object
+              additionalProperties: true
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+
+    UserResource:
+      type: object
+      required:
+        - uuid
+        - name_en
+        - phone
+        - account_type
+        - status
+        - phone_verified
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        name_en:
+          type: string
+        name_bn:
+          type: string
+          nullable: true
+        phone:
+          type: string
+        email:
+          type: string
+          nullable: true
+        account_type:
+          type: string
+          enum: [student, guardian, teacher, reviewer, admin]
+        status:
+          type: string
+          enum: [pending_consent, active, suspended, deleted]
+        phone_verified:
+          type: boolean
+
+    AuthSuccessResponse:
+      type: object
+      required:
+        - success
+        - message
+        - data
+        - meta
+      properties:
+        success:
+          type: boolean
+          const: true
+        message:
+          type: string
+        data:
+          type: object
+          required:
+            - user
+            - access_token
+          properties:
+            user:
+              $ref: '#/components/schemas/UserResource'
+            access_token:
+              type: string
+              nullable: true
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+
+    HealthResponse:
+      type: object
+      required:
+        - success
+        - message
+        - data
+        - meta
+      properties:
+        success:
+          type: boolean
+          const: true
+        message:
+          type: string
+          example: সিস্টেম সচল রয়েছে।
+        data:
+          type: object
+          required:
+            - service
+            - api_version
+            - status
+            - checks
+            - timestamp
+          properties:
+            service:
+              type: string
+              example: ai-home-tutor-bangladesh-api
+            api_version:
+              type: string
+              example: v1
+            status:
+              type: string
+              enum: [healthy, degraded]
+            checks:
+              type: object
+              required:
+                - database
+                - cache
+              properties:
+                database:
+                  type: string
+                  enum: [up, down]
+                cache:
+                  type: string
+                  enum: [up, down]
+            timestamp:
+              type: string
+              format: date-time
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
