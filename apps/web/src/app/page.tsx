@@ -6,7 +6,6 @@ import Link from 'next/link';
 export default function HomePage(): React.JSX.Element {
   // --- State for Interactivity ---
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [showNotes, setShowNotes] = useState(false);
   const [selectedChip, setSelectedChip] = useState('কেন এমন হয়?');
   const [examCurrentQ, setExamCurrentQ] = useState(7);
   const [selectedOption, setSelectedOption] = useState('b');
@@ -314,7 +313,7 @@ export default function HomePage(): React.JSX.Element {
   const timerDashoffset = 88 * (1 - timerSeconds / totalTime);
 
   return (
-    <div className={`min-h-screen bg-slate text-chalk font-body antialiased ${showNotes ? 'notes' : ''}`}>
+    <div className="min-h-screen bg-slate text-chalk font-body antialiased">
       {/* Texture Background */}
       <div className="board-tex" aria-hidden="true" />
 
@@ -382,11 +381,6 @@ export default function HomePage(): React.JSX.Element {
         {/* ===================== 01 HERO ===================== */}
         <section className="hero" id="top" aria-labelledby="hero-h">
           <div className="wrap">
-            <div className="dnote">
-              <b>HERO · ART DIRECTION</b><br />
-              Over-the-shoulder night study scene: a Bangladeshi student (class 8–10) at a home desk, lamp light, steel window grill, a glass of cha. Headline sits on the dark blackboard ground. Live tutor card overlaps the photo bottom-left.
-            </div>
-
             <div className="hero-grid">
               <div className="hero-copy">
                 <p className="kicker">
@@ -552,10 +546,6 @@ export default function HomePage(): React.JSX.Element {
         {/* ===================== 02 STATEMENT ===================== */}
         <section className="statement" id="features" aria-labelledby="st-h">
           <div className="wrap">
-            <div className="dnote">
-              <b>STATEMENT · LAYOUT</b><br />
-              One oversized left-aligned headline, then three full-width rows separated by hairlines. Each row = huge verb + outlined &quot;শেখো&quot; + one line of copy + a working UI demo.
-            </div>
             <div className="st-top">
               <h2 className="h-xl" id="st-h">
                 শুধু পড়া নয়, এবার শেখা{' '}
@@ -637,10 +627,6 @@ export default function HomePage(): React.JSX.Element {
         {/* ===================== 03 TUTOR ===================== */}
         <section className="tutor" id="how" aria-labelledby="tu-h">
           <div className="wrap">
-            <div className="dnote">
-              <b>INTERACTIVE TUTOR · THE KEY SECTION</b><br />
-              Real product UI, not a screenshot. Left: the &quot;board&quot; with the solution steps. Right: the conversation plays out with typing dots, Socratic hints, and celebration.
-            </div>
             <div className="tutor-head">
               <div className="sec-head">
                 <p className="kicker"><span className="dot" />কীভাবে কাজ করে</p>
@@ -742,10 +728,6 @@ export default function HomePage(): React.JSX.Element {
         {/* ===================== 04 MISTAKES ===================== */}
         <section className="mistakes" aria-labelledby="mi-h">
           <div className="wrap">
-            <div className="dnote">
-              <b>MISTAKES · EMOTIONAL BEAT</b><br />
-              The khata (exercise book) page is the bright surface: ruled lines, red margin, binder holes. Student writes in blue ballpoint, tutor corrects in red pen with a margin note. Sticky post-it note + rubber stamp = celebration, not shame.
-            </div>
             <div className="mist-grid">
               <div className="mist-copy">
                 <p className="kicker"><span className="dot" />ভুল করাটাও পড়ার অংশ</p>
@@ -796,10 +778,6 @@ export default function HomePage(): React.JSX.Element {
         {/* ===================== 05 PROGRESS ===================== */}
         <section className="progress" aria-labelledby="pr-h">
           <div className="wrap">
-            <div className="dnote">
-              <b>PROGRESS · DASHBOARD</b><br />
-              Bangla numerals everywhere. Week starts শনিবার (Bangladesh school week). Dashed parent strip provides reassurance for guardians.
-            </div>
             <div className="sec-head">
               <p className="kicker"><span className="dot" />তোমার অগ্রগতি</p>
               <h2 className="h-xl" id="pr-h">
@@ -943,10 +921,6 @@ export default function HomePage(): React.JSX.Element {
         {/* ===================== 06 ACHIEVEMENT ===================== */}
         <section className="ach" aria-labelledby="ac-h">
           <div className="wrap">
-            <div className="dnote">
-              <b>ACHIEVEMENT · ONE CELEBRATION MOMENT</b><br />
-              The chalk-white card is the big moment: ring fills to 100%, confetti burst, line &quot;চ্যাপ্টার ক্লিয়ার, বস!&quot;. Badges are calm and grown-up. One badge stays locked.
-            </div>
             <div className="sec-head">
               <p className="kicker"><span className="dot" />অর্জন</p>
               <h2 className="h-xl" id="ac-h">
@@ -1050,10 +1024,6 @@ export default function HomePage(): React.JSX.Element {
         {/* ===================== 07 EXAM ===================== */}
         <section className="exam" id="exam" aria-labelledby="ex-h">
           <div className="wrap">
-            <div className="dnote">
-              <b>EXAM · SERIOUS MODE</b><br />
-              Tone shifts a notch more serious. Live timer, question grid with answered/flagged/current states, selectable MCQ, and handwritten-script panel.
-            </div>
             <div className="exam-grid">
               <div className="exam-copy">
                 <p className="kicker"><span className="dot" />পরীক্ষা</p>
@@ -1222,10 +1192,6 @@ export default function HomePage(): React.JSX.Element {
         {/* ===================== 08 GROUP ===================== */}
         <section className="group" id="group" aria-labelledby="gr-h">
           <div className="wrap">
-            <div className="dnote">
-              <b>GROUP · PORAR ADDA</b><br />
-              Tutor tile sits in the centre as the teacher (mark + audio wave). Around it, students Rafi, Tisha, Ariyan, and Meem keep their individual status.
-            </div>
             <div className="grp-grid">
               <div className="room" aria-label="গ্রুপ ক্লাসের নমুনা">
                 <div className="room-bar">
@@ -1320,10 +1286,6 @@ export default function HomePage(): React.JSX.Element {
           <canvas ref={dustCanvasRef} id="dust" aria-hidden="true" />
           <div className="ghost" aria-hidden="true">পড়া হবে!</div>
           <div className="wrap">
-            <div className="dnote">
-              <b>FINAL CTA</b><br />
-              Drifting chalk dust in the background (canvas). Giant outlined wordmark sinks off the bottom edge. One button, one handwritten line.
-            </div>
             <div className="final-in">
               <p className="kicker"><span className="dot" />পড়া হবে তো?</p>
               <h2 className="h-hero" id="fi-h">
@@ -1392,17 +1354,6 @@ export default function HomePage(): React.JSX.Element {
           </div>
         </div>
       </footer>
-
-      {/* Floating Design Notes Toggle */}
-      <button
-        className="notes-toggle"
-        id="notesBtn"
-        type="button"
-        aria-pressed={showNotes}
-        onClick={() => setShowNotes(!showNotes)}
-      >
-        <i />ডিজাইন নোট
-      </button>
     </div>
   );
 }

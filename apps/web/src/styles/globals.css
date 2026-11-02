@@ -3207,62 +3207,6 @@ footer {
   }
 }
 
-/* ===== DESIGN NOTES (reference mode) ===== */
-.dnote {
-  display: none;
-  font-family: var(--f-mono);
-  font-size: 12.5px;
-  line-height: 1.55;
-  color: #FFD9A0;
-  background: rgba(255, 178, 56, 0.07);
-  border: 1px dashed rgba(255, 178, 56, 0.55);
-  border-radius: 10px;
-  padding: 12px 14px;
-  margin-bottom: 28px;
-  max-width: 760px;
-}
-
-.dnote b {
-  color: var(--marigold);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-}
-
-body.notes .dnote {
-  display: block;
-}
-
-.notes-toggle {
-  position: fixed;
-  right: max(16px, env(safe-area-inset-right, 0px));
-  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-  z-index: 80;
-  min-height: 46px;
-  border-radius: 999px;
-  border: 1px solid var(--rule-2);
-  background: var(--slate-2);
-  color: var(--chalk);
-  padding: 0 18px;
-  font: 600 0.9rem var(--f-body);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.7);
-}
-
-.notes-toggle i {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--chalk-3);
-}
-
-.notes-toggle[aria-pressed="true"] i {
-  background: var(--marigold);
-  box-shadow: 0 0 0 4px rgba(255, 178, 56, 0.2);
-}
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
