@@ -53,7 +53,7 @@ This file is the single source of truth for tracking development progress across
   - **Routine Timeline**: Today's personalized routine with interactive check buttons that toggle task completion, recalculate ledger metrics, and increase study ring progress in real time.
   - **Subject Mastery Matrix**: Visual chapter objective block indicators with empty state explanations.
   - **Bottom Row**: Badges shelf with SVG award icons and level progress meter, Khata upload drag-and-drop zone with ruled exercise paper preview, and upcoming model test panel.
-  - **Mobile Tab Bar & Design Notes**: 5-tab fixed bottom navigation on mobile with elevated marigold Tutor action, plus toggleable "ডিজাইন নোট" button explaining pedagogical UX improvements.
+  - **Mobile Tab Bar & CSS Isolation**: 5-tab fixed bottom navigation on mobile with elevated marigold Tutor action. Removed internal prototype 'ডিজাইন নোট' buttons and custom debug widgets across student desk and auth portals. Scoped all `.student-desk` layout styles to prevent global CSS collisions. Fully verified against MySQL backend API (`GET /api/v1/students/me/dashboard`).
 
 ---
 
