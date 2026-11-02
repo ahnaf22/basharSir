@@ -1,0 +1,91 @@
+<svg width="480" height="340" viewBox="0 0 480 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="bookShadow" x="0" y="0" width="480" height="340" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="-4" dy="12" stdDeviation="16" flood-color="#0F2942" flood-opacity="0.12"/>
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#0F2942" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <!-- Book 1: Math Book (Tilted Left) -->
+  <g transform="translate(60, 30) rotate(-6)" filter="url(#bookShadow)">
+    <!-- Spine Thickness -->
+    <rect x="-8" y="0" width="12" height="260" rx="3" fill="#0A1D30"/>
+    <!-- Book Front Cover -->
+    <rect x="0" y="0" width="180" height="260" rx="6" fill="#0F2942"/>
+    <!-- Top Emblem Band -->
+    <rect x="0" y="0" width="180" height="50" rx="6" fill="#1E3A8A"/>
+    <!-- Emblem -->
+    <circle cx="90" cy="25" r="14" fill="#F59E0B" fill-opacity="0.9"/>
+    <text x="90" y="29" text-anchor="middle" font-family="'Hind Siliguri', sans-serif" font-size="9" font-weight="700" fill="#FFFFFF">NCTB</text>
+
+    <!-- Class Banner -->
+    <rect x="20" y="70" width="140" height="26" rx="4" fill="#0D9488"/>
+    <text x="90" y="87" text-anchor="middle" font-family="'Hind Siliguri', sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">
+      অষ্টম শ্রেণি · ২০২৬
+    </text>
+
+    <!-- Subject Title -->
+    <text x="90" y="135" text-anchor="middle" font-family="'Hind Siliguri', sans-serif" font-size="28" font-weight="800" fill="#FFFFFF">
+      গণিত
+    </text>
+    <text x="90" y="155" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="600" fill="#93C5FD">
+      MATHEMATICS
+    </text>
+
+    <!-- Math Formula Graphics -->
+    <g transform="translate(30, 175)">
+      <rect x="0" y="0" width="120" height="40" rx="6" fill="#133857"/>
+      <text x="60" y="24" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600" fill="#FDE047">
+        (a+b)² = a²+2ab+b²
+      </text>
+    </g>
+
+    <!-- Publisher footer -->
+    <text x="90" y="245" text-anchor="middle" font-family="'Hind Siliguri', sans-serif" font-size="9" font-weight="500" fill="#94A3B8">
+      জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড
+    </text>
+  </g>
+
+  <!-- Book 2: Science Book (Overlapping Right) -->
+  <g transform="translate(220, 20) rotate(5)" filter="url(#bookShadow)">
+    <!-- Spine Thickness -->
+    <rect x="-8" y="0" width="12" height="260" rx="3" fill="#064E3B"/>
+    <!-- Book Front Cover -->
+    <rect x="0" y="0" width="180" height="260" rx="6" fill="#047857"/>
+    <!-- Top Emblem Band -->
+    <rect x="0" y="0" width="180" height="50" rx="6" fill="#065F46"/>
+    <!-- Emblem -->
+    <circle cx="90" cy="25" r="14" fill="#F59E0B" fill-opacity="0.9"/>
+    <text x="90" y="29" text-anchor="middle" font-family="'Hind Siliguri', sans-serif" font-size="9" font-weight="700" fill="#FFFFFF">NCTB</text>
+
+    <!-- Class Banner -->
+    <rect x="20" y="70" width="140" height="26" rx="4" fill="#0284C7"/>
+    <text x="90" y="87" text-anchor="middle" font-family="'Hind Siliguri', sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">
+      অষ্টম শ্রেণি · ২০২৬
+    </text>
+
+    <!-- Subject Title -->
+    <text x="90" y="135" text-anchor="middle" font-family="'Hind Siliguri', sans-serif" font-size="28" font-weight="800" fill="#FFFFFF">
+      বিজ্ঞান
+    </text>
+    <text x="90" y="155" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="600" fill="#A7F3D0">
+      GENERAL SCIENCE
+    </text>
+
+    <!-- Science Graphic -->
+    <g transform="translate(30, 175)">
+      <rect x="0" y="0" width="120" height="40" rx="6" fill="#065F46"/>
+      <circle cx="40" cy="20" r="10" stroke="#67E8F9" stroke-width="1.5" fill="none"/>
+      <ellipse cx="40" cy="20" rx="14" ry="5" stroke="#67E8F9" stroke-width="1" fill="none" transform="rotate(30 40 20)"/>
+      <text x="80" y="24" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600" fill="#A7F3D0">
+        H₂ + O → H₂O
+      </text>
+    </g>
+
+    <!-- Publisher footer -->
+    <text x="90" y="245" text-anchor="middle" font-family="'Hind Siliguri', sans-serif" font-size="9" font-weight="500" fill="#A7F3D0">
+      জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড
+    </text>
+  </g>
+</svg>
+

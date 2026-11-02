@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Subscriptions\Domain\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -51,5 +52,13 @@ final class SubscriptionPlan extends Model
             'features_json' => 'array',
             'is_active' => 'boolean',
         ];
+    }
+
+    /**
+     * @return HasMany<PlanEntitlement, $this>
+     */
+    public function entitlements(): HasMany
+    {
+        return $this->hasMany(PlanEntitlement::class, 'subscription_plan_id');
     }
 }

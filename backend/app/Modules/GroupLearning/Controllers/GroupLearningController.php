@@ -276,4 +276,3 @@ final class GroupLearningController
         );
     }
 }
-

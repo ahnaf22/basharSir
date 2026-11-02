@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import { toBanglaNumerals } from "@/components/math-bangla/bangla-numerals";
+import { apiClient } from "@/services/api-client";
+import { useAuthStore } from "@/features/auth/store/auth.store";
 import { billingApi } from "../api/billing.api";
 import type {
   CheckoutInitiateResponse,
@@ -37,6 +39,7 @@ export function GuardianBillingAndCheckoutWorkspace({
     useState<PaymentGatewayType>("bkash");
   const [checkoutSession, setCheckoutSession] =
     useState<CheckoutInitiateResponse | null>(null);
+  const [sandboxSuccess, setSandboxSuccess] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const selectedPlan =
@@ -262,14 +265,42 @@ export function GuardianBillingAndCheckoutWorkspace({
           {checkoutSession ? (
             <div
               data-testid="checkout-initiated-banner"
-              className="mt-4 rounded-xl border border-emerald-300 bg-emerald-50 p-4 text-xs text-emerald-950"
+              className="mt-4 rounded-xl border border-emerald-300 bg-emerald-50 p-4 text-xs text-emerald-950 space-y-2.5"
             >
-              <p className="font-bold">
-                ইনভয়েস নম্বর: {checkoutSession.merchant_invoice_no} ({checkoutSession.gateway.toUpperCase()})
+              <div className="flex items-center justify-between">
+                <p className="font-bold">
+                  ইনভয়েস নম্বর: {checkoutSession.merchant_invoice_no} ({checkoutSession.gateway.toUpperCase()})
+                </p>
+                <span className="rounded-md bg-emerald-200/80 px-2 py-0.5 font-mono text-[10px] font-semibold text-emerald-900">
+                  {checkoutSession.gateway}
+                </span>
+              </div>
+              <p className="text-slate-700">
+                পেমেন্ট গেটওয়ে রিডাইরেক্ট লিংক তৈরি হয়েছে: <span className="font-mono text-[11px] underline">{checkoutSession.checkout_url}</span>
               </p>
-              <p className="mt-1">
-                গেটওয়ে চেকআউট লিংক তৈরি হয়েছে: {checkoutSession.checkout_url}
-              </p>
+              <div>
+                <button
+                  type="button"
+                  data-testid="sandbox-confirm-btn"
+                  onClick={async () => {
+                    try {
+                      await apiClient.post(`/payments/${checkoutSession.payment_uuid}/sandbox-confirm`);
+                      await useAuthStore.getState().refreshUser();
+                      setSandboxSuccess('স্যান্ডবক্স পেমেন্ট সফলভাবে সম্পন্ন হয়েছে এবং প্ল্যান অবিলম্বে সক্রিয় হয়েছে!');
+                    } catch {
+                      setSandboxSuccess('স্যান্ডবক্স পেমেন্ট নিশ্চিত করতে সমস্যা হয়েছে।');
+                    }
+                  }}
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-700 px-3.5 py-2 font-heading text-xs font-bold text-white hover:bg-emerald-800 transition-colors cursor-pointer shadow-xs"
+                >
+                  ✓ স্যান্ডবক্স পেমেন্ট নিশ্চিত ও প্যাকেজ সক্রিয় করুন (Test)
+                </button>
+              </div>
+              {sandboxSuccess && (
+                <p className="font-bangla font-semibold text-emerald-800 pt-1">
+                  {sandboxSuccess}
+                </p>
+              )}
             </div>
           ) : null}
         </div>

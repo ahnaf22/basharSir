@@ -6,6 +6,7 @@ use App\Core\Exceptions\DomainException;
 use App\Core\Http\Middleware\CorrelationIdMiddleware;
 use App\Core\Http\Middleware\EnsureMinorConsentVerifiedMiddleware;
 use App\Core\Support\ApiResponse;
+use App\Modules\Subscriptions\Middleware\EnsureFeatureEntitledMiddleware;
 use App\Modules\Subscriptions\Middleware\SubscriptionQuotaMiddleware;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
@@ -29,6 +30,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'consent.verified' => EnsureMinorConsentVerifiedMiddleware::class,
             'quota.check' => SubscriptionQuotaMiddleware::class,
+            'entitlement' => EnsureFeatureEntitledMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

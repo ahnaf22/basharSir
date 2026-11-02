@@ -20,6 +20,8 @@ use App\Modules\Curriculum\Resources\ChapterResource;
 use App\Modules\Curriculum\Resources\CurriculumVersionResource;
 use App\Modules\Curriculum\Resources\SubjectResource;
 use App\Modules\Curriculum\Resources\TopicResource;
+use App\Modules\LearningAnalytics\Models\MasteryRecord;
+use App\Modules\Students\Models\StudentProfile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -155,6 +157,83 @@ final class CurriculumController extends Controller
             ],
             message: 'শিখনফলের পূর্বশর্ত সফলভাবে সংযুক্ত করা হয়েছে।',
             status: 201,
+        );
+    }
+
+    public function mySubjects(Request $request): JsonResponse
+    {
+        /** @var User $user */
+        $user = $request->user();
+        $student = $user->studentProfile ?? StudentProfile::query()->where('user_id', $user->id)->first();
+
+        $gradeLevel = $student !== null ? $student->current_class_level : 8;
+
+        /** @var AcademicClass|null $academicClass */
+        $academicClass = AcademicClass::query()
+            ->with(['subjects.chapters.topics.learningObjectives'])
+            ->where('grade_level', $gradeLevel)
+            ->first();
+
+        if ($academicClass === null) {
+            throw new DomainException(
+                errorCode: 'CLASS_NOT_FOUND',
+                message: 'শ্রেণির পাঠ্যক্রম পাওয়া যায়নি।',
+                httpStatus: 404,
+            );
+        }
+
+        $studentId = $student?->id;
+        $subjectsData = [];
+
+        foreach ($academicClass->subjects as $subj) {
+            $chaptersData = [];
+            foreach ($subj->chapters as $ch) {
+                $objIds = $ch->topics
+                    ->flatMap(fn ($tp) => $tp->learningObjectives)
+                    ->pluck('id')
+                    ->all();
+
+                $chMastery = 0.0;
+                if ($studentId !== null && ! empty($objIds)) {
+                    $records = MasteryRecord::query()
+                        ->where('student_id', $studentId)
+                        ->whereIn('learning_objective_id', $objIds)
+                        ->get();
+
+                    if ($records->isNotEmpty()) {
+                        $chMastery = round((float) $records->avg('mastery_score') * 100, 1);
+                    }
+                }
+
+                $chaptersData[] = [
+                    'id' => $ch->id,
+                    'chapter_number' => $ch->chapter_number,
+                    'title_bn' => $ch->title_bn,
+                    'title_en' => $ch->title_en,
+                    'syllabus_status' => $ch->syllabus_status,
+                    'topics_count' => $ch->topics->count(),
+                    'objectives_count' => count($objIds),
+                    'mastery_pct' => $chMastery,
+                ];
+            }
+
+            $subjectsData[] = [
+                'id' => $subj->id,
+                'subject_code' => $subj->nctb_subject_code,
+                'title_bn' => $subj->title_bn,
+                'title_en' => $subj->title_en,
+                'total_chapters' => count($chaptersData),
+                'chapters' => $chaptersData,
+            ];
+        }
+
+        return ApiResponse::success(
+            data: [
+                'grade_level' => $academicClass->grade_level,
+                'class_title_bn' => $academicClass->title_bn,
+                'subjects' => $subjectsData,
+            ],
+            message: 'শিক্ষার্থীর বিষয় ও অধ্যায় তালিকা সফলভাবে লোড হয়েছে।',
         );
     }
 }

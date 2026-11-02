@@ -50,6 +50,7 @@ export interface OtpSendResponseDto {
   purpose: 'login' | 'phone_verification' | 'guardian_consent';
   expires_in_seconds: number;
   provider_message_id: string;
+  debug_code?: string | null;
 }
 
 export interface OtpVerifyResponseDto {
@@ -77,23 +78,62 @@ export interface ConsentRecordDto {
 
 export interface LinkedChildDto {
   link_id: number;
-  link_status: 'invited' | 'verified' | 'revoked';
+  status?: 'invited' | 'verified' | 'revoked';
+  link_status?: 'invited' | 'verified' | 'revoked';
   is_primary_payer: boolean;
-  verified_at: string | null;
+  verified_at?: string | null;
   student: {
-    student_id: number;
-    user_uuid: string;
-    name_en: string;
-    name_bn: string | null;
-    phone: string;
+    student_id?: number;
+    user_uuid?: string;
     student_code: string;
+    name_bn: string | null;
+    name_en: string;
+    phone?: string;
     current_class_level: number;
     medium: EducationMedium;
-    school_name: string | null;
-    district: string | null;
+    school_name?: string | null;
+    district?: string | null;
     consent_status: ConsentStatus;
-    daily_study_target_mins: number;
+    daily_study_target_mins?: number;
   };
-  latest_consent: ConsentRecordDto | null;
+  latest_consent?: ConsentRecordDto | null;
 }
+
+export interface FeatureQuotaDto {
+  used: number;
+  limit: number;
+  remaining: number;
+}
+
+export interface FeatureEntitlementDto {
+  is_enabled: boolean;
+  quota_limit: number | null;
+  description_bn: string;
+  can_access: boolean;
+  quota: FeatureQuotaDto | null;
+  upgrade_to: string | null;
+}
+
+export interface PlanDto {
+  id: number;
+  code: string;
+  name_bn: string;
+  name_en: string;
+  tier: 'free' | 'basic' | 'premium' | 'family';
+  price_bdt: number;
+  billing_cycle: string;
+  max_children_supported: number;
+}
+
+export interface EntitlementsSnapshotDto {
+  plan: PlanDto;
+  features: Record<string, FeatureEntitlementDto>;
+}
+
+export interface AuthMeResponseDto {
+  user: AuthUserDto;
+  linked_children: LinkedChildDto[];
+  entitlements: EntitlementsSnapshotDto;
+}
+
 

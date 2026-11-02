@@ -40,5 +40,12 @@ export const examinationsApi = {
     );
     return response.data;
   },
+
+  getMyExamAttempts: async (): Promise<{ attempts: ExamAttemptData[] }> => {
+    const response = await apiClient.get<{ attempts: ExamAttemptData[] }>(
+      '/students/me/exam-attempts'
+    );
+    return response.data;
+  },
 };
 

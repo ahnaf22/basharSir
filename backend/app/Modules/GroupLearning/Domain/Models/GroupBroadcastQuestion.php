@@ -49,4 +49,3 @@ final class GroupBroadcastQuestion extends Model
         return $this->hasMany(GroupBroadcastResponse::class, 'broadcast_question_id');
     }
 }
-

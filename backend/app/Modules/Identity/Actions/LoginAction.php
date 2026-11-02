@@ -16,13 +16,23 @@ final readonly class LoginAction
 {
     public function execute(LoginData $data): AuthResultData
     {
-        $normalizedPhone = PhoneNormalizer::normalize($data->phone);
+        $identifier = trim($data->phone);
+        $isEmail = filter_var($identifier, FILTER_VALIDATE_EMAIL) !== false;
 
         /** @var User|null $user */
-        $user = User::query()
-            ->with(['studentProfile', 'guardianProfile'])
-            ->where('phone', $normalizedPhone)
-            ->first();
+        if ($isEmail) {
+            $user = User::query()
+                ->with(['studentProfile', 'guardianProfile'])
+                ->where('email', strtolower($identifier))
+                ->first();
+        } else {
+            $normalizedPhone = PhoneNormalizer::normalize($identifier);
+
+            $user = User::query()
+                ->with(['studentProfile', 'guardianProfile'])
+                ->where('phone', $normalizedPhone)
+                ->first();
+        }
 
         if ($user === null || $user->password === null || ! Hash::check($data->password, $user->password)) {
             throw new DomainException(

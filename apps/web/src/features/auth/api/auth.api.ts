@@ -66,3 +66,11 @@ export function updateMyStudentProfileApi(payload: {
   return apiClient.patch<AuthUserDto>('/students/me', payload);
 }
 
+export function fetchAuthMeApi(): Promise<ApiSuccessEnvelope<import('@/features/auth/types/auth.types').AuthMeResponseDto>> {
+  return apiClient.get<import('@/features/auth/types/auth.types').AuthMeResponseDto>('/auth/me');
+}
+
+export function fetchEntitlementsApi(): Promise<ApiSuccessEnvelope<import('@/features/auth/types/auth.types').EntitlementsSnapshotDto>> {
+  return apiClient.get<import('@/features/auth/types/auth.types').EntitlementsSnapshotDto>('/me/entitlements');
+}
+

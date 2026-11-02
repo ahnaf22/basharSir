@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toBanglaNumerals } from '@/components/math-bangla/bangla-numerals';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -126,6 +126,24 @@ export function StudyPlannerAndCalendarWorkspace(): React.ReactElement {
   const [viewMode, setViewMode] = useState<CalendarViewMode>('weekly');
   const [isBusy, setIsBusy] = useState<boolean>(false);
   const [bannerMessageBn, setBannerMessageBn] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadActivePlan() {
+      try {
+        const active = await studyPlannerApi.getActivePlan();
+        if (isMounted && active?.id) {
+          setPlan(active);
+        }
+      } catch {
+        // Keeps initial fallback gracefully
+      }
+    }
+    loadActivePlan();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const heartbeat = useActiveStudyHeartbeat({
     sourceType: 'resource_study',

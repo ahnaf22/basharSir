@@ -15,6 +15,7 @@ use App\Modules\Examinations\Requests\SaveExamAnswersRequest;
 use App\Modules\Examinations\Resources\ExamAttemptResource;
 use App\Modules\Examinations\Services\ExamGeneratorService;
 use App\Modules\Examinations\Services\ExamLifecycleService;
+use App\Modules\Students\Models\StudentProfile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -109,6 +110,30 @@ final class ExaminationController extends Controller
             meta: [
                 'idempotent_replay' => $result['idempotent_replay'],
             ]
+        );
+    }
+
+    public function myAttempts(Request $request): JsonResponse
+    {
+        /** @var User $user */
+        $user = $request->user();
+        $student = $user->studentProfile ?? StudentProfile::query()->where('user_id', $user->id)->first();
+        if ($student === null) {
+            return ApiResponse::error('STUDENT_PROFILE_NOT_FOUND', 'শিক্ষার্থী প্রোফাইল পাওয়া যায়নি।', 404);
+        }
+
+        $attempts = ExamAttempt::query()
+            ->with(['exam.subject', 'submittedAnswers.evaluation'])
+            ->where('student_id', $student->id)
+            ->orderByDesc('id')
+            ->limit(30)
+            ->get();
+
+        return ApiResponse::success(
+            data: [
+                'attempts' => ExamAttemptResource::collection($attempts)->resolve($request),
+            ],
+            message: 'পরীক্ষার ইতিহাস সফলভাবে লোড হয়েছে।'
         );
     }
 }

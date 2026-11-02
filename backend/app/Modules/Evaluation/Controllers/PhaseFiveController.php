@@ -8,6 +8,9 @@ use App\Core\Support\ApiResponse;
 use App\Models\User;
 use App\Modules\Evaluation\Domain\Models\ScriptUpload;
 use App\Modules\Evaluation\Services\HandwritingOcrAndGradingService;
+use App\Modules\Gamification\Domain\Models\StudentBadge;
+use App\Modules\Gamification\Domain\Models\StudentStreak;
+use App\Modules\Gamification\Domain\Models\XpLedger;
 use App\Modules\Gamification\Services\EthicalGamificationService;
 use App\Modules\GroupLearning\Domain\Models\GroupSession;
 use App\Modules\GroupLearning\Services\GroupTutoringService;
@@ -213,6 +216,40 @@ final class PhaseFiveController
                 'leaderboard' => $this->gamificationService->getCohortLeaderboard($classLevel),
             ],
             message: 'শ্রেণিভিত্তিক লিডারবোর্ড লোড হয়েছে।'
+        );
+    }
+
+    public function myGamification(Request $request): JsonResponse
+    {
+        /** @var User $user */
+        $user = $request->user();
+        $student = $user->studentProfile ?? StudentProfile::query()->where('user_id', $user->id)->first();
+        if ($student === null) {
+            return ApiResponse::error('STUDENT_PROFILE_NOT_FOUND', 'শিক্ষার্থী প্রোফাইল পাওয়া যায়নি।', 404);
+        }
+
+        $streak = StudentStreak::query()->where('student_id', $student->id)->first();
+        $totalXp = (int) XpLedger::query()->where('student_id', $student->id)->sum('xp_points');
+        $badges = StudentBadge::query()->where('student_id', $student->id)->orderByDesc('awarded_at')->get();
+        $recentXp = XpLedger::query()
+            ->where('student_id', $student->id)
+            ->orderByDesc('id')
+            ->limit(20)
+            ->get();
+
+        return ApiResponse::success(
+            data: [
+                'total_xp' => $totalXp,
+                'streak' => [
+                    'current_days' => $streak !== null ? $streak->current_streak_days : 0,
+                    'longest_days' => $streak !== null ? $streak->longest_streak_days : 0,
+                    'freezes_available' => $streak !== null ? $streak->streak_freezes_available : 1,
+                    'last_active_date' => $streak?->last_active_date?->format('Y-m-d'),
+                ],
+                'badges' => $badges,
+                'recent_xp' => $recentXp,
+            ],
+            message: 'গেমিফিকেশন ও এক্সপি তথ্য লোড হয়েছে।'
         );
     }
 }

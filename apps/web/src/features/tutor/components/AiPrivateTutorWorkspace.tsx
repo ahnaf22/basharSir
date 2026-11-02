@@ -1,7 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { tutorApi } from '../api/tutor.api';
+import { apiClient, ApiClientError } from '@/services/api-client';
+import { useAuthStore } from '@/features/auth/store/auth.store';
 import type { StudentActionType, TutorSessionData } from '../types/tutor.types';
 import { TutorLeftProgressionPane } from './TutorLeftProgressionPane';
 import { TutorCenterLessonCanvas } from './TutorCenterLessonCanvas';
@@ -145,6 +148,40 @@ export function AiPrivateTutorWorkspace({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [toastBannerBn, setToastBannerBn] = useState<string | null>(null);
 
+  const searchParams = useSearchParams();
+  const sessionIdParam = searchParams ? searchParams.get('session_id') : null;
+  const objectiveIdParam = searchParams ? searchParams.get('objective_id') : null;
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadSession() {
+      try {
+        if (sessionIdParam) {
+          const s = await tutorApi.getSession(Number(sessionIdParam));
+          if (isMounted && s?.id) setSession(s);
+        } else if (objectiveIdParam) {
+          const s = await tutorApi.startSession({
+            learning_objective_id: Number(objectiveIdParam),
+          });
+          if (isMounted && s?.id) setSession(s);
+        } else {
+          // If no param, attempt to resume active lesson from dashboard
+          const dash = await apiClient.get<{ continue_lesson?: { session_id: number } | null }>('/students/me/dashboard');
+          if (isMounted && dash.data?.continue_lesson?.session_id) {
+            const s = await tutorApi.getSession(dash.data.continue_lesson.session_id);
+            if (isMounted && s?.id) setSession(s);
+          }
+        }
+      } catch {
+        // Keeps initial fallback gracefully
+      }
+    }
+    loadSession();
+    return () => {
+      isMounted = false;
+    };
+  }, [sessionIdParam, objectiveIdParam]);
+
   const generateTurnUuid = (): string => {
     if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
       return crypto.randomUUID();
@@ -168,9 +205,14 @@ export function AiPrivateTutorWorkspace({
         student_input_text: inputText,
       });
       setSession(updated);
-    } catch {
-      // Deterministic local state transition when offline or in standalone UI mode
-      setSession((prev) => applyLocalTurnFallback(prev, actionType, inputText, clientTurnId));
+      useAuthStore.getState().refreshUser();
+    } catch (err: unknown) {
+      if (err instanceof ApiClientError && err.code === 'QUOTA_EXCEEDED') {
+        setToastBannerBn('আপনার আজকের এআই টিউটর টার্ন কোটা শেষ হয়ে গেছে। আনলিমিটেড পড়তে প্যাকেজ আপগ্রেড করুন।');
+      } else {
+        // Deterministic local state transition when offline or in standalone UI mode
+        setSession((prev) => applyLocalTurnFallback(prev, actionType, inputText, clientTurnId));
+      }
     } finally {
       setIsSubmitting(false);
     }

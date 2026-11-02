@@ -1,0 +1,525 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>পড়া হবে! Login</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wdth,wght@75..125,400..800&family=Atma:wght@500;600&family=Hind+Siliguri:wght@400;500;600&display=swap">
+<style>
+/* Layout concept: the study desk at night. Left = the board (who you are, what's waiting today, on a khata scrap);
+   right = a solid desk-surface column holding the form. Same tokens as the homepage. */
+:root{
+  --slate:#0D1814; --slate-2:#13221C; --slate-3:#1A2D26;
+  --rule:rgba(237,232,218,.11); --rule-2:rgba(237,232,218,.22);
+  --chalk:#EDE8DA; --chalk-2:#B5B9AA; --chalk-3:#7E8A80;
+  --marigold:#FFB238; --marigold-ink:#241600;
+  --redpen:#FF6152; --tick:#7FD6A0;
+  --paper:#F3EBD5; --paper-rule:#B9CDE0; --ink:#22408F;
+  --f-display:"Anek Bangla","Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;
+  --f-body:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;
+  --f-hand:"Atma","Hind Siliguri",cursive;
+  --f-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--slate);color:var(--chalk);font-family:var(--f-body);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--marigold);outline-offset:3px;border-radius:6px}
+.tex{position:fixed;inset:0;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .93 0 0 0 0 .91 0 0 0 0 .85 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.shell{position:relative;min-height:100%;overflow-x:clip;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,560px)}
+
+/* ---------- left: the board ---------- */
+.board{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:40px;
+  padding-block:32px 40px;padding-left:max(40px,env(safe-area-inset-left,0px));padding-right:40px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;width:fit-content}
+.logo-mark{width:38px;height:38px;border-radius:11px 11px 11px 3px;background:var(--marigold);color:var(--marigold-ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.35rem;transform:rotate(-6deg);line-height:1}
+.logo-word{font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:1.55rem;line-height:1}
+.logo-word em{font-style:normal;color:var(--marigold)}
+.board-main{flex:1;display:grid;align-content:center;gap:28px;max-width:620px}
+.hello{font-family:var(--f-display);font-weight:780;font-stretch:76%;font-size:clamp(3rem,6.4vw,6rem);line-height:1.02;margin:0;text-wrap:balance}
+.hello .mk{color:var(--marigold)}
+.hand-line{font-family:var(--f-hand);font-size:1.5rem;color:var(--marigold);margin:-6px 0 0;transform:rotate(-2deg);transform-origin:left;display:flex;align-items:center;gap:10px}
+.hand-line svg{width:46px;height:24px}
+.sub{color:var(--chalk-2);max-width:30em;margin:0;font-size:1.05rem}
+
+.scrap-wrap{position:relative;max-width:440px;margin-top:8px;margin-bottom:40px}
+.scrap{background:var(--paper);color:var(--ink);font-family:var(--f-hand);font-size:1.15rem;line-height:38px;transform:rotate(-2.2deg);
+  padding:24px 22px 26px 60px;border-radius:4px;box-shadow:0 34px 60px -28px rgba(0,0,0,.9);
+  background-image:linear-gradient(90deg,transparent 44px,rgba(220,60,50,.55) 44px 46px,transparent 46px),repeating-linear-gradient(180deg,transparent 0 37px,var(--paper-rule) 37px 38px);
+  background-position:0 0,0 20px;
+  -webkit-mask:radial-gradient(circle 6px at 50% 0,transparent 98%,#000) 0 0/18px 100% repeat-x}
+.scrap h2{margin:0;font:600 .95rem/38px var(--f-body);color:#5B5A52}
+.scrap ul{list-style:none;margin:0;padding:0}
+.scrap li{display:flex;align-items:center;gap:10px}
+.scrap li .box{width:18px;height:18px;border:2px solid var(--ink);border-radius:4px;flex-shrink:0;display:grid;place-items:center}
+.scrap li.ok{color:#1D7A45}
+.scrap li.ok .box{border-color:#1D7A45}
+.scrap li.ok s{text-decoration-color:#1D7A45;text-decoration-thickness:2px}
+.scrap .eg{display:block;font:400 .75rem/1.4 var(--f-body);color:#7A776B;margin-top:6px}
+.sticker{position:absolute;right:-26px;bottom:-58px;background:var(--marigold);color:var(--marigold-ink);padding:12px 16px 12px 12px;border-radius:14px 14px 14px 4px;transform:rotate(6deg);
+  display:flex;gap:8px;align-items:center;box-shadow:0 18px 30px -14px rgba(0,0,0,.7);max-width:220px}
+.sticker svg{width:32px;height:32px;flex-shrink:0}
+.sticker b{font-family:var(--f-display);font-stretch:80%;font-weight:800;font-size:1.08rem;line-height:1.15}
+
+.quip{display:flex;gap:10px;align-items:flex-end;max-width:440px}
+.quip .ava{width:32px;height:32px;border-radius:10px 10px 10px 3px;background:var(--marigold);color:var(--marigold-ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;flex-shrink:0}
+.quip .bub{background:var(--slate-3);border-radius:14px 14px 14px 4px;padding:10px 14px;font-size:.95rem;min-height:44px;transition:opacity .35s}
+.board-foot{display:flex;gap:18px;flex-wrap:wrap;font-size:.85rem;color:var(--chalk-3)}
+.board-foot a{text-decoration:none}.board-foot a:hover{color:var(--chalk)}
+
+/* ---------- right: the desk ---------- */
+.desk{position:relative;background:var(--slate-2);border-left:1px solid var(--rule);display:flex;flex-direction:column;justify-content:center;
+  padding-block:40px;padding-left:clamp(24px,4vw,56px);padding-right:max(clamp(24px,4vw,56px),env(safe-area-inset-right,0px))}
+.form-wrap{width:100%;max-width:420px;margin-inline:auto;display:grid;gap:22px}
+.f-head h1{margin:0;font-family:var(--f-display);font-stretch:82%;font-weight:750;font-size:2.3rem;line-height:1.15}
+.f-head p{margin:4px 0 0;color:var(--chalk-2);font-size:.98rem}
+.f-head p a{color:var(--marigold);text-decoration:none;font-weight:600}
+.f-head p a:hover{text-decoration:underline}
+
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--slate);border:1px solid var(--rule);border-radius:14px;padding:4px;gap:4px}
+.seg button{min-height:46px;border:0;border-radius:10px;background:transparent;color:var(--chalk-2);font:600 .98rem var(--f-body);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .25s,color .25s}
+.seg button svg{width:18px;height:18px}
+.seg button[aria-selected="true"]{background:var(--slate-3);color:var(--chalk);box-shadow:inset 0 0 0 1px var(--rule-2)}
+.role-note{font-size:.85rem;color:var(--chalk-3);margin:-12px 0 0;min-height:1.4em}
+
+.tabs{display:flex;gap:22px;border-bottom:1px solid var(--rule)}
+.tabs button{background:none;border:0;color:var(--chalk-3);font:600 .98rem var(--f-body);padding:10px 0;cursor:pointer;position:relative;min-height:44px}
+.tabs button[aria-selected="true"]{color:var(--chalk)}
+.tabs button[aria-selected="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--marigold);border-radius:2px}
+
+form{display:grid;gap:16px}
+.field{display:grid;gap:7px}
+.field label{font-size:.9rem;font-weight:500;color:var(--chalk-2);display:flex;justify-content:space-between;gap:8px}
+.field label a{color:var(--chalk-3);font-weight:400;text-decoration:none}
+.field label a:hover{color:var(--marigold)}
+.inp{display:flex;align-items:center;min-height:54px;background:var(--slate);border:1.5px solid var(--rule-2);border-radius:14px;transition:border-color .2s,box-shadow .2s}
+.inp:focus-within{border-color:var(--marigold);box-shadow:0 0 0 4px rgba(255,178,56,.12)}
+.inp.err{border-color:var(--redpen);box-shadow:0 0 0 4px rgba(255,97,82,.1)}
+.inp input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--chalk);font:500 1.08rem var(--f-body);padding:0 16px;height:52px;letter-spacing:.02em}
+.inp input::placeholder{color:var(--chalk-3);font-weight:400}
+.prefix{display:flex;align-items:center;gap:8px;padding:0 4px 0 16px;color:var(--chalk-2);font-weight:600;border-right:1px solid var(--rule-2);height:28px;padding-right:12px}
+.flag{width:22px;height:14px;border-radius:2px;background:#0E6B4A;position:relative;flex-shrink:0}
+.flag::after{content:"";position:absolute;left:7px;top:2.5px;width:9px;height:9px;border-radius:50%;background:#E0342B}
+.op{font-size:.78rem;color:var(--tick);padding-right:14px;white-space:nowrap}
+.eye{background:none;border:0;color:var(--chalk-3);padding:0 14px;cursor:pointer;min-height:44px;min-width:44px;display:grid;place-items:center}
+.eye:hover{color:var(--chalk)}
+.msg{font-size:.88rem;min-height:0;margin:0;display:flex;gap:8px;align-items:flex-start}
+.msg.e{color:var(--redpen)}
+.msg.h{color:var(--chalk-3)}
+.check{display:flex;align-items:center;gap:10px;font-size:.92rem;color:var(--chalk-2);cursor:pointer;width:fit-content;min-height:36px}
+.check input{appearance:none;width:20px;height:20px;border:1.5px solid var(--rule-2);border-radius:6px;margin:0;display:grid;place-items:center;cursor:pointer;background:var(--slate)}
+.check input:checked{background:var(--marigold);border-color:var(--marigold)}
+.check input:checked::after{content:"";width:9px;height:5px;border-left:2px solid var(--marigold-ink);border-bottom:2px solid var(--marigold-ink);transform:rotate(-45deg) translate(1px,-1px)}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;border:0;border-radius:999px;background:var(--marigold);color:var(--marigold-ink);
+  font-family:var(--f-display);font-stretch:92%;font-weight:700;font-size:1.15rem;cursor:pointer;box-shadow:0 2px 0 #B97400,0 10px 30px -12px rgba(255,178,56,.55);transition:transform .2s var(--ease),box-shadow .2s var(--ease),opacity .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 4px 0 #B97400,0 16px 34px -12px rgba(255,178,56,.65)}
+.btn:active{transform:translateY(1px);box-shadow:0 1px 0 #B97400}
+.btn[disabled]{opacity:.55;cursor:default;transform:none}
+.btn .arr{transition:transform .2s var(--ease)}
+.btn:hover .arr{transform:translateX(4px)}
+.spin{width:18px;height:18px;border:2.5px solid rgba(36,22,0,.3);border-top-color:var(--marigold-ink);border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+.or{display:flex;align-items:center;gap:14px;color:var(--chalk-3);font-size:.85rem}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--rule)}
+.alt{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:52px;border-radius:999px;border:1.5px solid var(--rule-2);background:transparent;color:var(--chalk);font:600 1rem var(--f-body);cursor:pointer;transition:border-color .2s,background .2s}
+.alt:hover{border-color:var(--chalk-3);background:var(--slate-3)}
+.alt svg{width:20px;height:20px}
+.legal{font-size:.8rem;color:var(--chalk-3);text-align:center;margin:0}
+.legal a{color:var(--chalk-2)}
+
+/* OTP */
+.back{display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:var(--chalk-3);font:500 .92rem var(--f-body);cursor:pointer;padding:0;min-height:40px;width:fit-content}
+.back:hover{color:var(--chalk)}
+.otp{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.otp input{width:100%;aspect-ratio:1/1.15;min-height:52px;max-height:68px;text-align:center;background:var(--slate);border:1.5px solid var(--rule-2);border-radius:12px;color:var(--chalk);font:700 1.6rem var(--f-display);outline:0;transition:border-color .2s,box-shadow .2s,transform .2s}
+.otp input:focus{border-color:var(--marigold);box-shadow:0 0 0 4px rgba(255,178,56,.12)}
+.otp input.filled{border-color:var(--chalk-3)}
+.otp.bad input{border-color:var(--redpen)}
+.otp.shake{animation:shake .45s}
+@keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
+.resend{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.9rem;color:var(--chalk-3);flex-wrap:wrap}
+.resend button{background:none;border:0;color:var(--marigold);font:600 .9rem var(--f-body);cursor:pointer;padding:6px 0;min-height:40px}
+.resend button[disabled]{color:var(--chalk-3);cursor:default}
+.demo-hint{font-family:var(--f-mono);font-size:.78rem;color:var(--chalk-3);border:1px dashed var(--rule-2);border-radius:10px;padding:8px 12px;margin:0}
+.sent-to{color:var(--chalk);font-weight:600;white-space:nowrap}
+
+/* success */
+.done{display:grid;gap:18px;text-align:left}
+.done .big{font-family:var(--f-display);font-stretch:78%;font-weight:800;font-size:2.6rem;line-height:1.08;margin:0}
+.done .big em{font-style:normal;color:var(--marigold)}
+.resume{background:var(--slate);border:1px solid var(--rule);border-radius:16px;padding:16px 18px;display:grid;gap:10px}
+.resume small{color:var(--chalk-3)}
+.resume b{font-weight:600}
+.bar{height:8px;border-radius:99px;background:var(--slate-3);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--marigold);border-radius:99px;transition:width 1.6s var(--ease)}
+
+.pane{animation:in .45s var(--ease) both}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* design notes */
+.dnote{display:none;font-family:var(--f-mono);font-size:12px;line-height:1.55;color:#FFD9A0;background:rgba(255,178,56,.07);border:1px dashed rgba(255,178,56,.55);border-radius:10px;padding:10px 12px;margin:0}
+.dnote b{color:var(--marigold);letter-spacing:.06em}
+body.notes .dnote{display:block}
+.notes-toggle{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;min-height:44px;border-radius:999px;border:1px solid var(--rule-2);background:var(--slate);color:var(--chalk);padding:0 16px;font:600 .88rem var(--f-body);cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 14px 30px -10px rgba(0,0,0,.7)}
+.notes-toggle i{width:10px;height:10px;border-radius:50%;background:var(--chalk-3)}
+.notes-toggle[aria-pressed="true"] i{background:var(--marigold);box-shadow:0 0 0 4px rgba(255,178,56,.2)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
+  .shell{grid-template-columns:minmax(0,1fr) minmax(0,480px)}
+  .sticker{right:-8px}
+}
+@media (max-width:880px){
+  .shell{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .board{gap:18px;padding-block:20px 26px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .board-main{gap:12px}
+  .hello{font-size:clamp(2.4rem,11vw,3.4rem)}
+  .hand-line{font-size:1.2rem}
+  .sub,.scrap-wrap,.quip,.board-foot{display:none}
+  .desk{border-left:0;border-top:1px solid var(--rule);border-radius:26px 26px 0 0;justify-content:flex-start;padding-block:28px calc(90px + env(safe-area-inset-bottom,0px));
+    padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .f-head h1{font-size:1.9rem}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+</style>
+
+<div class="tex" aria-hidden="true"></div>
+
+<div class="shell">
+  <!-- LEFT: the board -->
+  <aside class="board" aria-label="পড়া হবে!">
+    <a class="logo" href="#"><span class="logo-mark" aria-hidden="true">প</span><span class="logo-word">পড়া হবে<em>!</em></span></a>
+
+    <div class="board-main">
+      <p class="dnote"><b>LOGIN · ART DIRECTION</b><br>Same board + desk world as the homepage. The left side greets a returning student and shows what's waiting on today's khata list. That's the reason to log in, shown instead of a generic illustration. On phones this collapses to logo + greeting, and the form sits on a raised sheet.</p>
+      <h2 class="hello">আবার দেখা <span class="mk">হলো!</span></h2>
+      <p class="hand-line"><svg viewBox="0 0 46 24" aria-hidden="true"><path d="M3 18c10-1 22-6 36-14M39 4l-9 0M39 4l-2 9" fill="none" stroke="#FFB238" stroke-width="2.4" stroke-linecap="round"/></svg>আজকে পড়া হবে, বুঝেও হবে!</p>
+      <p class="sub">লগইন করলেই তোমার Tutor মনে রাখবে কোথায় থেমেছিলে, কোন অঙ্কে আটকেছিলে আর আজ কী পড়ার কথা।</p>
+
+      <div class="scrap-wrap">
+        <div class="scrap">
+          <h2>আজকের পড়া · মঙ্গলবার</h2>
+          <ul>
+            <li class="ok"><span class="box"><svg width="10" height="8" viewBox="0 0 10 8" aria-hidden="true"><path d="M1 4l3 3 5-6" fill="none" stroke="#1D7A45" stroke-width="2" stroke-linecap="round"/></svg></span><s>সরল সমীকরণ · অনুশীলনী ৫.১</s></li>
+            <li><span class="box"></span>আলোর প্রতিফলন · ২০ মিনিট</li>
+            <li><span class="box"></span>Tense প্র্যাকটিস · ১০টা</li>
+          </ul>
+          <span class="eg">উদাহরণ: লগইনের পর এখানে তোমার নিজের লিস্ট থাকবে</span>
+        </div>
+        <div class="sticker" aria-hidden="true">
+          <svg viewBox="0 0 40 40"><path d="M20 20c0-2 2-3 3.5-2s1.5 4-1 5.5-6 .5-7-3 1.5-7.5 5.5-8 9 2 9.5 7-3 10-8.5 10.5S10 27 9.5 21 13 9.5 19.5 9" fill="none" stroke="#241600" stroke-width="2.6" stroke-linecap="round"/></svg>
+          <b>প্যাঁচ যতই থাকুক, পড়া হবে!</b>
+        </div>
+      </div>
+    </div>
+
+    <div class="quip" aria-live="off">
+      <span class="ava" aria-hidden="true">প</span>
+      <div class="bub" id="quip">গতকাল সরল সমীকরণে ছিলে। আজ এক ধাপ সামনে?</div>
+    </div>
+    <div class="board-foot"><a href="#">সাহায্য দরকার?</a><a href="#">গোপনীয়তা নীতি</a><span>© ২০২৬ পড়া হবে!</span></div>
+  </aside>
+
+  <!-- RIGHT: the desk -->
+  <main class="desk">
+    <div class="form-wrap">
+
+      <!-- STEP 1: sign in -->
+      <div class="pane" id="paneLogin">
+        <div style="display:grid;gap:22px">
+          <div class="f-head">
+            <h1>লগইন করো</h1>
+            <p>নতুন এখানে? <a href="#">অ্যাকাউন্ট খোলো →</a></p>
+          </div>
+
+          <p class="dnote"><b>ROLE SWITCH</b><br>Students and guardians share one door. Choosing অভিভাবক changes the helper line and the button label, so a parent never feels they're on a kids-only page.</p>
+          <div class="seg" role="tablist" aria-label="কে লগইন করছে">
+            <button type="button" role="tab" id="roleStudent" aria-selected="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5C6.5 5 9.5 5 12 7c2.5-2 5.5-2 8-.5V19c-2.5-1.5-5.5-1.5-8 .5-2.5-2-5.5-2-8-.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 7v12.5" stroke="currentColor" stroke-width="1.8"/></svg>
+              শিক্ষার্থী</button>
+            <button type="button" role="tab" id="roleParent" aria-selected="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17" cy="10" r="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 19c.5-3.5 3-5.5 5.5-5.5s5 2 5.5 5.5M14 19c.3-2.4 1.5-4 3-4s2.8 1.6 3.2 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              অভিভাবক</button>
+          </div>
+          <p class="role-note" id="roleNote">তোমার লেসন, অগ্রগতি আর পরীক্ষা সব এক জায়গায়।</p>
+
+          <div class="tabs" role="tablist" aria-label="লগইনের উপায়">
+            <button type="button" role="tab" id="tabPhone" aria-selected="true" aria-controls="formPhone">মোবাইল নম্বর</button>
+            <button type="button" role="tab" id="tabEmail" aria-selected="false" aria-controls="formEmail">ইমেইল</button>
+          </div>
+
+          <form id="formPhone" novalidate>
+            <div class="field">
+              <label for="phone">মোবাইল নম্বর</label>
+              <div class="inp" id="phoneBox">
+                <span class="prefix"><span class="flag" aria-hidden="true"></span>+৮৮</span>
+                <input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="01XXXXXXXXX" maxlength="11" value="01712345678" aria-describedby="phoneMsg">
+                <span class="op" id="op">গ্রামীণফোন</span>
+              </div>
+              <p class="msg h" id="phoneMsg">এই নম্বরে ৬ ডিজিটের একটা কোড যাবে।</p>
+            </div>
+            <button class="btn" type="submit" id="sendBtn">কোড পাঠাও <span class="arr" aria-hidden="true">→</span></button>
+          </form>
+
+          <form id="formEmail" novalidate hidden>
+            <div class="field">
+              <label for="email">ইমেইল</label>
+              <div class="inp" id="emailBox"><input id="email" name="email" type="email" autocomplete="email" placeholder="tumi@example.com" aria-describedby="emailMsg"></div>
+              <p class="msg e" id="emailMsg" hidden></p>
+            </div>
+            <div class="field">
+              <label for="pass">পাসওয়ার্ড <a href="#">ভুলে গেছো?</a></label>
+              <div class="inp" id="passBox">
+                <input id="pass" name="pass" type="password" autocomplete="current-password" placeholder="কমপক্ষে ৬ অক্ষর" aria-describedby="passMsg">
+                <button class="eye" type="button" id="eye" aria-label="পাসওয়ার্ড দেখাও" aria-pressed="false">
+                  <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path id="slash" d="M4 4l16 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+              <p class="msg e" id="passMsg" hidden></p>
+            </div>
+            <label class="check" for="remember"><input type="checkbox" id="remember" checked> এই ডিভাইসে মনে রাখো</label>
+            <button class="btn" type="submit" id="emailBtn">লগইন করো <span class="arr" aria-hidden="true">→</span></button>
+          </form>
+
+          <div class="or">অথবা</div>
+          <button class="alt" type="button" id="googleBtn">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+            Google দিয়ে চালিয়ে যাও
+          </button>
+          <p class="legal">চালিয়ে গেলে তুমি আমাদের <a href="#">শর্তাবলি</a> ও <a href="#">গোপনীয়তা নীতি</a> মেনে নিচ্ছো।</p>
+        </div>
+      </div>
+
+      <!-- STEP 2: OTP -->
+      <div class="pane" id="paneOtp" hidden>
+        <div style="display:grid;gap:22px">
+          <button class="back" type="button" id="backBtn">← নম্বর বদলাও</button>
+          <div class="f-head">
+            <h1>কোডটা দাও</h1>
+            <p>৬ ডিজিটের কোড পাঠানো হয়েছে <span class="sent-to" id="sentTo">+৮৮ ০১৭১২-৩৪৫৬৭৮</span> নম্বরে।</p>
+          </div>
+          <form id="formOtp" novalidate>
+            <div class="otp" id="otp" role="group" aria-label="৬ ডিজিটের কোড">
+              <input id="o1" inputmode="numeric" autocomplete="one-time-code" maxlength="1" aria-label="ডিজিট ১">
+              <input id="o2" inputmode="numeric" maxlength="1" aria-label="ডিজিট ২">
+              <input id="o3" inputmode="numeric" maxlength="1" aria-label="ডিজিট ৩">
+              <input id="o4" inputmode="numeric" maxlength="1" aria-label="ডিজিট ৪">
+              <input id="o5" inputmode="numeric" maxlength="1" aria-label="ডিজিট ৫">
+              <input id="o6" inputmode="numeric" maxlength="1" aria-label="ডিজিট ৬">
+            </div>
+            <p class="msg e" id="otpMsg" hidden></p>
+            <div class="resend"><span id="resendTxt">আবার পাঠানো যাবে ০:৩০ পরে</span><button type="button" id="resendBtn" disabled>আবার পাঠাও</button></div>
+            <button class="btn" type="submit" id="verifyBtn">যাচাই করো <span class="arr" aria-hidden="true">→</span></button>
+          </form>
+          <p class="demo-hint">ডেমো: যেকোনো ৬ ডিজিট দিলে লগইন হবে। ভুল কোডের মেসেজ দেখতে ০০০০০০ দাও।</p>
+        </div>
+      </div>
+
+      <!-- STEP 3: success -->
+      <div class="pane" id="paneDone" hidden>
+        <div class="done">
+          <p class="big" id="doneBig">স্বাগতম, <em>নাদিয়া!</em></p>
+          <p style="margin:0;color:var(--chalk-2)" id="doneSub">যেখানে থেমেছিলে, সেখান থেকেই শুরু করছি।</p>
+          <div class="resume">
+            <small id="resumeLabel">চলমান লেসন</small>
+            <b id="resumeTitle">গণিত · অধ্যায় ৫: সরল সমীকরণ</b>
+            <div class="bar"><i id="resumeBar"></i></div>
+            <small id="resumeMeta">১১টির মধ্যে ৮টি লেসন শেষ</small>
+          </div>
+          <button class="btn" type="button" id="goBtn">চলো, পড়া শুরু করি! <span class="arr" aria-hidden="true">→</span></button>
+          <button class="back" type="button" id="restart">← লগইন স্ক্রিনে ফিরে যাও (ডেমো)</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<button class="notes-toggle" id="notesBtn" type="button" aria-pressed="false"><i></i>ডিজাইন নোট</button>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const bn = s => String(s).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
+  const en = s => String(s).replace(/[০-৯]/g, d => '০১২৩৪৫৬৭৮৯'.indexOf(d));
+  let role = 'student';
+
+  /* notes */
+  $('notesBtn').addEventListener('click', e => { const on = document.body.classList.toggle('notes'); e.currentTarget.setAttribute('aria-pressed', on); });
+
+  /* role switch */
+  const setRole = r => {
+    role = r;
+    $('roleStudent').setAttribute('aria-selected', r === 'student');
+    $('roleParent').setAttribute('aria-selected', r === 'parent');
+    $('roleNote').textContent = r === 'student'
+      ? 'তোমার লেসন, অগ্রগতি আর পরীক্ষা সব এক জায়গায়।'
+      : 'সন্তানের সাপ্তাহিক রিপোর্ট, পড়ার সময় আর পরীক্ষার ফল দেখুন।';
+    $('phoneMsg').textContent = r === 'student' ? 'এই নম্বরে ৬ ডিজিটের একটা কোড যাবে।' : 'যে নম্বর দিয়ে সন্তানের অ্যাকাউন্টে যুক্ত হয়েছেন।';
+  };
+  $('roleStudent').addEventListener('click', () => setRole('student'));
+  $('roleParent').addEventListener('click', () => setRole('parent'));
+
+  /* method tabs */
+  const setTab = t => {
+    $('tabPhone').setAttribute('aria-selected', t === 'phone');
+    $('tabEmail').setAttribute('aria-selected', t === 'email');
+    $('formPhone').hidden = t !== 'phone';
+    $('formEmail').hidden = t !== 'email';
+  };
+  $('tabPhone').addEventListener('click', () => setTab('phone'));
+  $('tabEmail').addEventListener('click', () => setTab('email'));
+
+  /* phone: accepts Bangla or English digits, shows operator */
+  const ops = { '13':'গ্রামীণফোন', '17':'গ্রামীণফোন', '18':'রবি', '19':'বাংলালিংক', '14':'বাংলালিংক', '16':'এয়ারটেল', '15':'টেলিটক' };
+  const phone = $('phone');
+  const readPhone = () => en(phone.value).replace(/\D/g, '');
+  const onPhone = () => {
+    const v = readPhone(); phone.value = v.slice(0, 11);
+    $('op').textContent = v.startsWith('01') && ops[v.slice(1, 3)] ? ops[v.slice(1, 3)] : '';
+    $('phoneBox').classList.remove('err');
+    $('phoneMsg').className = 'msg h'; setRole(role);
+  };
+  phone.addEventListener('input', onPhone);
+
+  const busy = (btn, on, label) => {
+    btn.disabled = on;
+    btn.innerHTML = on ? '<span class="spin" aria-hidden="true"></span>' + label : label + ' <span class="arr" aria-hidden="true">→</span>';
+  };
+  const show = id => ['paneLogin', 'paneOtp', 'paneDone'].forEach(p => $(p).hidden = p !== id);
+
+  $('formPhone').addEventListener('submit', e => {
+    e.preventDefault();
+    const v = readPhone();
+    if (!/^01[3-9]\d{8}$/.test(v)) {
+      $('phoneBox').classList.add('err');
+      $('phoneMsg').className = 'msg e';
+      $('phoneMsg').textContent = v.length !== 11 ? `নম্বরটা ১১ ডিজিটের হবে। এখন আছে ${bn(v.length)}টা।` : 'নম্বরটা ০১৩ থেকে ০১৯ দিয়ে শুরু হবে।';
+      phone.focus(); return;
+    }
+    busy($('sendBtn'), true, 'কোড পাঠাচ্ছি…');
+    setTimeout(() => {
+      busy($('sendBtn'), false, 'কোড পাঠাও');
+      $('sentTo').textContent = '+৮৮ ' + bn(v.slice(0, 5) + '-' + v.slice(5));
+      show('paneOtp'); startTimer(); boxes.forEach(b => b.value = ''); paint(); boxes[0].focus();
+    }, 900);
+  });
+
+  /* OTP boxes */
+  const boxes = [...document.querySelectorAll('#otp input')];
+  const paint = () => boxes.forEach(b => b.classList.toggle('filled', !!b.value));
+  const clearErr = () => { $('otp').classList.remove('bad'); $('otpMsg').hidden = true; };
+  boxes.forEach((b, i) => {
+    b.addEventListener('input', () => {
+      const d = en(b.value).replace(/\D/g, '');
+      b.value = d ? bn(d.slice(-1)) : '';
+      clearErr(); paint();
+      if (d && i < 5) boxes[i + 1].focus();
+      if (boxes.every(x => x.value)) $('formOtp').requestSubmit();
+    });
+    b.addEventListener('keydown', e => {
+      if (e.key === 'Backspace' && !b.value && i > 0) { boxes[i - 1].focus(); boxes[i - 1].value = ''; paint(); }
+      if (e.key === 'ArrowLeft' && i > 0) boxes[i - 1].focus();
+      if (e.key === 'ArrowRight' && i < 5) boxes[i + 1].focus();
+    });
+    b.addEventListener('paste', e => {
+      const d = en(e.clipboardData.getData('text')).replace(/\D/g, '').slice(0, 6);
+      if (!d) return; e.preventDefault();
+      [...d].forEach((c, k) => boxes[k].value = bn(c)); paint(); clearErr();
+      boxes[Math.min(d.length, 5)].focus();
+      if (d.length === 6) $('formOtp').requestSubmit();
+    });
+  });
+
+  let tmr;
+  const startTimer = () => {
+    let s = 30; clearInterval(tmr); $('resendBtn').disabled = true;
+    const tick = () => {
+      $('resendTxt').textContent = s > 0 ? `আবার পাঠানো যাবে ০:${bn(String(s).padStart(2, '0'))} পরে` : 'কোড আসেনি?';
+      if (s-- <= 0) { clearInterval(tmr); $('resendBtn').disabled = false; }
+    };
+    tick(); tmr = setInterval(tick, 1000);
+  };
+  $('resendBtn').addEventListener('click', () => { startTimer(); $('otpMsg').hidden = false; $('otpMsg').className = 'msg h'; $('otpMsg').textContent = 'নতুন কোড পাঠানো হয়েছে।'; });
+  $('backBtn').addEventListener('click', () => { clearInterval(tmr); show('paneLogin'); phone.focus(); });
+
+  $('formOtp').addEventListener('submit', e => {
+    e.preventDefault();
+    const code = en(boxes.map(b => b.value).join(''));
+    if (code.length < 6) { $('otpMsg').hidden = false; $('otpMsg').className = 'msg e'; $('otpMsg').textContent = `আরও ${bn(6 - code.length)}টা ডিজিট বাকি।`; return; }
+    busy($('verifyBtn'), true, 'যাচাই করছি…');
+    setTimeout(() => {
+      busy($('verifyBtn'), false, 'যাচাই করো');
+      if (code === '000000') {
+        const o = $('otp'); o.classList.add('bad', 'shake'); setTimeout(() => o.classList.remove('shake'), 500);
+        $('otpMsg').hidden = false; $('otpMsg').className = 'msg e';
+        $('otpMsg').textContent = 'কোডটা মিলছে না। ভুল হইছে? সমস্যা নাই, আবার হবে! মেসেজটা আরেকবার দেখে নাও।';
+        boxes.forEach(b => b.value = ''); paint(); boxes[0].focus();
+      } else success();
+    }, 800);
+  });
+
+  /* email form */
+  $('eye').addEventListener('click', e => {
+    const on = $('pass').type === 'password'; $('pass').type = on ? 'text' : 'password';
+    e.currentTarget.setAttribute('aria-pressed', on); e.currentTarget.setAttribute('aria-label', on ? 'পাসওয়ার্ড লুকাও' : 'পাসওয়ার্ড দেখাও');
+    $('slash').style.display = on ? 'none' : '';
+  });
+  const fieldErr = (box, msg, text) => { $(box).classList.toggle('err', !!text); $(msg).hidden = !text; $(msg).textContent = text || ''; };
+  $('email').addEventListener('input', () => fieldErr('emailBox', 'emailMsg', ''));
+  $('pass').addEventListener('input', () => fieldErr('passBox', 'passMsg', ''));
+  $('formEmail').addEventListener('submit', e => {
+    e.preventDefault();
+    const em = $('email').value.trim(), pw = $('pass').value;
+    let ok = true;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { fieldErr('emailBox', 'emailMsg', em ? 'ইমেইলটা ঠিক মনে হচ্ছে না। @ আর ডোমেইন আছে তো?' : 'ইমেইলটা লিখে দাও।'); ok = false; }
+    if (pw.length < 6) { fieldErr('passBox', 'passMsg', pw ? `পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের। এখন ${bn(pw.length)}টা।` : 'পাসওয়ার্ড লিখে দাও।'); ok = false; }
+    if (!ok) return;
+    busy($('emailBtn'), true, 'লগইন হচ্ছে…');
+    setTimeout(() => { busy($('emailBtn'), false, 'লগইন করো'); success(); }, 900);
+  });
+
+  $('googleBtn').addEventListener('click', () => { busy2(); });
+  function busy2() { const b = $('googleBtn'); const t = b.innerHTML; b.disabled = true; b.textContent = 'Google-এ যাচ্ছি…'; setTimeout(() => { b.disabled = false; b.innerHTML = t; success(); }, 900); }
+
+  /* success */
+  function success() {
+    clearInterval(tmr);
+    if (role === 'parent') {
+      $('doneBig').innerHTML = 'স্বাগতম, <em>অভিভাবক!</em>';
+      $('doneSub').textContent = 'নাদিয়ার এই সপ্তাহের রিপোর্ট তৈরি আছে।';
+      $('resumeLabel').textContent = 'এই সপ্তাহ · উদাহরণ';
+      $('resumeTitle').textContent = '৬ ঘণ্টা ৪০ মিনিট পড়েছে · টানা ১২ দিন';
+      $('resumeMeta').textContent = 'সাপ্তাহিক লক্ষ্যের ৮৩% পূরণ';
+      $('goBtn').innerHTML = 'রিপোর্ট দেখুন <span class="arr" aria-hidden="true">→</span>';
+    } else {
+      $('doneBig').innerHTML = 'স্বাগতম, <em>নাদিয়া!</em>';
+      $('doneSub').textContent = 'যেখানে থেমেছিলে, সেখান থেকেই শুরু করছি।';
+      $('resumeLabel').textContent = 'চলমান লেসন';
+      $('resumeTitle').textContent = 'গণিত · অধ্যায় ৫: সরল সমীকরণ';
+      $('resumeMeta').textContent = '১১টির মধ্যে ৮টি লেসন শেষ';
+      $('goBtn').innerHTML = 'চলো, পড়া শুরু করি! <span class="arr" aria-hidden="true">→</span>';
+    }
+    show('paneDone');
+    const bar = $('resumeBar'); bar.style.width = '0';
+    requestAnimationFrame(() => requestAnimationFrame(() => bar.style.width = role === 'parent' ? '83%' : '73%'));
+    $('goBtn').focus();
+  }
+  $('restart').addEventListener('click', () => { show('paneLogin'); });
+
+  /* tutor quips on the board */
+  const quips = ['গতকাল সরল সমীকরণে ছিলে। আজ এক ধাপ সামনে?', 'পাসওয়ার্ড ভুলে গেলে সমস্যা নাই, অঙ্ক তো মনে আছে!', 'আজকের লক্ষ্য মাত্র ৪৫ মিনিট। চা নিয়ে বসে পড়ো।', 'প্যাঁচ যতই থাকুক, পড়া হবে!'];
+  const q = $('quip'); let qi = 0;
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => {
+    q.style.opacity = 0; setTimeout(() => { qi = (qi + 1) % quips.length; q.textContent = quips[qi]; q.style.opacity = 1; }, 350);
+  }, 5000);
+})();
+</script>
+
+</body></html>

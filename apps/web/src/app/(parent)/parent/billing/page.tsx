@@ -1,5 +1,6 @@
 import React from "react";
 import { AppShell } from "@/components/layout/AppShell";
+import { RoleGuard } from "@/components/layout/RoleGuard";
 import { GuardianBillingAndCheckoutWorkspace } from "@/features/billing/components/GuardianBillingAndCheckoutWorkspace";
 import type {
   PaymentHistoryItem,
@@ -107,14 +108,19 @@ const initialHistory: PaymentHistoryItem[] = [
 
 export default function GuardianBillingPage(): React.JSX.Element {
   return (
-    <AppShell title="সাবস্ক্রিপশন ও পেমেন্ট পোর্টাল (Billing & Subscriptions)">
-      <GuardianBillingAndCheckoutWorkspace
-        plans={initialPlans}
-        currentQuota={initialQuota}
-        paymentHistory={initialHistory}
-        studentCode="STU-2026-0001"
-      />
-    </AppShell>
+    <RoleGuard allowedRoles={['guardian', 'student']}>
+      <AppShell
+        title="প্যাকেজ ও সাবস্ক্রিপশন ব্যবস্থাপনা"
+        subtitle="বিকাশ, নগদ ও কার্ডের মাধ্যমে তাৎক্ষণিক পেমেন্ট ও প্যাকেজ সক্রিয়করণ"
+      >
+        <GuardianBillingAndCheckoutWorkspace
+          plans={initialPlans}
+          currentQuota={initialQuota}
+          paymentHistory={initialHistory}
+          studentCode="STU-2026-0001"
+        />
+      </AppShell>
+    </RoleGuard>
   );
 }
 

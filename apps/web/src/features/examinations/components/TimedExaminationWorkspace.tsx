@@ -5,6 +5,7 @@ import { MathBanglaText } from '@/components/math-bangla/MathBanglaText';
 import { toBanglaNumerals } from '@/components/math-bangla/bangla-numerals';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { useAuthStore } from '@/features/auth/store/auth.store';
 import { examinationsApi } from '../api/examinations.api';
 import type {
   ExamAttemptData,
@@ -77,6 +78,7 @@ const INITIAL_DEMO_EXAM_ATTEMPT: ExamAttemptData = {
 
 export function TimedExaminationWorkspace(): React.ReactElement {
   const [attempt, setAttempt] = useState<ExamAttemptData>(INITIAL_DEMO_EXAM_ATTEMPT);
+  const [pastAttempts, setPastAttempts] = useState<ExamAttemptData[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [remainingSeconds, setRemainingSeconds] = useState<number>(1800);
   const [draftAnswers, setDraftAnswers] = useState<
@@ -90,6 +92,24 @@ export function TimedExaminationWorkspace(): React.ReactElement {
     >
   >({});
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadPastAttempts() {
+      try {
+        const res = await examinationsApi.getMyExamAttempts();
+        if (isMounted && res.attempts) {
+          setPastAttempts(res.attempts);
+        }
+      } catch {
+        // Keeps empty gracefully
+      }
+    }
+    loadPastAttempts();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const storageKey = `basharsir_exam_draft_${attempt.id}`;
 
@@ -198,6 +218,7 @@ export function TimedExaminationWorkspace(): React.ReactElement {
       await examinationsApi.autosaveAnswers(attempt.id, payloadAnswers);
       const graded = await examinationsApi.submitAttempt(attempt.id);
       setAttempt(graded);
+      useAuthStore.getState().refreshUser();
     } catch {
       // Deterministic offline rubric grading fallback
       const simulatedGraded = buildLocalGradedFallback(attempt, draftAnswers);

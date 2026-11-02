@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { MathBanglaText } from "@/components/math-bangla/MathBanglaText";
 import { toBanglaNumerals } from "@/components/math-bangla/bangla-numerals";
+import { analyticsApi } from "../api/analytics.api";
 import type { StudentAnalyticsDashboardResponse } from "../types/analytics.types";
 
 interface StudentPerformanceDashboardProps {
@@ -12,13 +13,37 @@ interface StudentPerformanceDashboardProps {
 export function StudentPerformanceDashboard({
   initialData,
 }: StudentPerformanceDashboardProps): React.JSX.Element {
+  const [data, setData] = useState<StudentAnalyticsDashboardResponse>(initialData);
+
+  useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadAnalytics() {
+      try {
+        const res = await analyticsApi.getStudentAnalytics();
+        if (isMounted && res?.student_id) {
+          setData(res);
+        }
+      } catch {
+        // Graceful fallback to initial data
+      }
+    }
+    loadAnalytics();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const {
     snapshot,
     subject_matrix,
     topic_weaknesses,
     recommendations_bn,
     weekly_study_trend,
-  } = initialData;
+  } = data;
 
   const maxMinutes = Math.max(
     60,

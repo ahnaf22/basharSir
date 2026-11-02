@@ -24,7 +24,7 @@ final readonly class SendOtpAction
     ) {}
 
     /**
-     * @return array{phone_masked: string, purpose: string, expires_in_seconds: int, provider_message_id: string}
+     * @return array{phone_masked: string, purpose: string, expires_in_seconds: int, provider_message_id: string, debug_code: string|null}
      */
     public function execute(SendOtpData $data): array
     {
@@ -63,11 +63,14 @@ final readonly class SendOtpAction
             purpose: $data->purpose,
         );
 
+        $isLocalOrTesting = app()->environment('local', 'testing') || (bool) config('app.debug');
+
         return [
             'phone_masked' => PhoneNormalizer::mask($normalizedPhone),
             'purpose' => $data->purpose->value,
             'expires_in_seconds' => self::EXPIRY_MINUTES * 60,
             'provider_message_id' => $dispatchResult->providerMessageId,
+            'debug_code' => $isLocalOrTesting ? $otpCode : null,
         ];
     }
 }

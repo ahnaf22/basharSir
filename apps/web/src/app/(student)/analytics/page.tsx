@@ -1,5 +1,6 @@
 import React from "react";
 import { AppShell } from "@/components/layout/AppShell";
+import { RoleGuard } from "@/components/layout/RoleGuard";
 import { StudentPerformanceDashboard } from "@/features/analytics/components/StudentPerformanceDashboard";
 import type { StudentAnalyticsDashboardResponse } from "@/features/analytics/types/analytics.types";
 
@@ -71,9 +72,14 @@ const initialAnalyticsData: StudentAnalyticsDashboardResponse = {
 
 export default function StudentAnalyticsPage(): React.JSX.Element {
   return (
-    <AppShell title="ফলাফল ও অগ্রগতি বিশ্লেষণ (Performance Analytics)">
-      <StudentPerformanceDashboard initialData={initialAnalyticsData} />
-    </AppShell>
+    <RoleGuard allowedRoles={['student']}>
+      <AppShell
+        title="ফলাফল ও শিখন অগ্রগতি বিশ্লেষণ"
+        subtitle="এনসিটিবি পাঠ্যক্রমের শিখনফলভিত্তিক পারদর্শিতা ও সক্রিয় পাঠের সময়ের রিয়েল-টাইম চার্ট"
+      >
+        <StudentPerformanceDashboard initialData={initialAnalyticsData} />
+      </AppShell>
+    </RoleGuard>
   );
 }
 

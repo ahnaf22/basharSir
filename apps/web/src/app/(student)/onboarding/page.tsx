@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { CheckCircle2, Compass } from 'lucide-react';
 import { AppShell } from '@/components/layout/AppShell';
 import { toBanglaNumerals } from '@/components/math-bangla/bangla-numerals';
@@ -205,15 +206,30 @@ export default function StudentOnboardingPage(): React.ReactElement {
             </div>
           )}
 
-          <Button
-            type="submit"
-            variant="primary"
-            size="lg"
-            disabled={isSaving}
-            className="w-full"
-          >
-            {isSaving ? 'সংরক্ষণ হচ্ছে...' : 'পাঠ্যক্রম প্রোফাইল সংরক্ষণ করুন'}
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              isLoading={isSaving}
+              className="flex-1"
+            >
+              পাঠ্যক্রম প্রোফাইল সংরক্ষণ করুন
+            </Button>
+
+            {statusMessage && (
+              <Link href="/home" className="flex-1">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="lg"
+                  className="w-full"
+                >
+                  ড্যাশবোর্ডে এগিয়ে যান →
+                </Button>
+              </Link>
+            )}
+          </div>
         </form>
       </Card>
     </AppShell>

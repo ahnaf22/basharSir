@@ -91,3 +91,43 @@ export function getResourcePdfDownloadUrl(resourceId: number): string {
   return apiClient.buildUrl(`/resources/${resourceId}/pdf`);
 }
 
+export function fetchMySubjectsApi(): Promise<
+  ApiSuccessEnvelope<{
+    grade_level: number;
+    class_title_bn: string;
+    curriculum_version: string;
+    subjects: Array<{
+      id: number;
+      title_bn: string;
+      title_en: string;
+      subject_code: string;
+      chapters: Array<{
+        id: number;
+        chapter_number: number;
+        title_bn: string;
+        title_en: string;
+        topics_count: number;
+        objectives_count: number;
+        topics: Array<{
+          id: number;
+          title_bn: string;
+          learning_objectives: Array<{
+            id: number;
+            code: string;
+            title_bn: string;
+            bloom_taxonomy_level: string;
+            mastery?: {
+              score: number;
+              status: string;
+              attempts: number;
+            } | null;
+          }>;
+        }>;
+      }>;
+    }>;
+  }>
+> {
+  return apiClient.get('/curriculum/my-subjects');
+}
+
+

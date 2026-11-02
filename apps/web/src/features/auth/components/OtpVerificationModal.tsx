@@ -14,6 +14,7 @@ export interface OtpVerificationModalProps {
   isOpen: boolean;
   phone: string;
   purpose?: 'login' | 'phone_verification' | 'guardian_consent';
+  initialDebugCode?: string | null;
   onVerified: (result: OtpVerifyResponseDto) => void;
   onClose: () => void;
 }
@@ -22,10 +23,12 @@ export function OtpVerificationModal({
   isOpen,
   phone,
   purpose = 'phone_verification',
+  initialDebugCode = null,
   onVerified,
   onClose,
 }: OtpVerificationModalProps): React.ReactElement | null {
-  const [code, setCode] = useState<string>('');
+  const [code, setCode] = useState<string>(initialDebugCode ?? '');
+  const [debugCode, setDebugCode] = useState<string | null>(initialDebugCode);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isResending, setIsResending] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -72,6 +75,10 @@ export function OtpVerificationModal({
 
     try {
       const response = await sendOtpApi({ phone, purpose });
+      if (response.data.debug_code) {
+        setDebugCode(response.data.debug_code);
+        setCode(response.data.debug_code);
+      }
       setStatusMessage(
         `${response.data.phone_masked} নম্বরে নতুন ৬ সংখ্যার ওটিপি পাঠানো হয়েছে।`
       );
@@ -124,6 +131,17 @@ export function OtpVerificationModal({
         </div>
 
         <form onSubmit={handleVerify} className="space-y-4">
+          {debugCode && (
+            <div
+              onClick={() => setCode(debugCode)}
+              className="cursor-pointer rounded-lg border border-teal-500/30 bg-teal-50/70 p-2.5 text-center text-xs font-medium text-brand-secondary hover:bg-teal-100/60 transition-colors"
+            >
+              <span className="font-bangla">টেস্টিং ওটিপি কোড: </span>
+              <span className="font-mono font-bold tracking-widest text-teal-800">{debugCode}</span>
+              <span className="block text-[10px] text-teal-700/80 mt-0.5">(স্বয়ংক্রিয়ভাবে বসাতে ক্লিক করুন)</span>
+            </div>
+          )}
+
           <div>
             <label
               htmlFor="otp-code-input"

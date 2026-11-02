@@ -19,6 +19,7 @@ use App\Modules\Identity\Requests\RegisterStudentRequest;
 use App\Modules\Identity\Requests\SendOtpRequest;
 use App\Modules\Identity\Requests\VerifyOtpRequest;
 use App\Modules\Identity\Resources\UserResource;
+use App\Modules\Subscriptions\Services\PlanEntitlementService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -114,6 +115,50 @@ final class AuthController extends Controller
         return ApiResponse::success(
             data: ['logged_out' => true],
             message: 'সফলভাবে লগআউট করা হয়েছে।',
+        );
+    }
+
+    public function me(
+        Request $request,
+        PlanEntitlementService $entitlementService,
+    ): JsonResponse {
+        /** @var User $user */
+        $user = $request->user();
+        $user->loadMissing(['studentProfile', 'guardianProfile']);
+
+        $linkedChildren = [];
+        if ($user->guardianProfile !== null) {
+            $user->guardianProfile->loadMissing([
+                'studentLinks.student.user',
+                'studentLinks.student.consentRecords',
+            ]);
+
+            foreach ($user->guardianProfile->studentLinks as $link) {
+                $linkedChildren[] = [
+                    'link_id' => $link->id,
+                    'status' => $link->status->value,
+                    'is_primary_payer' => $link->is_primary_payer,
+                    'student' => [
+                        'student_code' => $link->student->student_code,
+                        'name_bn' => $link->student->user->name_bn,
+                        'name_en' => $link->student->user->name_en,
+                        'current_class_level' => $link->student->current_class_level,
+                        'medium' => $link->student->medium->value,
+                        'consent_status' => $link->student->consent_status->value,
+                    ],
+                ];
+            }
+        }
+
+        $entitlements = $entitlementService->getEntitlementsSnapshot($user);
+
+        return ApiResponse::success(
+            data: [
+                'user' => (new UserResource($user))->resolve($request),
+                'linked_children' => $linkedChildren,
+                'entitlements' => $entitlements,
+            ],
+            message: 'ব্যবহারকারীর সেশন তথ্য লোড হয়েছে।',
         );
     }
 }

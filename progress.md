@@ -18,7 +18,64 @@ This file is the single source of truth for tracking development progress across
 | **Phase 4** | Flutter Mobile Application & Offline Resilience | `6 / 6` | `100%` | Completed |
 | **Phase 5** | Handwritten Script OCR, Group Study & Gamification | `5 / 5` | `100%` | Completed |
 | **Phase 6** | Human Teacher Marketplace & Class 1–10 Expansion | `4 / 4` | `100%` | Completed |
-| **Total** | **All Phases (`Phase 0` – `Phase 6`)** | **`43 / 43`** | **`100%`** | **Completed** |
+| **Phase 7** | Functional Architecture, Entitlements & Web UI Rebuild | `10 / 10` | `100%` | Completed |
+| **Brand** | **পড়া হবে! (PORA HOBE) Brand Transformation & Creative UI/UX** | `9 / 9` | `100%` | Completed |
+| **Theme Alignment** | **Blackboard Dark Theme (`pora-hobe-home.html`) Across All Pages** | `14 / 14` | `100%` | Completed |
+| **Total** | **All Phases & Dark Theme Transformation** | **`76 / 76`** | **`100%`** | **Completed** |
+
+---
+
+## Blackboard Dark Theme (`pora-hobe-home.html`) Site-Wide Implementation
+
+- [x] **Theme Tokens & Design System**: Established `--slate: #0D1814` (blackboard green-black), `--chalk: #EDE8DA`, `--marigold: #FFB238`, `--tick: #7FD6A0`, `--redpen: #FF6152`, and khata notebook tokens in `globals.css` and `tailwind.config.ts`.
+- [x] **Homepage Match 1:1**: Implemented every section from `apps/web/pora-hobe-home.html` in `page.tsx`:
+  - 01 Hero with Dhaka grill window SVG, study lamp, steaming tea, student at laptop with $2x + 5 = 15$, and floating tutor chat card.
+  - Slogans Ticker with diamond separators and infinite marquee loop.
+  - 02 Statement with interactive tooltips and questioning chips.
+  - 03 Interactive Tutor Simulator with step-by-step math solver, Socratic hints, and replay.
+  - 04 Mistakes Khata with ruled exercise book page, ballpoint blue handwriting, red strike-through, and Level Up stamp.
+  - 05 Progress Dashboard with 12-day streak (Sat-Fri BD week), SVG week chart, and goal ring.
+  - 06 Achievement Celebration with 100% completion ring, confetti canvas particles, and roadmap badges.
+  - 07 Exam Simulator with 28:45 countdown timer, 20-question palette, interactive MCQ options, and handwritten script panel.
+  - 08 Porar Adda Room with 4 students + central Tutor audio waveform + 1-click invite code copy.
+  - 09 Final CTA with interactive chalk dust canvas particles, ghost wordmark, and primary button.
+- [x] **Site-Wide Dark Theme Alignment**: Mapped semantic tokens across `AppShell.tsx`, `Button.tsx`, `Card.tsx`, and verified 14 application routes (`/login`, `/register`, `/home`, `/tutor`, `/materials`, `/planner`, `/exams`, `/scripts`, `/analytics`, `/group-learning`, `/teachers`, `/parent/dashboard`, `/parent/billing`, `/parent/children`) all return HTTP 200 OK with unified dark styling.
+- [x] **Auth Page Transformation (`পড়া হবে! Login.html`)**: Transformed `/login` and `/register` into dedicated standalone authentication portals with zero dashboard menus (`AppShell` removed). Implemented 2-column "Board + Desk" layout with authentic Khata notebook scrap checklist, rotating AI tutor quips, dynamic operator detection (+৮৮), mobile OTP 6-box input with paste/auto-advance/resend timer, role switching (Student vs Guardian), 1-click test fill chips, and animated completion resume cards.
+
+---
+
+## Brand Transformation — পড়া হবে! (PORA HOBE) (`9 / 9` Sections Completed)
+
+- [x] **Section 01 — Hero: পড়ার সিন এবার বদলে যাবে!** *(Completed: 2026-11-02)*
+  - Created `apps/web/src/components/home/HeroSection.tsx`.
+  - Main headline: "পড়ার সিন এবার বদলে যাবে!", copy: "তোমার নিজের AI Home Tutor। পড়বে, বুঝবে, প্রশ্ন করবে, ভুল করবে, আবার শিখবে। সবকিছু তোমার নিজের গতিতে।"
+  - Primary CTA: "চলো, পড়া শুরু করি!", Secondary CTA: "কীভাবে কাজ করে?". Floating campaign badge: "প্যাঁচ যতই থাকুক, পড়া হবে!".
+  - Integrated high-res authentic Bangladeshi student photo and realistic interactive AI tutor card with 1-click demo persona quick-access.
+- [x] **Section 02 — Brand Statement: শুধু পড়া নয়, এবার শেখা জমবে!** *(Completed: 2026-11-02)*
+  - Created `apps/web/src/components/home/BrandStatementSection.tsx`.
+  - Editorial layout with three asymmetric highlights: "বুঝে শেখো", "প্রশ্ন করে শেখো", "ভুল থেকে শেখো".
+- [x] **Section 03 — Interactive Tutor Simulator: প্যাঁচ যতই থাকুক, পড়া হবে!** *(Completed: 2026-11-02)*
+  - Created `apps/web/src/components/home/InteractiveTutorSection.tsx`.
+  - Realistic multi-step tutoring simulator ($2x + 5 = 15$) with step-by-step state machine, hints, "এই তো! মাথায় ঢুকছে!", and celebration "চ্যাপ্টার ক্লিয়ার, বস!".
+- [x] **Section 04 — Learning From Mistakes: ভুল হইছে? সমস্যা নাই, আবার হবে!** *(Completed: 2026-11-02)*
+  - Created `apps/web/src/components/home/LearningFromMistakesSection.tsx`.
+  - Interactive before/after error diagnostic simulator, showing students why mistakes are valuable learning signals.
+- [x] **Section 05 — Progress & Mastery: পড়ো একটু, এগিয়ে যাও অনেকটা!** *(Completed: 2026-11-02)*
+  - Created `apps/web/src/components/home/ProgressSection.tsx`.
+  - Clean 4-metric KPI dashboard (Mastery Score, Solved Exercises, Accuracy, Streak) and chapter progress bars for NCTB Math and Science.
+- [x] **Section 06 — Achievement & Celebration: চ্যাপ্টার খতম, কনফিডেন্স ডাবল!** *(Completed: 2026-11-02)*
+  - Created `apps/web/src/components/home/AchievementSection.tsx`.
+  - Milestone unlock badges, streak counter, celebratory feedback, and self-confidence building mechanisms.
+- [x] **Section 07 — Realistic Examination Preview: পরীক্ষার প্রস্তুতি? এবার সিরিয়াসলি হবে!** *(Completed: 2026-11-02)*
+  - Created `apps/web/src/components/home/ExaminationSection.tsx`.
+  - Timed exam simulator preview with countdown timer, question palette, option selection, and handwritten answer script scanning support.
+- [x] **Section 08 — Group Learning: বন্ধুদের নিয়ে পড়ার আড্ডাও হবে!** *(Completed: 2026-11-02)*
+  - Created `apps/web/src/components/home/GroupLearningSection.tsx`.
+  - Cohort room card (4 students), real-time peer assistance, and broadcast challenge polls.
+- [x] **Section 09 — Final CTA & Branded Footer: পড়ার সিন এবার বদলে যাবে!** *(Completed: 2026-11-02)*
+  - Created `apps/web/src/components/home/FinalCTASection.tsx` and `apps/web/src/components/layout/LandingFooter.tsx`.
+  - Class picker (৬ষ্ঠ - ১০ম SSC), primary CTA "চলো, পড়া শুরু করি!", "আজকে পড়া হবে, বুঝেও হবে!", and comprehensive NCTB 2026 / PDPA 2026 footer.
+  - Assembled in `apps/web/src/app/page.tsx`, tested with `npx tsc --noEmit` and `npm test -- --run` (32/32 tests passing).
 
 ---
 
@@ -140,4 +197,30 @@ This file is the single source of truth for tracking development progress across
   - Migration & model (`script_review_assignments`, `ScriptReviewAssignment`), 24h SLA assignment & completion workflow for escalated handwritten scripts (`/api/v1/script-review-assignments`).
 - [x] **Chunk 6.4 — NCTB Class 9–10 (SSC) & Class 1–5 Curriculum Expansion** *(Completed: 2026-11-01)*
   - `NctbClassOneToTenExpansionSeeder` expanding the 2026 NCTB curriculum across all 10 classes (Primary Classes 1–5, Lower Secondary Classes 6–8, and Secondary SSC Classes 9–10), `/api/v1/curriculum/classes-1-to-10`, Pest tests (`TeacherMarketplaceAndCurriculumExpansionTest.php`), and Vitest tests (`TeacherMarketplaceAndExpansionUI.test.tsx`).
+
+---
+
+## Phase 7 — Functional Architecture, Entitlements & Complete Web UI Rebuild (`2 / 10` Completed)
+
+- [x] **Chunk 7.1 — Entitlements & Subscriptions Engine (Backend)** *(Completed: 2026-11-01)*
+  - Migration & model (`plan_entitlements`, `PlanEntitlement`), `PlanEntitlementService` with tiered access limits (Free, Basic, Premium, Family), `EnsureFeatureEntitledMiddleware` (`entitlement:feature_key`), OTP `debug_code` in local/testing environment, `/api/v1/me/entitlements`, `/api/v1/auth/me`, and sandbox payment simulation (`POST /api/v1/payments/{payment:uuid}/sandbox-confirm`). Verified with Pest (`PlanEntitlementsAndSandboxTest.php`).
+- [x] **Chunk 7.2 — Aggregate Student & Curriculum Endpoints + Realistic Demo Seeder (Backend)** *(Completed: 2026-11-01)*
+  - Single-trip composite endpoints (`GET /api/v1/students/me/dashboard`, `GET /api/v1/curriculum/my-subjects`, `GET /api/v1/students/me/exam-attempts`, `GET /api/v1/gamification/me`), and comprehensive `DemoDataSeeder` establishing realistic interconnected data across student, guardian, tutor session, study plan, study time logs, exams, and gamification via real domain services. Verified with Pest (`StudentAggregateAndDemoDataTest.php`).
+- [x] **Chunk 7.3 — Web Foundation & Design System Rebuild (`apps/web`)** *(Completed: 2026-11-01)*
+  - Production academic design tokens, reusable component library (`Button`, `Card`, `Stat`, `Badge`, `EmptyState`, `Skeleton`, `FeatureGate`, `QuotaMeter`, `Input`), persisted auth store (`auth.store.ts` via Zustand with `localStorage` token & automatic `/auth/me` bootstrap), and role-guarded `AppShell` with student/guardian/teacher/admin navigation. Verified with Vitest (`FoundationAndComponents.test.tsx`).
+- [x] **Chunk 7.4 — Auth & Onboarding UI Rebuild (`apps/web`)** *(Completed: 2026-11-01)*
+  - Dual student/guardian login (`/login`) with quick 1-click demo test account selector (Rafi Class 8, Nusrat Class 6, Rasheda Guardian), passwordless OTP login modal displaying testing `debug_code` auto-fill, registration (`/register`) with automatic post-OTP redirection, student onboarding (`/onboarding`) with class & daily minutes selection, and PDPA 2026 guardian consent management (`/parent/children`).
+- [x] **Chunk 7.5 — Student Home Dashboard & Learn Materials (`apps/web`)** *(Completed: 2026-11-01)*
+  - Fully wired student dashboard (`/home`) connected to `GET /api/v1/students/me/dashboard` (real streak, XP, badges, continue lesson hero, today's tasks, and subject mastery percentage bars with 0 hardcoded dummy arrays), and curriculum explorer (`/materials`) connected to `GET /api/v1/curriculum/my-subjects` with accordion chapter navigation, interactive worked examples, 1-click tutor lesson launching, and gated PDF note downloads. Verified with Vitest (`StudentHomeAndMaterials.test.tsx`).
+- [x] **Chunk 7.6 — AI Tutor 3-Pane Workspace Rebuild (`apps/web`)** *(Completed: 2026-11-01)*
+  - 3-Pane pedagogical learning workspace (`/tutor`) wired directly to backend API (`POST /tutor-sessions`, `GET /tutor-sessions/{id}`, `POST /tutor-sessions/{id}/turns`, `POST /tutor-sessions/{id}/pause`), dynamic URL routing (`?session_id=...` & `?objective_id=...` or auto-resume active dashboard session), KaTeX math board, 3-level progressive hint sheet, Socratic question answering, and active entitlement quota checking. Verified with Vitest (`AiPrivateTutorWorkspace.test.tsx`).
+- [x] **Chunk 7.7 — Study Planner, Exams & Progress Analytics (`apps/web`)** *(Completed: 2026-11-01)*
+  - Fully wired adaptive study planner (`/planner`) with active plan fetching and non-judgmental rebalancing, timed model exam runner (`/exams`) with server-countdown timer, question palette, autosave, submission, past attempt history list, and step-by-step rubric result analysis, and learning analytics (`/analytics`) with live mastery matrices and weekly active study time trends. Verified with Vitest (`TimedExaminationWorkspace.test.tsx`, `StudyPlannerAndCalendarWorkspace.test.tsx`, `StudentAndParentAnalyticsUI.test.tsx`).
+- [x] **Chunk 7.8 — Group Learning & Handwritten Script Submission (`apps/web`)** *(Completed: 2026-11-01)*
+  - Role-guarded and entitlement-gated group study (`/group-learning`) enforcing 3–5 student same-class cohorts, batch broadcast questions with auto-reveal, individual side-assistance, and PDPA PII scrubbing in raise-hand queue, and handwritten script scanner (`/scripts`) with camera/file upload, OCR confidence gates, multi-tier rubric grading, and admin review-override interface. Verified with Vitest (`GroupLearningWorkspace.test.tsx`, `HandwritingGroupAndGamificationUI.test.tsx`).
+- [x] **Chunk 7.9 — Parent Portal, Subscription Billing & Teacher Marketplace (`apps/web`)** *(Completed: 2026-11-02)*
+  - Integrated parent portal dashboard (`/parent/dashboard`) with live child switcher, 5-tier analytics normalization adapter, KaTeX math rendering, and PDF report card downloads; subscription billing (`/parent/billing`) with tiered pricing plans, active subscription status, and 1-click sandbox payment confirmation (`POST /api/v1/payments/{uuid}/sandbox-confirm`); and verified human teacher marketplace (`/teachers`) gated by `teacher_marketplace.booking` with 80/20 escrow splits and AI diagnostic brief generation. Verified with Vitest (`GuardianBillingAndCheckoutUI.test.tsx`, `TeacherMarketplaceAndExpansionUI.test.tsx`) and verified with clean production Next.js build (`next build` 19/19 routes prerendered).
+- [x] **Chunk 7.10 — Mobile Verification (`apps/mobile`)** *(Completed: 2026-11-02)*
+  - Verified Flutter mobile client against API contracts and offline architecture invariants: offline SQLite/cache store, Bangla numeral formatting, 3-mode AI tutor workspace, offline NCTB chapter reader, background study heartbeat tracking, timed exam offline draft queue with sync on reconnection, and group study room with batch broadcast reveal. Verified with `flutter analyze` (0 issues) and `flutter test` (all tests passed).
+
 

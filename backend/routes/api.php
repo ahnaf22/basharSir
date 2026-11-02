@@ -31,6 +31,7 @@ Route::prefix('v1')->name('api.v1.')->group(function (): void {
         Route::post('/login', [AuthController::class, 'login'])->name('login');
 
         Route::middleware('auth:sanctum')->group(function (): void {
+            Route::get('/me', [AuthController::class, 'me'])->name('me');
             Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
         });
     });
@@ -38,6 +39,8 @@ Route::prefix('v1')->name('api.v1.')->group(function (): void {
     Route::middleware('auth:sanctum')->prefix('students')->name('students.')->group(function (): void {
         Route::get('/me', [StudentProfileController::class, 'showMe'])->name('me.show');
         Route::patch('/me', [StudentProfileController::class, 'updateMe'])->name('me.update');
+        Route::get('/me/dashboard', [StudentProfileController::class, 'dashboard'])->name('me.dashboard');
+        Route::get('/me/exam-attempts', [ExaminationController::class, 'myAttempts'])->name('me.exam-attempts');
         Route::get('/me/consent-gate', [StudentProfileController::class, 'verifyConsentedAccess'])
             ->middleware('consent.verified')
             ->name('me.consent-gate');
@@ -58,6 +61,7 @@ Route::prefix('v1')->name('api.v1.')->group(function (): void {
 
     Route::middleware('auth:sanctum')->group(function (): void {
         Route::get('/curriculum/active', [CurriculumController::class, 'activeCurriculum'])->name('curriculum.active');
+        Route::get('/curriculum/my-subjects', [CurriculumController::class, 'mySubjects'])->name('curriculum.my-subjects');
         Route::get('/subjects', [CurriculumController::class, 'listSubjects'])->name('subjects.index');
         Route::get('/subjects/{subject}/chapters', [CurriculumController::class, 'listChapters'])->name('subjects.chapters');
         Route::get('/chapters/{chapter}/topics', [CurriculumController::class, 'listTopics'])->name('chapters.topics');
@@ -87,8 +91,10 @@ Route::prefix('v1')->name('api.v1.')->group(function (): void {
             Route::post('/{session}/flag', [TutorSessionController::class, 'flagMessage'])->name('flag');
         });
 
+        Route::get('/me/entitlements', [SubscriptionAndPaymentController::class, 'myEntitlements'])->name('me.entitlements');
         Route::get('/subscriptions/status', [SubscriptionAndPaymentController::class, 'status'])->name('subscriptions.status');
         Route::post('/payments/checkout', [SubscriptionAndPaymentController::class, 'initiateCheckout'])->name('payments.checkout');
+        Route::post('/payments/{payment:uuid}/sandbox-confirm', [SubscriptionAndPaymentController::class, 'sandboxConfirmPayment'])->name('payments.sandbox-confirm');
 
         Route::get('/teachers', [TeacherMarketplaceController::class, 'listVerifiedTeachers'])->name('teachers.index');
         Route::post('/teachers/register', [TeacherMarketplaceController::class, 'registerTeacherProfile'])->name('teachers.register');
@@ -133,6 +139,7 @@ Route::prefix('v1')->name('api.v1.')->group(function (): void {
             Route::post('/group-sessions/{groupSession}/raise-hand', [PhaseFiveController::class, 'raiseHand'])->name('group-sessions.raise-hand');
             Route::post('/group-sessions/{groupSession}/resolve-next', [PhaseFiveController::class, 'resolveNextRaiseHand'])->name('group-sessions.resolve-next');
 
+            Route::get('/gamification/me', [PhaseFiveController::class, 'myGamification'])->name('gamification.me');
             Route::post('/gamification/events', [PhaseFiveController::class, 'recordGamificationEvent'])->name('gamification.events');
             Route::get('/gamification/leaderboard', [PhaseFiveController::class, 'cohortLeaderboard'])->name('gamification.leaderboard');
         });

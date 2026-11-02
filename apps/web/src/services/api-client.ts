@@ -56,8 +56,22 @@ export class ApiClient {
       process.env.NEXT_PUBLIC_API_BASE_URL ??
       'http://127.0.0.1:8000/api/v1'
     ).replace(/\/+$/, '');
-    this.getAccessToken = config?.getAccessToken ?? (() => null);
-    this.getActiveStudentId = config?.getActiveStudentId ?? (() => null);
+    this.getAccessToken =
+      config?.getAccessToken ??
+      (() => {
+        if (typeof window !== 'undefined') {
+          return localStorage.getItem('auth_token');
+        }
+        return null;
+      });
+    this.getActiveStudentId =
+      config?.getActiveStudentId ??
+      (() => {
+        if (typeof window !== 'undefined') {
+          return localStorage.getItem('active_student_code');
+        }
+        return null;
+      });
     this.onUnauthorized = config?.onUnauthorized;
   }
 

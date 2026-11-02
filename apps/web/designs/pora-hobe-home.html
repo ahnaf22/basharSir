@@ -1,0 +1,1283 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>পড়া হবে! Dark Homepage</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="বাংলাদেশের শিক্ষার্থীদের জন্য ব্যক্তিগত AI Home Tutor। বুঝে শেখো, প্রশ্ন করো, পরীক্ষা দাও আর নিজের গতিতে এগিয়ে যাও।">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wdth,wght@75..125,400..800&family=Atma:wght@500;600&family=Hind+Siliguri:wght@400;500;600&display=swap">
+<style>
+/* Layout concept: a night-time study desk. Blackboard-slate ground, chalk-white type,
+   marigold as the single warm accent, and the khata (exercise book) page as the one bright surface.
+   Red pen = mistakes, tick-green = correct, blue ballpoint = student's handwriting. */
+:root{
+  --slate:#0D1814;      /* blackboard green-black, page ground */
+  --slate-2:#13221C;    /* raised surface */
+  --slate-3:#1A2D26;    /* inner panels */
+  --rule:rgba(237,232,218,.11);
+  --rule-2:rgba(237,232,218,.22);
+  --chalk:#EDE8DA;      /* primary text */
+  --chalk-2:#B5B9AA;    /* secondary text */
+  --chalk-3:#7E8A80;    /* captions */
+  --marigold:#FFB238;   /* gaada phool — the one accent */
+  --marigold-ink:#241600;
+  --redpen:#FF6152;
+  --tick:#7FD6A0;
+  --paper:#F3EBD5;
+  --paper-rule:#B9CDE0;
+  --ink:#22408F;        /* ballpoint blue */
+  --f-display:"Anek Bangla","Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;
+  --f-body:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;
+  --f-hand:"Atma","Hind Siliguri",cursive;
+  --f-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --r-lg:22px; --r-md:14px; --r-sm:9px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{
+  margin:0;background:var(--slate);color:var(--chalk);
+  font-family:var(--f-body);font-size:17px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--slate)}
+main{overflow-x:clip}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--marigold);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1220px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@media (min-width:720px){.wrap{padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}}
+
+/* faint chalk-dust texture on the board */
+.board-tex{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .93 0 0 0 0 .91 0 0 0 0 .85 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+main,header,footer{position:relative;z-index:1}
+
+/* ---------- type ---------- */
+.h-hero,.h-xl,.h-lg{font-family:var(--f-display);font-weight:750;font-stretch:78%;letter-spacing:-.01em;text-wrap:balance;margin:0}
+.h-hero{font-size:clamp(3.1rem,8.4vw,7.4rem);line-height:1.04}
+.h-xl{font-size:clamp(2.5rem,6.6vw,5.6rem);line-height:1.06}
+.h-lg{font-size:clamp(2.1rem,4.8vw,3.9rem);line-height:1.1}
+.lede{font-size:clamp(1.05rem,1.5vw,1.22rem);color:var(--chalk-2);max-width:34em;margin:0;text-wrap:pretty}
+.kicker{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-display);font-stretch:90%;font-weight:600;font-size:.95rem;color:var(--marigold);letter-spacing:.02em;margin:0}
+.kicker .dot{width:8px;height:8px;border-radius:50%;background:var(--marigold);box-shadow:0 0 0 4px rgba(255,178,56,.18)}
+.hand{font-family:var(--f-hand);font-weight:600}
+.mark{color:var(--marigold)}
+.outline{color:transparent;-webkit-text-stroke:1.5px var(--chalk)}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:10px;justify-content:center;min-height:48px;padding:10px 22px;border-radius:999px;
+  background:var(--marigold);color:var(--marigold-ink);font-family:var(--f-display);font-stretch:92%;font-weight:700;font-size:1.06rem;text-decoration:none;border:0;cursor:pointer;
+  box-shadow:0 2px 0 #B97400, 0 10px 30px -12px rgba(255,178,56,.6);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 4px 0 #B97400, 0 16px 36px -12px rgba(255,178,56,.7)}
+.btn:active{transform:translateY(1px);box-shadow:0 1px 0 #B97400}
+.btn .arr{transition:transform .25s var(--ease)}
+.btn:hover .arr{transform:translateX(4px)}
+.btn-lg{min-height:58px;padding:12px 28px;font-size:1.18rem}
+.btn-sm{min-height:42px;padding:8px 18px;font-size:.98rem}
+.btn-line{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:10px 6px;color:var(--chalk);text-decoration:none;font-family:var(--f-display);font-stretch:92%;font-weight:600;font-size:1.06rem;border-bottom:1.5px dashed var(--rule-2);border-radius:0}
+.btn-line:hover{border-bottom-color:var(--marigold);color:var(--marigold)}
+.btn-ghost{color:var(--chalk-2);text-decoration:none;font-weight:500;padding:10px 12px;min-height:44px;display:inline-flex;align-items:center}
+.btn-ghost:hover{color:var(--chalk)}
+
+/* ---------- header ---------- */
+.hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(13,24,20,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--rule)}
+.hdr-in{display:flex;align-items:center;gap:24px;min-height:70px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.logo-mark{width:38px;height:38px;border-radius:11px 11px 11px 3px;background:var(--marigold);color:var(--marigold-ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.35rem;transform:rotate(-6deg);line-height:1}
+.logo-word{font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:1.55rem;line-height:1;letter-spacing:-.01em}
+.logo-word em{font-style:normal;color:var(--marigold)}
+.nav{display:flex;gap:4px;margin-left:auto}
+.nav a{text-decoration:none;color:var(--chalk-2);font-weight:500;padding:8px 14px;border-radius:999px;transition:color .2s,background .2s}
+.nav a:hover{color:var(--chalk);background:var(--slate-3)}
+.nav a[aria-current]{color:var(--chalk)}
+.hdr-act{display:flex;align-items:center;gap:6px}
+.menu-btn{display:none;min-height:44px;min-width:44px;padding:0 14px;border-radius:999px;border:1px solid var(--rule-2);background:transparent;color:var(--chalk);font:600 .95rem var(--f-body);cursor:pointer}
+@media (max-width:920px){
+  .nav,.hdr-act .btn-ghost{display:none}
+  .hdr-act{margin-left:auto}
+  .menu-btn{display:inline-flex;align-items:center;gap:8px}
+}
+@media (max-width:420px){.hdr-act .btn-sm{padding:8px 14px}}
+
+/* mobile sheet */
+.sheet{position:fixed;inset:0;z-index:70;background:var(--slate);display:flex;flex-direction:column;
+  padding:calc(env(safe-area-inset-top,0px) + 14px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 22px) max(16px,env(safe-area-inset-left,0px));
+  transform:translateY(-102%);transition:transform .45s var(--ease)}
+.sheet.open{transform:none}
+.sheet-top{display:flex;justify-content:space-between;align-items:center;min-height:56px}
+.sheet nav{display:flex;flex-direction:column;margin-top:28px;border-top:1px solid var(--rule)}
+.sheet nav a{display:flex;justify-content:space-between;align-items:baseline;padding:18px 2px;border-bottom:1px solid var(--rule);text-decoration:none;font-family:var(--f-display);font-stretch:80%;font-weight:700;font-size:2.2rem;line-height:1.2}
+.sheet nav a small{font-family:var(--f-body);font-size:.85rem;color:var(--chalk-3);font-weight:400}
+.sheet-foot{margin-top:auto;display:grid;gap:10px}
+.sheet-foot .btn{width:100%}
+.sheet-foot .login{display:flex;justify-content:center;min-height:48px;align-items:center;border:1px solid var(--rule-2);border-radius:999px;text-decoration:none}
+.sheet-quip{font-family:var(--f-hand);color:var(--marigold);font-size:1.15rem;margin:18px 0 0;transform:rotate(-2deg)}
+
+/* ---------- reveal ---------- */
+.rv{transition:transform .9s var(--ease),opacity .9s var(--ease)}
+.armed .rv{transform:translateY(26px);opacity:.35}
+.armed.in .rv{transform:none;opacity:1}
+.armed.in .rv:nth-child(2){transition-delay:.08s}
+.armed.in .rv:nth-child(3){transition-delay:.16s}
+
+/* ---------- sections ---------- */
+section{padding-block:clamp(76px,10vw,140px);position:relative}
+.sec-head{display:grid;gap:18px;max-width:780px}
+
+/* ===== HERO ===== */
+.hero{padding-block:clamp(40px,6vw,84px) clamp(64px,8vw,110px)}
+.hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(32px,5vw,72px);align-items:center}
+.hero-copy{display:grid;gap:26px;min-width:0}
+.circled{position:relative;display:inline-block;white-space:nowrap}
+.circled svg{position:absolute;left:-14%;top:-8%;width:128%;height:120%;overflow:visible;pointer-events:none}
+.circled path{fill:none;stroke:var(--marigold);stroke-width:3.5;stroke-linecap:round;stroke-dasharray:640;stroke-dashoffset:640;animation:draw 1.2s .5s var(--ease) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.h-hero .hl{color:var(--marigold)}
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
+.trust{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 22px;color:var(--chalk-3);font-size:.93rem}
+.trust li{display:flex;align-items:center;gap:8px}
+.trust li::before{content:"";width:14px;height:8px;border-left:2px solid var(--tick);border-bottom:2px solid var(--tick);transform:rotate(-45deg) translateY(-3px)}
+
+.hero-visual{position:relative;min-width:0}
+.scene{border-radius:28px;overflow:hidden;border:1px solid var(--rule);background:#12201B;aspect-ratio:520/560;max-width:100%;box-shadow:0 40px 80px -40px rgba(0,0,0,.8)}
+.scene svg{display:block;width:100%;height:100%}
+.steam{fill:none;stroke:rgba(237,232,218,.35);stroke-width:2;stroke-linecap:round;animation:steam 3.2s ease-in-out infinite}
+.steam.s2{animation-delay:1.1s}
+@keyframes steam{0%{opacity:0;transform:translateY(8px)}40%{opacity:1}100%{opacity:0;transform:translateY(-14px)}}
+.glow{animation:flick 6s ease-in-out infinite}
+@keyframes flick{0%,100%{opacity:.9}50%{opacity:1}}
+
+.sticker{position:absolute;top:-22px;right:-14px;z-index:3;background:var(--marigold);color:var(--marigold-ink);padding:14px 18px 14px 14px;border-radius:16px 16px 16px 4px;
+  transform:rotate(5deg);display:flex;gap:10px;align-items:center;box-shadow:0 18px 30px -14px rgba(0,0,0,.6);max-width:240px}
+.sticker svg{flex-shrink:0;width:38px;height:38px}
+.sticker b{font-family:var(--f-display);font-stretch:80%;font-weight:800;font-size:1.22rem;line-height:1.15;display:block}
+.sticker:hover{transform:rotate(1deg) scale(1.03);transition:transform .35s var(--ease)}
+
+.hero-chat{position:absolute;left:-9%;bottom:-8%;z-index:2;width:min(330px,78%);background:var(--slate-2);border:1px solid var(--rule-2);border-radius:20px;padding:14px;box-shadow:0 30px 60px -20px rgba(0,0,0,.85);display:grid;gap:9px}
+.hc-top{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--chalk-3);padding:0 2px 6px;border-bottom:1px solid var(--rule)}
+.hc-top b{color:var(--chalk);font-weight:600}
+.hc-prog{display:flex;gap:3px}
+.hc-prog i{width:16px;height:5px;border-radius:3px;background:var(--rule-2)}
+.hc-prog i.on{background:var(--marigold)}
+.bub{padding:9px 13px;border-radius:14px;font-size:.93rem;line-height:1.5;max-width:88%;width:fit-content}
+.bub.t{background:var(--slate-3);border-bottom-left-radius:4px}
+.bub.s{background:var(--chalk);color:#14201B;margin-left:auto;border-bottom-right-radius:4px;font-weight:600}
+.bub.win{background:rgba(127,214,160,.14);color:var(--tick);border:1px solid rgba(127,214,160,.3);font-weight:600}
+.hero-chat .bub{animation:pop .5s var(--ease) both}
+.hero-chat .bub:nth-of-type(2){animation-delay:.9s}
+.hero-chat .bub:nth-of-type(3){animation-delay:1.7s}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-visual{max-width:520px;margin-inline:auto;width:100%;padding-bottom:120px}
+  .hero-chat{left:4%;bottom:0;width:min(340px,86%)}
+  .sticker{right:4px;top:-18px;max-width:210px}
+}
+
+/* ===== TICKER ===== */
+.ticker{border-block:1px solid var(--rule);background:var(--slate-2);overflow:hidden;padding-block:16px}
+.ticker-track{display:flex;gap:44px;width:max-content;animation:tick 38s linear infinite}
+.ticker span{font-family:var(--f-display);font-stretch:80%;font-weight:700;font-size:clamp(1.3rem,2.4vw,1.8rem);white-space:nowrap;display:flex;align-items:center;gap:44px}
+.ticker span::after{content:"";width:10px;height:10px;background:var(--marigold);transform:rotate(45deg)}
+.ticker span:nth-child(even){color:transparent;-webkit-text-stroke:1.2px var(--chalk-2)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ===== STATEMENT ===== */
+.statement .h-xl{max-width:12ch}
+.squig{position:relative;white-space:nowrap;color:var(--marigold)}
+.squig svg{position:absolute;left:0;bottom:-.12em;width:100%;height:.3em;overflow:visible}
+.squig path{fill:none;stroke:var(--marigold);stroke-width:4;stroke-linecap:round}
+.st-top{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:end}
+.ways{list-style:none;margin:clamp(48px,7vw,90px) 0 0;padding:0;border-top:1px solid var(--rule)}
+.way{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) minmax(0,1.15fr);gap:28px;align-items:center;padding-block:34px;border-bottom:1px solid var(--rule)}
+.way-word{font-family:var(--f-display);font-stretch:76%;font-weight:800;font-size:clamp(2.6rem,5.6vw,4.6rem);line-height:1;display:flex;flex-wrap:wrap;gap:0 .28em;align-items:baseline}
+.way-word .outline{font-weight:700}
+.way p{margin:0;color:var(--chalk-2);max-width:26em}
+.way p b{color:var(--chalk);font-weight:600;display:block;font-size:1.08rem}
+.demo{background:var(--slate-2);border:1px solid var(--rule);border-radius:var(--r-md);padding:16px 18px;font-size:.95rem;min-width:0}
+.term{position:relative;border-bottom:2px dotted var(--marigold);color:var(--chalk);cursor:help}
+.tip{margin-top:12px;display:flex;gap:10px;align-items:flex-start;background:var(--slate-3);border-radius:10px;padding:10px 12px;font-size:.88rem;color:var(--chalk-2)}
+.tip i{font-style:normal;flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--marigold);color:var(--marigold-ink);display:grid;place-items:center;font-weight:700;font-size:.8rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{border:1px solid var(--rule-2);background:transparent;color:var(--chalk-2);border-radius:999px;padding:6px 14px;font:500 .88rem var(--f-body);cursor:pointer;min-height:36px;transition:all .2s}
+.chip:hover,.chip[aria-pressed="true"]{border-color:var(--marigold);color:var(--marigold);background:rgba(255,178,56,.08)}
+.wrongfix{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-family:var(--f-hand);font-size:1.35rem}
+.wrongfix s{color:var(--redpen);text-decoration-thickness:2px}
+.wrongfix .ok{color:var(--tick)}
+.wrongfix small{font-family:var(--f-body);font-size:.85rem;color:var(--chalk-3);width:100%}
+@media (max-width:900px){
+  .st-top{grid-template-columns:1fr}
+  .way{grid-template-columns:1fr;gap:14px}
+}
+
+/* ===== TUTOR ===== */
+.tutor{background:var(--slate-2);border-block:1px solid var(--rule)}
+.tutor-head{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:end}
+.app{margin-top:clamp(40px,6vw,64px);border:1px solid var(--rule-2);border-radius:var(--r-lg);background:var(--slate);overflow:hidden;box-shadow:0 50px 90px -50px rgba(0,0,0,.9)}
+.app-bar{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--rule);font-size:.9rem;color:var(--chalk-3);flex-wrap:wrap}
+.app-bar b{color:var(--chalk);font-weight:600}
+.app-bar .sep{opacity:.4}
+.app-bar .live{margin-left:auto;display:flex;align-items:center;gap:8px;color:var(--tick)}
+.app-bar .live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--tick);animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.25}}
+.app-body{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}
+.boardpane{padding:26px;border-right:1px solid var(--rule);background:
+  repeating-linear-gradient(0deg,transparent 0 39px,rgba(237,232,218,.035) 39px 40px),var(--slate-3)}
+.bp-label{font-size:.8rem;color:var(--chalk-3);letter-spacing:.04em;margin:0 0 16px}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:st}
+.step{display:grid;grid-template-columns:30px 1fr;gap:14px;align-items:start;padding:14px 16px;border-radius:12px;border:1px dashed var(--rule-2);transition:all .45s var(--ease);counter-increment:st}
+.step::before{content:counter(st,bengali);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:700;border:1.5px solid var(--rule-2);color:var(--chalk-3);font-size:.95rem}
+.step .eq{font-family:var(--f-hand);font-size:1.5rem;line-height:1.3;color:var(--chalk-3)}
+.step .why{font-size:.84rem;color:var(--chalk-3);display:block;margin-top:2px}
+.step.cur{border-style:solid;border-color:var(--marigold);background:rgba(255,178,56,.06)}
+.step.cur::before{border-color:var(--marigold);color:var(--marigold)}
+.step.cur .eq{color:var(--chalk)}
+.step.done::before{content:"";background:var(--tick) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.2 4L19 7' fill='none' stroke='%230D1814' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat;border-color:var(--tick)}
+.step.done .eq{color:var(--tick)}
+.chatpane{display:flex;flex-direction:column;min-height:540px}
+.msgs{flex:1;padding:24px;display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.msg{display:flex;gap:10px;align-items:flex-end;max-width:86%}
+.msg.s{margin-left:auto;flex-direction:row-reverse}
+.ava{flex-shrink:0;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:.95rem}
+.msg.t .ava{background:var(--marigold);color:var(--marigold-ink);border-radius:10px 10px 10px 3px}
+.msg.s .ava{background:var(--chalk);color:#14201B}
+.msg .bub{max-width:100%;font-size:1rem}
+.msg.anim{animation:pop .45s var(--ease) both}
+.hint{align-self:flex-start;margin-left:42px;display:flex;gap:8px;align-items:center;font-size:.86rem;color:var(--marigold);border:1px dashed rgba(255,178,56,.45);border-radius:10px;padding:7px 12px;background:rgba(255,178,56,.05)}
+.typing{display:inline-flex;gap:4px;padding:12px 14px}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--chalk-3);animation:dot 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes dot{0%,60%,100%{transform:none;opacity:.4}30%{transform:translateY(-4px);opacity:1}}
+.composer{border-top:1px solid var(--rule);padding:14px 18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.composer .field{flex:1 1 220px;min-height:46px;border-radius:999px;border:1px solid var(--rule-2);display:flex;align-items:center;padding:0 18px;color:var(--chalk-3);font-size:.95rem}
+.replay{min-height:44px;border-radius:999px;border:1px solid var(--rule-2);background:transparent;color:var(--chalk);padding:0 16px;font:500 .92rem var(--f-body);cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+.replay:hover{border-color:var(--marigold);color:var(--marigold)}
+@media (max-width:900px){
+  .tutor-head{grid-template-columns:1fr}
+  .app-body{grid-template-columns:1fr}
+  .boardpane{border-right:0;border-bottom:1px solid var(--rule);padding:18px}
+  .steps{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .step{grid-template-columns:1fr;padding:10px;gap:6px}
+  .step .why{display:none}
+  .step .eq{font-size:1.05rem}
+  .step::before{width:24px;height:24px;font-size:.8rem}
+  .chatpane{min-height:500px}
+  .msgs{padding:16px}
+  .msg{max-width:94%}
+}
+
+/* ===== MISTAKES ===== */
+.mist-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(36px,6vw,90px);align-items:center}
+.mist-copy{display:grid;gap:24px}
+.fixlist{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:0;border-top:1px solid var(--rule)}
+.fixlist li{display:grid;grid-template-columns:96px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.fixlist b{font-family:var(--f-display);font-stretch:80%;font-weight:700;font-size:1.25rem;color:var(--marigold)}
+.fixlist span{color:var(--chalk-2)}
+.khata-wrap{position:relative;padding:18px 10px 30px}
+@media (min-width:901px){.khata{margin-right:150px}}
+.khata{position:relative;background:var(--paper);color:var(--ink);border-radius:6px 14px 14px 6px;transform:rotate(-1.6deg);
+  padding:34px 26px 40px 74px;box-shadow:0 40px 70px -30px rgba(0,0,0,.85),inset 10px 0 18px -12px rgba(0,0,0,.25);
+  background-image:linear-gradient(90deg,transparent 56px,rgba(220,60,50,.55) 56px 58px,transparent 58px),repeating-linear-gradient(180deg,transparent 0 41px,var(--paper-rule) 41px 42px);
+  background-position:0 0,0 22px;font-family:var(--f-hand);font-size:clamp(1.15rem,2.2vw,1.5rem);line-height:42px}
+.khata .holes{position:absolute;left:18px;top:30px;bottom:30px;display:flex;flex-direction:column;justify-content:space-around}
+.khata .holes i{width:14px;height:14px;border-radius:50%;background:var(--slate);box-shadow:inset 0 2px 3px rgba(0,0,0,.6)}
+.khata .q{color:#5B5A52;font-size:.9em}
+.khata .line{display:block;position:relative;white-space:nowrap}
+.khata .bad{position:relative;display:inline-block}
+.khata .bad::after{content:"";position:absolute;left:-4px;right:-4px;top:52%;height:3px;background:var(--redpen);transform:rotate(-3deg) scaleX(var(--strike,1));transform-origin:left;border-radius:2px;transition:transform .8s .3s var(--ease)}
+.armed .khata .bad::after{--strike:0}
+.armed.in .khata .bad::after{--strike:1}
+.khata .note{position:absolute;left:calc(100% + 14px);top:-6px;max-width:min(180px,40vw);color:#D2382B;font-size:.82em;line-height:1.25;white-space:normal;width:180px;transform:rotate(-4deg)}
+.khata .note::before{content:"";position:absolute;left:-26px;top:16px;width:22px;height:2px;background:#D2382B}
+.khata .good{color:#1D7A45}
+.khata .tickmark{display:inline-block;width:30px;height:20px;vertical-align:middle;margin-left:8px}
+.postit{position:absolute;right:-6px;bottom:-14px;background:var(--marigold);color:var(--marigold-ink);font-family:var(--f-hand);font-size:1.3rem;line-height:1.3;padding:16px 18px;width:190px;transform:rotate(4deg);box-shadow:0 18px 30px -14px rgba(0,0,0,.7);border-radius:2px}
+.postit::before{content:"";position:absolute;top:-10px;left:50%;width:70px;height:22px;transform:translateX(-50%) rotate(-3deg);background:rgba(237,232,218,.55)}
+.stamp{position:absolute;right:16%;top:-4px;border:3px solid var(--redpen);color:var(--redpen);font-family:var(--f-display);font-stretch:78%;font-weight:800;font-size:1.25rem;padding:4px 14px;border-radius:10px;transform:rotate(-9deg);background:rgba(13,24,20,.0);letter-spacing:.01em;mix-blend-mode:normal}
+@media (max-width:900px){
+  .mist-grid{grid-template-columns:1fr}
+  .khata{padding-left:62px;padding-right:16px}
+  .khata .note{position:static;display:block;width:auto;transform:none;margin:-6px 0 4px;white-space:normal}
+  .khata .note::before{display:none}
+  .postit{position:relative;right:auto;bottom:auto;margin:-10px 0 0 auto;display:block}
+  .stamp{right:6px;top:-10px}
+}
+
+/* ===== PROGRESS ===== */
+.dash{margin-top:clamp(40px,6vw,64px);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
+.panel{background:var(--slate-2);border:1px solid var(--rule);border-radius:var(--r-lg);padding:22px;min-width:0}
+.p-label{font-size:.85rem;color:var(--chalk-3);margin:0 0 6px;display:flex;justify-content:space-between;gap:8px}
+.big{font-family:var(--f-display);font-stretch:85%;font-weight:750;font-size:2.4rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.big small{font-size:1rem;color:var(--chalk-3);font-weight:500;margin-left:4px}
+.p-hello{grid-column:span 12;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:18px}
+.p-hello h3{margin:0;font-family:var(--f-display);font-stretch:85%;font-weight:700;font-size:1.6rem}
+.p-hello p{margin:0;color:var(--chalk-2);font-size:.95rem}
+.sample{font-size:.78rem;color:var(--chalk-3);border:1px dashed var(--rule-2);border-radius:999px;padding:4px 12px;white-space:nowrap}
+.p-streak{grid-column:span 4}
+.p-time{grid-column:span 5}
+.p-goal{grid-column:span 3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}
+.p-subj{grid-column:span 7}
+.p-next{grid-column:span 5}
+.p-parent{grid-column:span 12;display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;background:transparent;border-style:dashed}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:14px;max-width:280px}
+.days i{aspect-ratio:1;border-radius:6px;background:var(--slate-3);position:relative}
+.days i.l1{background:rgba(255,178,56,.3)}.days i.l2{background:rgba(255,178,56,.6)}.days i.l3{background:var(--marigold)}
+.days i.today{outline:2px solid var(--chalk);outline-offset:1px}
+.daynames{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;font-size:.72rem;color:var(--chalk-3);text-align:center;margin-top:8px;max-width:280px}
+.weekchart{width:100%;height:auto;margin-top:12px;display:block}
+.weekchart text{fill:var(--chalk-3);font-family:var(--f-body);font-size:12px}
+.weekchart .bar{fill:var(--slate-3)}
+.weekchart .bar.hi{fill:var(--marigold)}
+.weekchart .gl{stroke:var(--rule);stroke-dasharray:3 4}
+.weekchart .val{fill:var(--chalk);font-weight:600}
+.armed .weekchart .bar{transform:scaleY(.02)}
+.weekchart .bar{transform-box:fill-box;transform-origin:bottom;transition:transform 1s var(--ease)}
+.armed.in .weekchart .bar{transform:none}
+.ring{width:132px;height:132px}
+.ring circle{fill:none;stroke-width:12}
+.ring .bg{stroke:var(--slate-3)}
+.ring .fg{stroke:var(--marigold);stroke-linecap:round;transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset 1.4s var(--ease)}
+.ring text{fill:var(--chalk);font-family:var(--f-display);font-weight:700;font-size:26px;text-anchor:middle}
+.ring .sub{font-size:12px;fill:var(--chalk-3);font-family:var(--f-body);font-weight:400}
+.subj{display:grid;gap:16px;margin-top:14px}
+.srow{display:grid;grid-template-columns:120px 1fr 48px;gap:14px;align-items:center;font-size:.95rem}
+.srow .track{height:10px;border-radius:99px;background:var(--slate-3);overflow:hidden}
+.srow .fill{height:100%;border-radius:99px;background:var(--chalk);width:var(--w);transform-origin:left;transition:transform 1.2s var(--ease)}
+.srow:first-child .fill{background:var(--marigold)}
+.armed .srow .fill{transform:scaleX(0)}
+.armed.in .srow .fill{transform:none}
+.srow .pc{text-align:right;font-variant-numeric:tabular-nums;color:var(--chalk-2)}
+.srow small{display:block;color:var(--chalk-3);font-size:.78rem;line-height:1.3}
+.next{list-style:none;margin:10px 0 0;padding:0;display:grid}
+.next li{display:grid;grid-template-columns:70px 1fr;gap:14px;padding:12px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.next li:last-child{border-bottom:0}
+.next time{font-family:var(--f-display);font-weight:700;color:var(--marigold);font-stretch:85%}
+.next span{color:var(--chalk)}
+.next small{display:block;color:var(--chalk-3);font-size:.82rem}
+.p-parent .who{font-family:var(--f-display);font-stretch:85%;font-weight:700;font-size:1.2rem}
+.p-parent p{margin:0;color:var(--chalk-2);flex:1 1 320px}
+@media (max-width:1000px){
+  .p-streak,.p-goal{grid-column:span 6}
+  .p-time{grid-column:span 12;order:3}
+  .p-subj,.p-next{grid-column:span 12}
+}
+@media (max-width:560px){
+  .dash{gap:10px}
+  .p-streak,.p-goal{grid-column:span 12}
+  .p-goal{flex-direction:row;justify-content:flex-start;text-align:left;gap:18px}
+  .ring{width:100px;height:100px}
+  .srow{grid-template-columns:96px 1fr 40px;gap:10px}
+  .panel{padding:18px}
+}
+
+/* ===== ACHIEVEMENT ===== */
+.ach{background:radial-gradient(ellipse 60% 50% at 30% 40%,rgba(255,178,56,.08),transparent 70%)}
+.ach-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,4vw,56px);margin-top:clamp(40px,6vw,64px);align-items:stretch}
+.done-card{position:relative;overflow:hidden;background:var(--chalk);color:#14201B;border-radius:28px;padding:clamp(24px,4vw,40px);display:grid;gap:22px;align-content:start}
+.done-card canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.dc-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;font-size:.9rem;color:#4A5650}
+.dc-top b{display:block;color:#14201B;font-family:var(--f-display);font-stretch:85%;font-size:1.3rem;font-weight:700}
+.dc-mid{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.dc-ring{width:128px;height:128px;flex-shrink:0}
+.dc-ring circle{fill:none;stroke-width:11}
+.dc-ring .bg{stroke:#D9D3C3}
+.dc-ring .fg{stroke:#14201B;stroke-linecap:round;transform:rotate(-90deg);transform-origin:center}
+.dc-ring text{font-family:var(--f-display);font-weight:800;font-size:30px;text-anchor:middle;fill:#14201B}
+.dc-say{font-family:var(--f-display);font-stretch:76%;font-weight:800;font-size:clamp(2.2rem,4.6vw,3.4rem);line-height:1.04;margin:0}
+.dc-say em{font-style:normal;background:var(--marigold);padding:0 .15em;border-radius:6px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.dc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1.5px solid #14201B}
+.dc-stats div{padding:14px 0 0;font-size:.85rem;color:#4A5650}
+.dc-stats b{display:block;font-family:var(--f-display);font-weight:750;font-size:1.6rem;color:#14201B;font-variant-numeric:tabular-nums;line-height:1.2}
+.celebrate{justify-self:start;min-height:44px;border-radius:999px;border:1.5px solid #14201B;background:transparent;color:#14201B;padding:0 18px;font:600 .95rem var(--f-body);cursor:pointer}
+.celebrate:hover{background:#14201B;color:var(--chalk)}
+.ach-side{display:grid;gap:14px;align-content:start}
+.path{background:var(--slate-2);border:1px solid var(--rule);border-radius:var(--r-lg);padding:22px}
+.path ol{list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:repeat(8,1fr);position:relative}
+.path ol::before{content:"";position:absolute;left:6%;right:6%;top:17px;height:2px;background:repeating-linear-gradient(90deg,var(--rule-2) 0 6px,transparent 6px 12px)}
+.path ol::after{content:"";position:absolute;left:6%;top:17px;height:2px;background:var(--marigold);width:calc(88% * 4.5 / 7)}
+.path li{display:grid;justify-items:center;gap:6px;position:relative;z-index:1;font-size:.75rem;color:var(--chalk-3);text-align:center}
+.path li i{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-family:var(--f-display);font-weight:700;background:var(--slate);border:2px solid var(--rule-2);color:var(--chalk-3)}
+.path li.d i{background:var(--marigold);border-color:var(--marigold);color:var(--marigold-ink)}
+.path li.now i{border-color:var(--marigold);color:var(--marigold);box-shadow:0 0 0 6px rgba(255,178,56,.15)}
+.badges{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.badge{background:var(--slate-2);border:1px solid var(--rule);border-radius:var(--r-md);padding:16px 10px 14px;display:grid;justify-items:center;gap:8px;text-align:center;font-size:.82rem;line-height:1.35;color:var(--chalk-2);transition:transform .3s var(--ease),border-color .3s}
+.badge:hover{transform:translateY(-4px) rotate(-1.5deg);border-color:var(--rule-2)}
+.badge svg{width:58px;height:58px}
+.badge.locked{opacity:.45}
+.badge.locked:hover{transform:none}
+.quote{margin:0;padding:18px 22px;border-left:3px solid var(--marigold);font-size:.98rem;color:var(--chalk-2);background:var(--slate-2);border-radius:0 var(--r-md) var(--r-md) 0}
+.quote b{color:var(--chalk);font-weight:600}
+@media (max-width:900px){
+  .ach-grid{grid-template-columns:1fr}
+  .badges{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:520px){
+  .path ol{grid-template-columns:repeat(4,1fr);row-gap:16px}
+  .path ol::before,.path ol::after{display:none}
+}
+
+/* ===== EXAM ===== */
+.exam-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(36px,5vw,72px);align-items:start}
+.exam-copy{display:grid;gap:24px;position:sticky;top:110px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.tags li{border:1px solid var(--rule-2);border-radius:999px;padding:6px 14px;font-size:.9rem;color:var(--chalk-2)}
+.tags li:nth-child(-n+3){border-color:rgba(255,178,56,.5);color:var(--marigold)}
+.honest{font-size:.9rem;color:var(--chalk-3);border-top:1px solid var(--rule);padding-top:16px;margin:0}
+.exam-ui{display:grid;gap:14px}
+.ex-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between}
+.ex-top .t{font-size:.88rem;color:var(--chalk-3)}
+.ex-top .t b{display:block;color:var(--chalk);font-size:1.05rem;font-weight:600}
+.timer{display:flex;align-items:center;gap:10px;background:var(--slate);border:1px solid var(--rule-2);border-radius:999px;padding:6px 16px 6px 8px}
+.timer svg{width:30px;height:30px}
+.timer circle{fill:none;stroke-width:4}
+.timer .bg{stroke:var(--slate-3)}.timer .fg{stroke:var(--marigold);stroke-linecap:round;transform:rotate(-90deg);transform-origin:center}
+.timer b{font-family:var(--f-display);font-weight:700;font-size:1.25rem;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.qnav{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px}
+.qnav button{aspect-ratio:1;min-height:32px;border-radius:8px;border:1px solid var(--rule-2);background:transparent;color:var(--chalk-2);font:600 .85rem var(--f-display);cursor:pointer;padding:0}
+.qnav button.a{background:var(--slate-3);color:var(--chalk);border-color:transparent}
+.qnav button.f{border-color:var(--redpen);color:var(--redpen)}
+.qnav button[aria-current="true"]{background:var(--marigold);color:var(--marigold-ink);border-color:var(--marigold)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.8rem;color:var(--chalk-3)}
+.legend span{display:flex;gap:6px;align-items:center}
+.legend i{width:12px;height:12px;border-radius:3px;border:1px solid var(--rule-2)}
+.legend .la{background:var(--slate-3);border:0}.legend .lf{border-color:var(--redpen)}.legend .lc{background:var(--marigold);border:0}
+.qcard{background:var(--slate);border:1px solid var(--rule);border-radius:var(--r-md);padding:20px}
+.qcard .qh{display:flex;justify-content:space-between;font-size:.85rem;color:var(--chalk-3);margin-bottom:8px;gap:8px;flex-wrap:wrap}
+.qcard .qt{font-size:1.2rem;font-weight:500;margin:0 0 16px}
+.qcard .qt .m{font-family:var(--f-hand);font-size:1.25em;color:var(--marigold)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;border:0;margin:0;padding:0}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0}
+.opt label{display:flex;gap:12px;align-items:center;min-height:52px;padding:10px 14px;border:1px solid var(--rule-2);border-radius:12px;cursor:pointer;transition:all .2s;font-size:1.05rem}
+.opt label i{font-style:normal;width:28px;height:28px;border-radius:8px;border:1px solid var(--rule-2);display:grid;place-items:center;font-size:.9rem;color:var(--chalk-3);flex-shrink:0}
+.opt input:hover+label{border-color:var(--chalk-3)}
+.opt input:focus-visible+label{outline:2px solid var(--marigold);outline-offset:2px}
+.opt input:checked+label{border-color:var(--marigold);background:rgba(255,178,56,.07)}
+.opt input:checked+label i{background:var(--marigold);color:var(--marigold-ink);border-color:var(--marigold)}
+.qfoot{display:flex;justify-content:space-between;align-items:center;margin-top:16px;gap:10px;flex-wrap:wrap;font-size:.88rem;color:var(--chalk-3)}
+.qfoot button{min-height:42px;border-radius:999px;padding:0 16px;font:500 .9rem var(--f-body);cursor:pointer;background:transparent;border:1px solid var(--rule-2);color:var(--chalk-2)}
+.qfoot .nxt{background:var(--chalk);color:#14201B;border-color:var(--chalk);font-weight:600}
+.script{display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:start}
+.mini-page{background:var(--paper);border-radius:6px;padding:14px 12px 14px 22px;color:var(--ink);font-family:var(--f-hand);font-size:.9rem;line-height:24px;transform:rotate(-2deg);position:relative;
+  background-image:linear-gradient(90deg,transparent 14px,rgba(220,60,50,.5) 14px 15px,transparent 15px),repeating-linear-gradient(180deg,transparent 0 23px,var(--paper-rule) 23px 24px);background-position:0 0,0 13px;box-shadow:0 14px 24px -12px rgba(0,0,0,.7)}
+.mini-page .r{color:#D2382B}
+.mini-page .ring-mark{position:absolute;right:14px;top:58px;width:58px;height:28px;border:2px solid #D2382B;border-radius:50%;transform:rotate(-8deg)}
+.fb{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:.92rem}
+.fb li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;color:var(--chalk-2)}
+.fb li::before{content:"";width:18px;height:18px;border-radius:50%;margin-top:4px}
+.fb .ok::before{background:var(--tick)}
+.fb .no::before{background:var(--redpen)}
+.fb .tip2::before{background:var(--marigold)}
+.fb b{color:var(--chalk);font-weight:600}
+.score-sug{margin-top:12px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:.88rem;color:var(--chalk-3);border-top:1px dashed var(--rule-2);padding-top:12px}
+.score-sug b{font-family:var(--f-display);font-weight:750;font-size:1.4rem;color:var(--chalk)}
+@media (max-width:900px){
+  .exam-grid{grid-template-columns:1fr}
+  .exam-copy{position:static}
+}
+@media (max-width:560px){
+  .qnav{grid-template-columns:repeat(10,minmax(0,1fr));gap:4px}
+  .qnav button{min-height:28px;font-size:.75rem;border-radius:6px}
+  .opts{grid-template-columns:1fr}
+  .script{grid-template-columns:1fr}
+  .mini-page{max-width:200px}
+}
+
+/* ===== GROUP ===== */
+.grp-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(36px,5vw,72px);align-items:center}
+.room{background:var(--slate-2);border:1px solid var(--rule);border-radius:28px;padding:16px;display:grid;gap:12px}
+.room-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:4px 6px;font-size:.88rem;color:var(--chalk-3);flex-wrap:wrap}
+.room-bar b{color:var(--chalk);font-weight:600}
+.tiles{display:grid;grid-template-columns:1fr 1.3fr 1fr;grid-template-rows:auto auto;gap:10px}
+.tile{background:var(--slate-3);border-radius:18px;padding:14px;display:grid;gap:8px;align-content:space-between;min-height:150px;position:relative;border:1.5px solid transparent;min-width:0}
+.tile .who{display:flex;gap:10px;align-items:center}
+.tile .av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.05rem;color:#14201B;flex-shrink:0}
+.tile .nm{font-weight:600;font-size:.95rem;line-height:1.2}
+.tile .nm small{display:block;color:var(--chalk-3);font-weight:400;font-size:.78rem}
+.tile .st{font-size:.85rem;color:var(--chalk-2);line-height:1.4}
+.tile.raised{border-color:var(--marigold)}
+.hand-up{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;background:var(--marigold);display:grid;place-items:center;animation:wave 2.4s ease-in-out infinite;transform-origin:50% 80%}
+.hand-up svg{width:18px;height:18px}
+@keyframes wave{0%,60%,100%{transform:rotate(0)}70%{transform:rotate(-14deg)}80%{transform:rotate(12deg)}90%{transform:rotate(-6deg)}}
+.tile.tutor-t{grid-column:2;grid-row:1 / span 2;background:var(--slate);border-color:var(--rule-2);align-content:center;justify-items:center;text-align:center;gap:14px}
+.tutor-mark{width:84px;height:84px;border-radius:26px 26px 26px 8px;background:var(--marigold);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:2.6rem;color:var(--marigold-ink);position:relative}
+.wave{display:flex;gap:4px;align-items:center;height:28px}
+.wave i{width:4px;border-radius:2px;background:var(--marigold);height:30%;animation:wv 1.1s ease-in-out infinite}
+.wave i:nth-child(2){animation-delay:.1s}.wave i:nth-child(3){animation-delay:.25s}.wave i:nth-child(4){animation-delay:.05s}.wave i:nth-child(5){animation-delay:.35s}.wave i:nth-child(6){animation-delay:.2s}.wave i:nth-child(7){animation-delay:.15s}
+@keyframes wv{50%{height:100%}}
+.tutor-t .say{font-size:.95rem;color:var(--chalk);max-width:24ch;margin:0}
+.queue{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--slate);border-radius:14px;padding:12px 14px;font-size:.88rem;color:var(--chalk-3)}
+.queue b{color:var(--chalk);font-weight:600}
+.queue .q{display:inline-flex;align-items:center;gap:6px;background:var(--slate-3);border-radius:999px;padding:4px 10px 4px 4px;color:var(--chalk-2)}
+.queue .q i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:.72rem;font-weight:700;color:#14201B}
+.grp-copy{display:grid;gap:24px}
+.feat2{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:0 24px;border-top:1px solid var(--rule)}
+.feat2 li{padding:13px 0;border-bottom:1px solid var(--rule);color:var(--chalk-2);font-size:.97rem;display:flex;gap:10px;align-items:baseline}
+.feat2 li::before{content:"";width:6px;height:6px;background:var(--marigold);transform:rotate(45deg) translateY(-3px);flex-shrink:0}
+.invite{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--slate-2);border:1px dashed var(--rule-2);border-radius:var(--r-md);padding:12px 12px 12px 18px}
+.invite span{font-size:.88rem;color:var(--chalk-3)}
+.invite code{font-family:var(--f-mono);font-size:1.05rem;color:var(--chalk);letter-spacing:.06em}
+.invite button{margin-left:auto;min-height:42px;border-radius:999px;border:1px solid var(--rule-2);background:transparent;color:var(--chalk);padding:0 16px;font:500 .9rem var(--f-body);cursor:pointer}
+.invite button:hover{border-color:var(--marigold);color:var(--marigold)}
+@media (max-width:900px){.grp-grid{grid-template-columns:1fr}.grp-copy{order:-1}}
+@media (max-width:560px){
+  .tiles{grid-template-columns:1fr 1fr}
+  .tile.tutor-t{grid-column:1 / span 2;grid-row:1;padding:20px;grid-template-columns:auto 1fr;justify-items:start;text-align:left;align-items:center}
+  .tutor-mark{width:64px;height:64px;font-size:2rem;grid-row:span 2}
+  .tile{min-height:128px}
+  .feat2{grid-template-columns:1fr}
+}
+
+/* ===== FINAL ===== */
+.final{padding-block:clamp(100px,14vw,190px);overflow:hidden;border-top:1px solid var(--rule)}
+.final canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.final .ghost{position:absolute;left:50%;bottom:-.2em;transform:translateX(-50%);font-family:var(--f-display);font-stretch:75%;font-weight:800;font-size:clamp(7rem,26vw,22rem);line-height:1;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(237,232,218,.08);pointer-events:none;user-select:none}
+.final-in{position:relative;display:grid;gap:28px;justify-items:start;max-width:980px}
+.final .h-hero{font-size:clamp(3rem,8vw,7rem)}
+.final .scribble{font-family:var(--f-hand);font-size:clamp(1.3rem,2.4vw,1.8rem);color:var(--marigold);transform:rotate(-2deg);margin:0;display:flex;align-items:center;gap:12px}
+.final .scribble svg{width:60px;height:30px;flex-shrink:0}
+
+/* ===== FOOTER ===== */
+footer{border-top:1px solid var(--rule);padding-block:64px calc(40px + env(safe-area-inset-bottom,0px));background:var(--slate)}
+.ft{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px}
+.ft p{color:var(--chalk-3);font-size:.95rem;max-width:30em;margin:14px 0 0}
+.ft h4{margin:0 0 12px;font-family:var(--f-display);font-stretch:90%;font-weight:600;font-size:.95rem;color:var(--chalk-3);letter-spacing:.02em}
+.ft ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.ft a{text-decoration:none;color:var(--chalk-2)}
+.ft a:hover{color:var(--marigold)}
+.ft-bot{margin-top:48px;padding-top:20px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.85rem;color:var(--chalk-3)}
+@media (max-width:820px){.ft{grid-template-columns:1fr 1fr}.ft>div:first-child{grid-column:span 2}}
+
+/* ===== DESIGN NOTES (reference mode) ===== */
+.dnote{display:none;font-family:var(--f-mono);font-size:12.5px;line-height:1.55;color:#FFD9A0;background:rgba(255,178,56,.07);border:1px dashed rgba(255,178,56,.55);border-radius:10px;padding:12px 14px;margin-bottom:28px;max-width:760px}
+.dnote b{color:var(--marigold);font-weight:700;letter-spacing:.06em}
+body.notes .dnote{display:block}
+.notes-toggle{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:80;min-height:46px;border-radius:999px;border:1px solid var(--rule-2);background:var(--slate-2);color:var(--chalk);padding:0 18px;font:600 .9rem var(--f-body);cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 14px 30px -10px rgba(0,0,0,.7)}
+.notes-toggle i{width:10px;height:10px;border-radius:50%;background:var(--chalk-3)}
+.notes-toggle[aria-pressed="true"] i{background:var(--marigold);box-shadow:0 0 0 4px rgba(255,178,56,.2)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .circled path{stroke-dashoffset:0}
+}
+</style>
+
+<div class="board-tex" aria-hidden="true"></div>
+
+<header class="hdr">
+  <div class="wrap hdr-in">
+    <a class="logo" href="#top" aria-label="পড়া হবে! হোম">
+      <span class="logo-mark" aria-hidden="true">প</span>
+      <span class="logo-word">পড়া হবে<em>!</em></span>
+    </a>
+    <nav class="nav" aria-label="প্রধান মেনু">
+      <a href="#top" aria-current="page">হোম</a>
+      <a href="#how">কীভাবে কাজ করে</a>
+      <a href="#features">ফিচারসমূহ</a>
+      <a href="#about">আমাদের সম্পর্কে</a>
+    </nav>
+    <div class="hdr-act">
+      <a class="btn-ghost" href="#">লগইন</a>
+      <a class="btn btn-sm" href="#start">পড়া শুরু করো</a>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sheet">মেনু
+        <svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true"><path d="M1 1h16M1 6h16M1 11h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="মেনু" hidden>
+  <div class="sheet-top">
+    <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true">প</span><span class="logo-word">পড়া হবে<em>!</em></span></a>
+    <button class="menu-btn" id="closeBtn" style="display:inline-flex">বন্ধ করো ✕</button>
+  </div>
+  <nav aria-label="মোবাইল মেনু">
+    <a href="#top">হোম <small>শুরু থেকে</small></a>
+    <a href="#how">কীভাবে কাজ করে <small>লাইভ ডেমো</small></a>
+    <a href="#features">ফিচারসমূহ <small>৮টি অংশ</small></a>
+    <a href="#about">আমাদের সম্পর্কে <small>কারা আমরা</small></a>
+  </nav>
+  <p class="sheet-quip">প্যাঁচ যতই থাকুক, পড়া হবে!</p>
+  <div class="sheet-foot">
+    <a class="btn btn-lg" href="#start">চলো, পড়া শুরু করি! <span class="arr">→</span></a>
+    <a class="login" href="#">লগইন</a>
+  </div>
+</div>
+
+<main>
+
+<!-- ===================== 01 HERO ===================== -->
+<section class="hero" id="top" aria-labelledby="hero-h">
+  <div class="wrap">
+    <div class="dnote"><b>HERO · ART DIRECTION</b><br>Over-the-shoulder night study scene. In production, replace the SVG with a real photo: a Bangladeshi student (class 8–10) at a home desk, lamp light, steel window grill, a glass of cha. Warm practical light, no studio look, no stock smile. Keep the live tutor card overlapping the photo's bottom-left corner. Headline sits on the dark board, never on the image.</div>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="kicker"><span class="dot"></span>তোমার নিজের AI Home Tutor · ক্লাস ৬–১২</p>
+        <h1 class="h-hero" id="hero-h">পড়ার <span class="circled">সিন<svg viewBox="0 0 200 110" preserveAspectRatio="none" aria-hidden="true"><path d="M150 14C108 -2 30 8 12 46c-16 34 30 58 92 56 62-2 96-26 88-58C186 20 150 8 98 12"/></svg></span> এবার<br><span class="hl">বদলে যাবে!</span></h1>
+        <p class="lede">তোমার নিজের AI Home Tutor। পড়বে, বুঝবে, প্রশ্ন করবে, ভুল করবে, আবার শিখবে। সবকিছু তোমার নিজের গতিতে।</p>
+        <div class="cta-row">
+          <a class="btn btn-lg" href="#start">চলো, পড়া শুরু করি! <span class="arr" aria-hidden="true">→</span></a>
+          <a class="btn-line" href="#how">কীভাবে কাজ করে?</a>
+        </div>
+        <ul class="trust">
+          <li>বাংলা মিডিয়াম ও ইংলিশ ভার্সন</li>
+          <li>বই ধরে, অধ্যায় ধরে</li>
+          <li>অভিভাবকের জন্য সাপ্তাহিক রিপোর্ট</li>
+        </ul>
+      </div>
+
+      <div class="hero-visual">
+        <div class="sticker" role="note">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 20c0-2 2-3 3.5-2s1.5 4-1 5.5-6 .5-7-3 1.5-7.5 5.5-8 9 2 9.5 7-3 10-8.5 10.5S10 27 9.5 21 13 9.5 19.5 9" fill="none" stroke="#241600" stroke-width="2.6" stroke-linecap="round"/></svg>
+          <b>প্যাঁচ যতই থাকুক, পড়া হবে!</b>
+        </div>
+
+        <div class="scene">
+          <svg viewBox="0 0 520 560" role="img" aria-label="রাতে পড়ার টেবিলে বসে ল্যাপটপে অঙ্ক করছে এক শিক্ষার্থী; পাশে টেবিল ল্যাম্প, জানালার গ্রিল আর এক গ্লাস চা">
+            <defs>
+              <radialGradient id="lg" cx="0.42" cy="0.05" r="0.95"><stop offset="0" stop-color="#FFB238" stop-opacity=".55"/><stop offset=".55" stop-color="#FFB238" stop-opacity=".12"/><stop offset="1" stop-color="#FFB238" stop-opacity="0"/></radialGradient>
+              <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0A2427"/><stop offset="1" stop-color="#173B37"/></linearGradient>
+              <linearGradient id="scr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF6DE"/><stop offset="1" stop-color="#F7DDA0"/></linearGradient>
+              <radialGradient id="sg" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#FFE7B0" stop-opacity=".35"/><stop offset="1" stop-color="#FFE7B0" stop-opacity="0"/></radialGradient>
+              <linearGradient id="tea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E08A2B"/><stop offset="1" stop-color="#8A3E10"/></linearGradient>
+            </defs>
+            <rect width="520" height="560" fill="#12201B"/>
+            <!-- window with Dhaka-style grill -->
+            <rect x="286" y="36" width="196" height="214" rx="6" fill="url(#sky)"/>
+            <circle cx="432" cy="88" r="17" fill="#F3EBD5" opacity=".9"/>
+            <circle cx="425" cy="84" r="16" fill="#0E2A2B" opacity=".9"/>
+            <circle cx="330" cy="70" r="1.6" fill="#F3EBD5"/><circle cx="372" cy="118" r="1.2" fill="#F3EBD5"/><circle cx="458" cy="160" r="1.4" fill="#F3EBD5"/>
+            <g stroke="#2E4B42" stroke-width="3" fill="none">
+              <path d="M310 36v214M335 36v214M360 36v214M384 36v214M408 36v214M433 36v214M458 36v214"/>
+              <path d="M286 108h196M286 178h196"/>
+              <path d="M335 143c0-14 25-14 25 0s-25 14-25 0zM408 143c0-14 25-14 25 0s-25 14-25 0z"/>
+              <path d="M360 72c12 0 12 18 24 18s12-18 24-18"/>
+              <path d="M360 214c12 0 12 18 24 18s12-18 24-18"/>
+            </g>
+            <rect x="286" y="36" width="196" height="214" rx="6" fill="none" stroke="#24392F" stroke-width="8"/>
+            <!-- lamp light -->
+            <polygon class="glow" points="128,150 -40,470 360,470" fill="url(#lg)"/>
+            <!-- desk -->
+            <rect x="0" y="440" width="520" height="120" fill="#24190F"/>
+            <rect x="0" y="440" width="520" height="4" fill="#3A2A1A"/>
+            <!-- lamp -->
+            <ellipse cx="92" cy="440" rx="40" ry="8" fill="#0B1310"/>
+            <path d="M92 436 L66 300 L128 168" stroke="#0B1310" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <circle cx="66" cy="300" r="7" fill="#0B1310"/>
+            <path d="M100 150 L160 132 L170 172 Q140 190 112 178 Z" fill="#0B1310"/>
+            <ellipse cx="140" cy="176" rx="22" ry="6" fill="#FFD27A" opacity=".85"/>
+            <!-- laptop -->
+            <rect x="198" y="296" width="208" height="136" rx="8" fill="#0B1310"/>
+            <rect x="206" y="304" width="192" height="120" rx="3" fill="url(#scr)"/>
+            <ellipse cx="302" cy="364" rx="160" ry="110" fill="url(#sg)"/>
+            <text x="222" y="336" font-family="Atma, cursive" font-size="22" fill="#22408F">2x + 5 = 15</text>
+            <rect x="222" y="350" width="104" height="18" rx="9" fill="#14201B" opacity=".85"/>
+            <rect x="290" y="374" width="94" height="18" rx="9" fill="#FFB238"/>
+            <rect x="222" y="398" width="70" height="12" rx="6" fill="#14201B" opacity=".25"/>
+            <path d="M184 432 h236 l-12 10 h-212z" fill="#1A2620"/>
+            <!-- tea glass -->
+            <ellipse cx="438" cy="440" rx="24" ry="5" fill="#0B1310"/>
+            <path d="M424 396 h30 l-4 42 h-22z" fill="rgba(237,232,218,.18)" stroke="rgba(237,232,218,.4)" stroke-width="1.5"/>
+            <path d="M425.5 408 h27 l-2.8 29 h-21.4z" fill="url(#tea)"/>
+            <path class="steam" d="M432 388c-6-8 6-12 0-20"/>
+            <path class="steam s2" d="M445 390c-6-8 6-12 0-20"/>
+            <!-- books -->
+            <rect x="470" y="420" width="62" height="20" rx="2" fill="#7A2E2A"/>
+            <rect x="466" y="402" width="62" height="18" rx="2" fill="#1F4F44"/>
+            <rect x="474" y="386" width="58" height="16" rx="2" fill="#C78B2A"/>
+            <text x="478" y="415" font-family="Hind Siliguri" font-size="10" fill="#F3EBD5">গণিত</text>
+            <!-- student, over-the-shoulder -->
+            <path d="M40 560 C46 488 104 474 176 474 C248 474 300 488 310 560 Z" fill="#0A110E"/>
+            <path d="M120 478 C150 492 200 492 232 478" stroke="#1C2D26" stroke-width="3" fill="none"/>
+            <circle cx="176" cy="420" r="52" fill="#0A110E"/>
+            <ellipse cx="146" cy="380" rx="22" ry="20" fill="#0A110E"/>
+            <path d="M216 400 c10 6 14 18 10 30" stroke="#FFB238" stroke-opacity=".35" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <div class="hero-chat" aria-label="টিউটরের সাথে কথোপকথনের নমুনা">
+          <div class="hc-top"><span><b>গণিত</b> · সরল সমীকরণ</span><span class="hc-prog" aria-label="৫টির মধ্যে ৪টি ধাপ শেষ"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div>
+          <div class="bub t">চলো দেখি, 2x + 5 = 15 হলে x-এর মান কত?</div>
+          <div class="bub s">x = 5!</div>
+          <div class="bub win">একদম ঠিক! চ্যাপ্টার ক্লিয়ার, বস!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>এই তো! মাথায় ঢুকছে!</span><span>ভুল থেকে Level Up!</span><span>চ্যাপ্টার ক্লিয়ার, বস!</span><span>আজকে পড়া হবে, বুঝেও হবে!</span><span>প্যাঁচ যতই থাকুক, পড়া হবে!</span>
+    <span>এই তো! মাথায় ঢুকছে!</span><span>ভুল থেকে Level Up!</span><span>চ্যাপ্টার ক্লিয়ার, বস!</span><span>আজকে পড়া হবে, বুঝেও হবে!</span><span>প্যাঁচ যতই থাকুক, পড়া হবে!</span>
+  </div>
+</div>
+
+<!-- ===================== 02 STATEMENT ===================== -->
+<section class="statement" id="features" aria-labelledby="st-h">
+  <div class="wrap">
+    <div class="dnote"><b>STATEMENT · LAYOUT</b><br>Not three cards. One oversized left-aligned headline, then three full-width rows separated by hairlines. Each row = huge verb + outlined "শেখো" + one line of copy + a tiny working UI demo (tap the word, tap a chip). The demos are the icons.</div>
+    <div class="st-top rv-group">
+      <h2 class="h-xl rv" id="st-h">শুধু পড়া নয়, এবার শেখা <span class="squig">জমবে!<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M2 12c18-10 30 8 48 0s30-10 48 0 30 8 48 0 30-10 50 0"/></svg></span></h2>
+      <p class="lede rv">এখানে শুধু উত্তর মুখস্থ করতে হবে না। প্রতিটি বিষয় বুঝে শেখা, নিজের হাতে সমাধান করা আর ভুল থেকে আরও ভালো হওয়ার সুযোগ আছে।</p>
+    </div>
+
+    <ul class="ways">
+      <li class="way">
+        <div class="way-word">বুঝে <span class="outline">শেখো</span></div>
+        <p><b>কঠিন বিষয় সহজভাবে বুঝে নাও।</b>বইয়ের ভাষা কঠিন লাগলে Tutor সেটা তোমার ভাষায় বলবে।</p>
+        <div class="demo">
+          পাতা দিয়ে গাছ <span class="term" tabindex="0">সালোকসংশ্লেষণ</span> করে।
+          <div class="tip"><i>?</i><span>মানে গাছের নিজের রান্নাঘর: আলো + পানি + CO₂ দিয়ে নিজের খাবার বানায়।</span></div>
+        </div>
+      </li>
+      <li class="way">
+        <div class="way-word">প্রশ্ন করে <span class="outline">শেখো</span></div>
+        <p><b>প্রতিটি লেসনে থাকবে ইন্টারঅ্যাকশন।</b>“কেন?” জিজ্ঞেস করতে লজ্জা নেই। যতবার খুশি।</p>
+        <div class="demo">
+          <span style="color:var(--chalk-3);font-size:.85rem">বুঝতে পারোনি? চাপ দাও:</span>
+          <div class="chips" role="group" aria-label="প্রশ্নের ধরন">
+            <button class="chip" aria-pressed="true">কেন এমন হয়?</button>
+            <button class="chip" aria-pressed="false">উদাহরণ দাও</button>
+            <button class="chip" aria-pressed="false">আরেকটু সহজ করে</button>
+          </div>
+        </div>
+      </li>
+      <li class="way">
+        <div class="way-word">ভুল থেকে <span class="outline">শেখো</span></div>
+        <p><b>ভুল হলেই পাবে সঠিক ব্যাখ্যা ও নতুন অনুশীলন।</b>ভুলটা কোথায়, সেটা আগে বোঝো। তারপর আবার চেষ্টা।</p>
+        <div class="demo">
+          <div class="wrongfix"><span>৭ × ৮ =</span> <s>৫৪</s> <span class="ok">৫৬ ✓</span><small>৭-এর ঘরের নামতা নিয়ে আরও ৩টা প্র্যাকটিস যোগ হলো</small></div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== 03 TUTOR ===================== -->
+<section class="tutor" id="how" aria-labelledby="tu-h">
+  <div class="wrap">
+    <div class="dnote"><b>INTERACTIVE TUTOR · THE KEY SECTION</b><br>Real product UI, not a screenshot. Left: the "board" with the solution steps, synced to the chat. Right: the conversation plays out with typing dots, a hint appears after the wrong answer, steps tick green as the student gets them. Replays on scroll-in and via the button. Wrong answers are never shown in red here; only the hint.</div>
+    <div class="tutor-head">
+      <div class="sec-head">
+        <p class="kicker"><span class="dot"></span>কীভাবে কাজ করে</p>
+        <h2 class="h-xl" id="tu-h">প্যাঁচ যতই থাকুক, <span class="mark">পড়া হবে!</span></h2>
+        <p class="lede">বইয়ের কঠিন অঙ্ক হোক কিংবা বিজ্ঞানের জটিল কোনো বিষয়, তোমার AI Tutor ধাপে ধাপে বুঝিয়ে দেবে।</p>
+      </div>
+    </div>
+
+    <div class="app" id="tutorApp">
+      <div class="app-bar">
+        <b>গণিত</b><span class="sep">/</span><span>অধ্যায় ৫: সরল সমীকরণ</span><span class="sep">/</span><span>অনুশীলনী ৫.১</span>
+        <span class="live">Tutor অনলাইন</span>
+      </div>
+      <div class="app-body">
+        <div class="boardpane">
+          <p class="bp-label">বোর্ড · ধাপে ধাপে সমাধান</p>
+          <ol class="steps" id="steps">
+            <li class="step done"><div><span class="eq">2x + 5 = 15</span><span class="why">প্রশ্নটা লিখে নিলাম</span></div></li>
+            <li class="step done"><div><span class="eq">2x = 10</span><span class="why">দুই পাশ থেকে 5 বাদ</span></div></li>
+            <li class="step done"><div><span class="eq">x = 5</span><span class="why">দুই পাশকে 2 দিয়ে ভাগ</span></div></li>
+          </ol>
+        </div>
+        <div class="chatpane">
+          <div class="msgs" id="msgs" aria-live="polite">
+            <div class="msg t"><span class="ava" aria-hidden="true">প</span><div class="bub t">চলো দেখি, 2x + 5 = 15 হলে x-এর মান কত?</div></div>
+            <div class="msg s"><span class="ava" aria-hidden="true">না</span><div class="bub s">10?</div></div>
+            <div class="msg t"><span class="ava" aria-hidden="true">প</span><div class="bub t">একটু চিন্তা করো! প্রথমে দুই পাশ থেকে 5 বাদ দিলে কী থাকে?</div></div>
+            <div class="hint">হিন্ট: x-কে একা করতে হলে আগে +5 সরাতে হবে</div>
+            <div class="msg s"><span class="ava" aria-hidden="true">না</span><div class="bub s">2x = 10!</div></div>
+            <div class="msg t"><span class="ava" aria-hidden="true">প</span><div class="bub t">এই তো! মাথায় ঢুকছে! এবার দুই পাশকে 2 দিয়ে ভাগ করো।</div></div>
+            <div class="msg s"><span class="ava" aria-hidden="true">না</span><div class="bub s">x = 5!</div></div>
+            <div class="msg t"><span class="ava" aria-hidden="true">প</span><div class="bub win">একদম ঠিক! চ্যাপ্টার ক্লিয়ার, বস!</div></div>
+          </div>
+          <div class="composer">
+            <div class="field">উত্তর লেখো বা প্রশ্ন করো…</div>
+            <button class="replay" id="replay" type="button"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>আবার দেখাও</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 04 MISTAKES ===================== -->
+<section class="mistakes" aria-labelledby="mi-h">
+  <div class="wrap">
+    <div class="dnote"><b>MISTAKES · EMOTIONAL BEAT</b><br>The only bright surface on the page: a real khata page (ruled lines, red margin, binder holes). Student writes in blue ballpoint (handwriting font), the tutor corrects in red pen with a margin note, never a big red X. The strike-through draws itself on scroll. Marigold sticky note + rubber stamp = celebration, not shame.</div>
+    <div class="mist-grid">
+      <div class="mist-copy">
+        <p class="kicker"><span class="dot"></span>ভুল করাটাও পড়ার অংশ</p>
+        <h2 class="h-xl" id="mi-h">ভুল হইছে? সমস্যা নাই, <span class="mark">আবার হবে!</span></h2>
+        <p class="lede">ভুল করা মানেই তুমি পারো না, এমন নয়। ভুল থেকেই শেখা শুরু হয়। তোমার Tutor বুঝবে কোথায় সমস্যা হচ্ছে এবং আবার বুঝিয়ে দেবে।</p>
+        <ul class="fixlist">
+          <li><b>কোথায়</b><span>ঠিক কোন লাইনে গড়বড়, সেটা ধরিয়ে দেবে</span></li>
+          <li><b>কেন</b><span>নিয়মটা আবার বুঝিয়ে দেবে, অন্য উদাহরণ দিয়ে</span></li>
+          <li><b>আবার</b><span>একই ধরনের নতুন প্রশ্ন দেবে, যতক্ষণ না পোক্ত হয়</span></li>
+        </ul>
+      </div>
+      <div class="khata-wrap">
+        <div class="stamp">ভুল থেকে Level Up!</div>
+        <div class="khata" role="img" aria-label="খাতায় অঙ্ক: 3(x − 2) = 12। প্রথম চেষ্টায় 3x − 2 লেখা ভুল, লাল কালিতে কেটে মার্জিনে লেখা ৩ দিয়ে দুইটাকেই গুণ করতে হবে। পরে সঠিক সমাধান x = 6।">
+          <div class="holes" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <span class="line q">প্রশ্ন ৩। সমাধান করো: 3(x − 2) = 12</span>
+          <span class="line"><span class="bad">3x − 2 = 12</span><span class="note">৩ দিয়ে দুইটাকেই গুণ করতে হবে!</span></span>
+          <span class="line">3x − 6 = 12</span>
+          <span class="line">3x = 18</span>
+          <span class="line good">x = 6 <svg class="tickmark" viewBox="0 0 30 20" aria-hidden="true"><path d="M2 10l8 8L28 2" fill="none" stroke="#1D7A45" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="line" style="color:#5B5A52;font-size:.8em">২য় চেষ্টায় সঠিক · ৩০ সেকেন্ড কম সময়ে</span>
+        </div>
+        <div class="postit">এই তো!<br>মাথায় ঢুকছে!</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 05 PROGRESS ===================== -->
+<section class="progress" aria-labelledby="pr-h">
+  <div class="wrap">
+    <div class="dnote"><b>PROGRESS · DASHBOARD</b><br>Looks like the real student app. Week starts শনিবার (Bangladesh school week). Bangla numerals everywhere. Mark it clearly as sample data. The dashed parent strip is the line written for guardians.</div>
+    <div class="sec-head">
+      <p class="kicker"><span class="dot"></span>তোমার অগ্রগতি</p>
+      <h2 class="h-xl" id="pr-h">পড়ো একটু, <span class="mark">এগিয়ে যাও</span> অনেকটা!</h2>
+      <p class="lede">প্রতিদিনের ছোট ছোট শেখাই তোমাকে নিয়ে যাবে বড় সাফল্যের দিকে। নিজের পড়ার অগ্রগতি নিজেই দেখো।</p>
+    </div>
+
+    <div class="dash">
+      <div class="panel p-hello">
+        <div><h3>শুভ সন্ধ্যা, নাদিয়া</h3><p>ক্লাস ৮ · আজকের লক্ষ্যের আর ১৩ মিনিট বাকি</p></div>
+        <span class="sample">নমুনা ড্যাশবোর্ড · উদাহরণ ডেটা</span>
+      </div>
+
+      <div class="panel p-streak">
+        <p class="p-label"><span>টানা পড়ার স্ট্রিক</span><span>এই মাস</span></p>
+        <div class="big">১২ <small>দিন</small></div>
+        <div class="days" aria-label="গত চার সপ্তাহের পড়ার দিন">
+          <i class="l1"></i><i class="l2"></i><i></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i></i>
+          <i class="l2"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l1"></i><i class="l2"></i><i class="l1"></i>
+          <i class="l3"></i><i class="l2"></i><i class="l2"></i><i class="l1"></i><i class="l3"></i><i class="l2"></i><i class="l3"></i>
+          <i class="l2"></i><i class="l3"></i><i class="l1"></i><i class="l2 today"></i><i></i><i></i><i></i>
+        </div>
+        <div class="daynames"><span>শ</span><span>র</span><span>সো</span><span>ম</span><span>বু</span><span>বৃ</span><span>শু</span></div>
+      </div>
+
+      <div class="panel p-time">
+        <p class="p-label"><span>এই সপ্তাহে পড়ার সময়</span><span style="color:var(--tick)">গত সপ্তাহের চেয়ে ৪০ মি বেশি</span></p>
+        <div class="big">৬ <small>ঘণ্টা</small> ৪০ <small>মিনিট</small></div>
+        <svg class="weekchart" viewBox="0 0 420 150" role="img" aria-label="দিনভিত্তিক পড়ার সময়: শনি ৫০, রবি ৬৫, সোম ৪০, মঙ্গল ৮০, বুধ ৭০, বৃহস্পতি ৯৫ মিনিট">
+          <line class="gl" x1="0" x2="420" y1="20" y2="20"/><line class="gl" x1="0" x2="420" y1="70" y2="70"/>
+          <text x="0" y="15">১০০ মি</text><text x="0" y="65">৫০ মি</text>
+          <g>
+            <rect class="bar" x="40"  y="70"  width="38" height="50" rx="6"/>
+            <rect class="bar" x="102" y="55"  width="38" height="65" rx="6"/>
+            <rect class="bar" x="164" y="80"  width="38" height="40" rx="6"/>
+            <rect class="bar" x="226" y="40"  width="38" height="80" rx="6"/>
+            <rect class="bar" x="288" y="50"  width="38" height="70" rx="6"/>
+            <rect class="bar hi" x="350" y="25" width="38" height="95" rx="6"/>
+          </g>
+          <text class="val" x="369" y="18" text-anchor="middle">৯৫</text>
+          <g text-anchor="middle"><text x="59" y="142">শনি</text><text x="121" y="142">রবি</text><text x="183" y="142">সোম</text><text x="245" y="142">মঙ্গল</text><text x="307" y="142">বুধ</text><text x="369" y="142">বৃহঃ</text></g>
+        </svg>
+      </div>
+
+      <div class="panel p-goal">
+        <svg class="ring" viewBox="0 0 140 140" role="img" aria-label="আজকের লক্ষ্য ৪৫ মিনিটের মধ্যে ৩২ মিনিট শেষ">
+          <circle class="bg" cx="70" cy="70" r="58"/>
+          <circle class="fg" id="goalRing" cx="70" cy="70" r="58" stroke-dasharray="364.4" stroke-dashoffset="105.7"/>
+          <text x="70" y="74">৩২/৪৫</text><text class="sub" x="70" y="94">মিনিট</text>
+        </svg>
+        <div><p class="p-label" style="justify-content:center;margin:0">আজকের লক্ষ্য</p><span style="font-size:.9rem;color:var(--chalk-2)">আর একটা লেসন!</span></div>
+      </div>
+
+      <div class="panel p-subj">
+        <p class="p-label"><span>বিষয়ভিত্তিক অগ্রগতি</span><span>শেষ ১৮/৪২ অধ্যায়</span></p>
+        <div class="subj">
+          <div class="srow"><span>গণিত<small>সরল সমীকরণ চলছে</small></span><div class="track"><div class="fill" style="--w:72%"></div></div><span class="pc">৭২%</span></div>
+          <div class="srow"><span>বিজ্ঞান<small>আলোর প্রতিফলন</small></span><div class="track"><div class="fill" style="--w:58%"></div></div><span class="pc">৫৮%</span></div>
+          <div class="srow"><span>ইংরেজি<small>Tense, Voice</small></span><div class="track"><div class="fill" style="--w:45%"></div></div><span class="pc">৪৫%</span></div>
+          <div class="srow"><span>ICT<small>নেটওয়ার্ক</small></span><div class="track"><div class="fill" style="--w:80%"></div></div><span class="pc">৮০%</span></div>
+        </div>
+      </div>
+
+      <div class="panel p-next">
+        <p class="p-label"><span>সামনের লেসন</span><span>৩টি</span></p>
+        <ul class="next">
+          <li><time>আজ ৭:৩০</time><span>আলোর প্রতিফলন<small>বিজ্ঞান · ২০ মিনিট</small></span></li>
+          <li><time>কাল</time><span>বীজগাণিতিক রাশি<small>গণিত · অনুশীলনী ৫.২</small></span></li>
+          <li><time>শুক্রবার</time><span>অধ্যায়ভিত্তিক মডেল টেস্ট<small>গণিত · ৩০ মিনিট</small></span></li>
+        </ul>
+      </div>
+
+      <div class="panel p-parent">
+        <span class="who">অভিভাবকদের জন্য</span>
+        <p>সন্তান কতক্ষণ পড়ল, কোন অধ্যায়ে আটকে আছে, পরীক্ষায় কেমন করল, সব থাকে সাপ্তাহিক রিপোর্টে। নম্বরের চেয়ে বেশি দেখাবে বোঝার উন্নতি।</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 06 ACHIEVEMENT ===================== -->
+<section class="ach" aria-labelledby="ac-h">
+  <div class="wrap">
+    <div class="dnote"><b>ACHIEVEMENT · ONE CELEBRATION MOMENT</b><br>The chalk-white card is the big moment: ring fills to 100%, a single confetti burst (marigold / chalk / tick-green), then the line "চ্যাপ্টার ক্লিয়ার, বস!". Badges are calm and grown-up, not cartoon trophies. One badge stays locked so it feels earned.</div>
+    <div class="sec-head">
+      <p class="kicker"><span class="dot"></span>অর্জন</p>
+      <h2 class="h-xl" id="ac-h">চ্যাপ্টার খতম, <span class="mark">কনফিডেন্স ডাবল!</span></h2>
+      <p class="lede">একটা একটা করে চ্যাপ্টার শেষ করো, নিজের স্কিল বাড়াও আর প্রতিটি অর্জন উদযাপন করো।</p>
+    </div>
+
+    <div class="ach-grid">
+      <div class="done-card" id="doneCard">
+        <canvas id="confetti" aria-hidden="true"></canvas>
+        <div class="dc-top"><div>গণিত · ক্লাস ৮<b>অধ্যায় ৫: সরল সমীকরণ</b></div><span>১১টি লেসন</span></div>
+        <div class="dc-mid">
+          <svg class="dc-ring" viewBox="0 0 140 140" aria-hidden="true">
+            <circle class="bg" cx="70" cy="70" r="58"/>
+            <circle class="fg" id="dcRing" cx="70" cy="70" r="58" stroke-dasharray="364.4" stroke-dashoffset="0"/>
+            <text x="70" y="81" id="dcPct">১০০%</text>
+          </svg>
+          <p class="dc-say">চ্যাপ্টার <em>ক্লিয়ার,</em><br>বস!</p>
+        </div>
+        <div class="dc-stats">
+          <div><b>১৮/২০</b>শেষ কুইজ</div>
+          <div><b>৯</b>ভুল থেকে শেখা</div>
+          <div><b>৩ ঘ</b>মোট সময়</div>
+        </div>
+        <button class="celebrate" id="celebrate" type="button">আবার উদযাপন করো</button>
+      </div>
+
+      <div class="ach-side">
+        <div class="path">
+          <p class="p-label"><span>গণিতের পথ · ক্লাস ৮</span><span>৫/৮ অধ্যায়</span></p>
+          <ol>
+            <li class="d"><i>১</i>মূলদ সংখ্যা</li>
+            <li class="d"><i>২</i>সূচক</li>
+            <li class="d"><i>৩</i>রাশি</li>
+            <li class="d"><i>৪</i>উৎপাদক</li>
+            <li class="d now"><i>৫</i>সমীকরণ</li>
+            <li><i>৬</i>সেট</li>
+            <li><i>৭</i>জ্যামিতি</li>
+            <li><i>৮</i>পরিসংখ্যান</li>
+          </ol>
+        </div>
+        <div class="badges">
+          <div class="badge"><svg viewBox="0 0 60 60" aria-hidden="true"><path d="M30 3l6 5 8-1 3 7 7 4-1 8 5 6-5 6 1 8-7 4-3 7-8-1-6 5-6-5-8 1-3-7-7-4 1-8-5-6 5-6-1-8 7-4 3-7 8 1z" fill="#FFB238"/><text x="30" y="37" text-anchor="middle" font-family="Anek Bangla" font-weight="800" font-size="18" fill="#241600">৭</text></svg>৭ দিনের স্ট্রিক</div>
+          <div class="badge"><svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="26" fill="none" stroke="#7FD6A0" stroke-width="3" stroke-dasharray="4 4"/><circle cx="30" cy="30" r="19" fill="#7FD6A0"/><path d="M21 30l6 6 12-12" fill="none" stroke="#0D1814" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>প্রথম ১০০% কুইজ</div>
+          <div class="badge"><svg viewBox="0 0 60 60" aria-hidden="true"><rect x="6" y="6" width="48" height="48" rx="14" fill="#EDE8DA" transform="rotate(8 30 30)"/><path d="M20 38l10-16 10 16" fill="none" stroke="#FF6152" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 22v20" stroke="#0D1814" stroke-width="3"/></svg>ভুল থেকে Level Up ×২৫</div>
+          <div class="badge locked"><svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="25" fill="none" stroke="#B5B9AA" stroke-width="2.5"/><path d="M36 18a13 13 0 1 0 6 18 10 10 0 0 1-6-18z" fill="#B5B9AA"/></svg>নিশাচর পড়ুয়া<br><small>বাকি ২ রাত</small></div>
+        </div>
+        <p class="quote"><b>“অধ্যায় ৪ তিনবার আটকেছিলাম। এবার ভুলগুলো ধরে ধরে বুঝিয়েছে।”</b><br>নমুনা উক্তি · প্রকৃত শিক্ষার্থীর মতামত এখানে বসবে</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 07 EXAM ===================== -->
+<section class="exam" aria-labelledby="ex-h">
+  <div class="wrap">
+    <div class="dnote"><b>EXAM · SERIOUS MODE</b><br>Tone shifts a notch more serious (parents read this one). Live timer, question grid with answered / flagged / current states, a selectable MCQ, and a handwritten-script panel. The score is shown as a "suggested" mark that the student or teacher can review. Never promise perfect auto-marking.</div>
+    <div class="exam-grid">
+      <div class="exam-copy">
+        <p class="kicker"><span class="dot"></span>পরীক্ষা</p>
+        <h2 class="h-lg" id="ex-h">পরীক্ষার প্রস্তুতি? <span class="mark">এবার সিরিয়াসলি হবে!</span></h2>
+        <p class="lede">নিজের পছন্দের চ্যাপ্টার বেছে নাও, পরীক্ষা দাও, সময়ের মধ্যে উত্তর লেখো আর জেনে নাও কোথায় আরও প্র্যাকটিস দরকার।</p>
+        <ul class="tags">
+          <li>অধ্যায়ভিত্তিক পরীক্ষা</li><li>MCQ ও সৃজনশীল</li><li>সময় ধরে পরীক্ষা</li>
+          <li>লিখিত খাতার ছবি আপলোড</li><li>ভুল চিহ্নিত করা</li><li>বিস্তারিত সমাধান</li><li>পারফরম্যান্স বিশ্লেষণ</li>
+        </ul>
+        <p class="honest">হাতে লেখা খাতা AI দেখে ধাপে ধাপে মতামত দেয় এবং একটা প্রস্তাবিত নম্বর দেখায়। চূড়ান্ত নম্বর তুমি বা তোমার শিক্ষক রিভিউ করে নিতে পারবে।</p>
+      </div>
+
+      <div class="exam-ui">
+        <div class="panel">
+          <div class="ex-top">
+            <div class="t">মডেল টেস্ট<b>গণিত · অধ্যায় ৫</b></div>
+            <div class="timer" aria-label="বাকি সময়">
+              <svg viewBox="0 0 36 36" aria-hidden="true"><circle class="bg" cx="18" cy="18" r="14"/><circle class="fg" id="tRing" cx="18" cy="18" r="14" stroke-dasharray="88" stroke-dashoffset="0"/></svg>
+              <b id="timer">২৮:৪৫</b>
+            </div>
+          </div>
+          <div class="qnav" id="qnav" style="margin-top:18px" aria-label="প্রশ্ন নেভিগেশন"></div>
+          <div class="legend" style="margin-top:12px"><span><i class="la"></i>উত্তর দেওয়া</span><span><i class="lf"></i>পরে দেখবো</span><span><i class="lc"></i>এখন</span><span><i></i>বাকি</span></div>
+        </div>
+
+        <div class="qcard">
+          <div class="qh"><span>প্রশ্ন ৭ / ২০ · MCQ</span><span>১ নম্বর</span></div>
+          <p class="qt">যদি <span class="m">3x − 7 = 11</span> হয়, তবে x-এর মান কত?</p>
+          <fieldset class="opts">
+            <legend class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">একটি উত্তর বাছাই করো</legend>
+            <div class="opt"><input type="radio" name="q7" id="q7a"><label for="q7a"><i>ক</i>৪</label></div>
+            <div class="opt"><input type="radio" name="q7" id="q7b" checked><label for="q7b"><i>খ</i>৬</label></div>
+            <div class="opt"><input type="radio" name="q7" id="q7c"><label for="q7c"><i>গ</i>৮</label></div>
+            <div class="opt"><input type="radio" name="q7" id="q7d"><label for="q7d"><i>ঘ</i>১৮</label></div>
+          </fieldset>
+          <div class="qfoot"><button type="button">পরে দেখবো</button><span>উত্তর সেভ হয়েছে</span><button type="button" class="nxt">পরের প্রশ্ন →</button></div>
+        </div>
+
+        <div class="panel">
+          <p class="p-label"><span>সৃজনশীল প্রশ্ন ২ (খ) · খাতার ছবি</span><span>মূল্যায়ন হয়েছে</span></p>
+          <div class="script" style="margin-top:12px">
+            <div class="mini-page" aria-hidden="true">
+              5x + 3 = 2x + 15<br>5x − 2x = 15 − 3<br><span class="r">3x = 18 − 3</span><br>3x = 12<br>x = 4
+              <span class="ring-mark"></span>
+            </div>
+            <div>
+              <ul class="fb">
+                <li class="ok"><span><b>ধাপ ১–২ ঠিক আছে।</b> x-গুলো এক পাশে আনা সুন্দর হয়েছে।</span></li>
+                <li class="no"><span><b>ধাপ ৩-এ ৩ দুইবার বাদ গেছে।</b> 15 − 3 = 12 আগেই করা হয়ে গিয়েছিল।</span></li>
+                <li class="tip2"><span><b>প্র্যাকটিস:</b> পক্ষান্তর নিয়ে ৪টি প্রশ্ন যোগ করা হলো।</span></li>
+              </ul>
+              <div class="score-sug"><span>প্রস্তাবিত নম্বর</span><b>২/৩</b><span>· রিভিউ করো</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 08 GROUP ===================== -->
+<section class="group" aria-labelledby="gr-h">
+  <div class="wrap">
+    <div class="dnote"><b>GROUP · PORAR ADDA</b><br>Tutor tile sits in the centre as the teacher (a mark + live voice wave, never a robot face). Around it, each friend keeps their own status: raised hand, a private question, their own score. In production, student tiles can hold real webcam-style photos of Bangladeshi teens.</div>
+    <div class="grp-grid">
+      <div class="room" aria-label="গ্রুপ ক্লাসের নমুনা">
+        <div class="room-bar"><span><b>পড়ার আড্ডা</b> · বিজ্ঞান: আলোর প্রতিফলন</span><span>৪ জন বন্ধু · ১২:০৪</span></div>
+        <div class="tiles">
+          <div class="tile raised">
+            <span class="hand-up" aria-label="হাত তুলেছে"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 13V6a1.5 1.5 0 0 1 3 0v5V4a1.5 1.5 0 0 1 3 0v7V5.5a1.5 1.5 0 0 1 3 0V14c0 4-2.5 7-6 7s-5-2-6.5-4.5L3 13a1.5 1.5 0 0 1 2.5-1.5L8 14" fill="none" stroke="#241600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div class="who"><span class="av" style="background:#FFB238">রা</span><span class="nm">রাফি<small>ক্লাস ৯</small></span></div>
+            <span class="st">হাত তুলেছে: “আপতন কোণ কোনটা?”</span>
+          </div>
+          <div class="tile tutor-t">
+            <div class="tutor-mark" aria-hidden="true">প</div>
+            <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <p class="say">“রাফি, ভালো প্রশ্ন! আয়নার লম্বের সাথে আলো যে কোণ করে, সেটাই।”</p>
+          </div>
+          <div class="tile">
+            <div class="who"><span class="av" style="background:#7FD6A0">তি</span><span class="nm">তিশা<small>ক্লাস ৯</small></span></div>
+            <span class="st" style="color:var(--tick)">কুইজ ৩/৩ সঠিক</span>
+          </div>
+          <div class="tile">
+            <div class="who"><span class="av" style="background:#EDE8DA">আ</span><span class="nm">আরিয়ান<small>ক্লাস ৯</small></span></div>
+            <span class="st">ব্যক্তিগত প্রশ্ন পাঠিয়েছে</span>
+          </div>
+          <div class="tile">
+            <div class="who"><span class="av" style="background:#F59A8E">মী</span><span class="nm">মীম<small>ক্লাস ৯</small></span></div>
+            <span class="st">শুনছে · নোট নিচ্ছে</span>
+          </div>
+        </div>
+        <div class="queue"><b>প্রশ্নের লাইন</b><span class="q"><i style="background:#FFB238">রা</i>এখন</span><span class="q"><i style="background:#EDE8DA">আ</i>পরে</span><span style="margin-left:auto">সবার স্কোর আলাদা ট্র্যাক হচ্ছে</span></div>
+      </div>
+
+      <div class="grp-copy">
+        <p class="kicker"><span class="dot"></span>একা পড়ো বা বন্ধুদের সাথে</p>
+        <h2 class="h-lg" id="gr-h">বন্ধুদের নিয়ে <span class="mark">পড়ার আড্ডাও</span> হবে!</h2>
+        <p class="lede">বন্ধুদের ইনভাইট করো, একসাথে শেখো, প্রশ্ন করো আর একে অপরের সাথে এগিয়ে যাও।</p>
+        <ul class="feat2">
+          <li>বন্ধুদের ইনভাইট</li><li>গ্রুপ টিউটরিং</li><li>নিজের আলাদা প্রশ্ন</li><li>লাইভ গ্রুপ সেশন</li><li>হাত তোলার সুবিধা</li><li>প্রত্যেকের আলাদা অগ্রগতি</li>
+        </ul>
+        <div class="invite"><span>আড্ডা কোড</span><code id="code">ADDA-724</code><button type="button" id="copyBtn">কপি করো</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 09 FINAL ===================== -->
+<section class="final" id="start" aria-labelledby="fi-h">
+  <canvas id="dust" aria-hidden="true"></canvas>
+  <div class="ghost" aria-hidden="true">পড়া হবে!</div>
+  <div class="wrap">
+    <div class="dnote"><b>FINAL CTA</b><br>Back to the hero headline, bigger and alone on the board. Drifting chalk dust in the background (canvas, stops for reduced-motion). Giant outlined wordmark sinks off the bottom edge. One button, one handwritten line.</div>
+    <div class="final-in">
+      <p class="kicker"><span class="dot"></span>পড়া হবে তো?</p>
+      <h2 class="h-hero" id="fi-h">পড়ার সিন এবার<br><span class="hl" style="color:var(--marigold)">বদলে যাবে!</span></h2>
+      <p class="lede">নিজের মতো করে শেখা শুরু করো। প্রতিটি চ্যাপ্টার, প্রতিটি প্রশ্ন আর প্রতিটি ভুল তোমাকে নিয়ে যাবে আরও এক ধাপ সামনে।</p>
+      <a class="btn btn-lg" href="#">চলো, পড়া শুরু করি! <span class="arr" aria-hidden="true">→</span></a>
+      <p class="scribble"><svg viewBox="0 0 60 30" aria-hidden="true"><path d="M4 24c14-2 30-8 46-18M50 6l-10 1M50 6l-2 10" fill="none" stroke="#FFB238" stroke-width="2.4" stroke-linecap="round"/></svg>আজকে পড়া হবে, বুঝেও হবে!</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer id="about">
+  <div class="wrap">
+    <div class="ft">
+      <div>
+        <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true">প</span><span class="logo-word">পড়া হবে<em>!</em></span></a>
+        <p>আমরা বিশ্বাস করি, মুখস্থ না, বুঝে পড়াই আসল। তাই প্রতিটা শিক্ষার্থীর জন্য একজন ধৈর্যশীল Home Tutor, যে নিজের গতিতে শেখায়, বকা দেয় না, আর ভুলকে ভয় পেতে শেখায় না।</p>
+      </div>
+      <div><h4>পড়া হবে!</h4><ul><li><a href="#how">কীভাবে কাজ করে</a></li><li><a href="#features">ফিচারসমূহ</a></li><li><a href="#">মূল্য</a></li><li><a href="#">অ্যাপ ডাউনলোড</a></li></ul></div>
+      <div><h4>অভিভাবকদের জন্য</h4><ul><li><a href="#">সাপ্তাহিক রিপোর্ট</a></li><li><a href="#">নিরাপত্তা ও গোপনীয়তা</a></li><li><a href="#">প্রায়ই জিজ্ঞাসিত প্রশ্ন</a></li></ul></div>
+      <div><h4>যোগাযোগ</h4><ul><li><a href="#">আমাদের সম্পর্কে</a></li><li><a href="#">সাহায্য কেন্দ্র</a></li><li><a href="#">ফেসবুক পেজ</a></li></ul></div>
+    </div>
+    <div class="ft-bot"><span>© ২০২৬ পড়া হবে! · PORA HOBE</span><span>শর্তাবলি · গোপনীয়তা নীতি</span></div>
+  </div>
+</footer>
+
+<button class="notes-toggle" id="notesBtn" type="button" aria-pressed="false"><i></i>ডিজাইন নোট</button>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const bn = n => String(n).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
+
+  /* mobile sheet */
+  const sheet = document.getElementById('sheet'), mb = document.getElementById('menuBtn'), cb = document.getElementById('closeBtn');
+  const openSheet = o => {
+    if (o) { sheet.hidden = false; requestAnimationFrame(() => sheet.classList.add('open')); cb.focus(); }
+    else { sheet.classList.remove('open'); setTimeout(() => sheet.hidden = true, 450); mb.focus(); }
+    mb.setAttribute('aria-expanded', o); document.body.style.overflow = o ? 'hidden' : '';
+  };
+  mb.addEventListener('click', () => openSheet(true));
+  cb.addEventListener('click', () => openSheet(false));
+  sheet.querySelectorAll('a').forEach(a => a.addEventListener('click', () => openSheet(false)));
+  addEventListener('keydown', e => { if (e.key === 'Escape' && !sheet.hidden) openSheet(false); });
+
+  /* notes toggle */
+  const nb = document.getElementById('notesBtn');
+  nb.addEventListener('click', () => { const on = document.body.classList.toggle('notes'); nb.setAttribute('aria-pressed', on); });
+
+  /* chips */
+  document.querySelectorAll('.chips').forEach(g => g.addEventListener('click', e => {
+    const c = e.target.closest('.chip'); if (!c) return;
+    g.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', x === c));
+  }));
+
+  /* reveal: only sections below the first screen get armed */
+  const hooks = {};
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('in'); io.unobserve(e.target);
+    hooks[e.target.dataset.hook]?.();
+  }), { threshold: .22 });
+  const watch = (el, hook) => {
+    if (!el) return;
+    if (hook) el.dataset.hook = hook;
+    const below = el.getBoundingClientRect().top > innerHeight * .9;
+    if (below && !reduce) el.classList.add('armed');
+    io.observe(el);
+  };
+  watch(document.querySelector('.st-top'));
+  watch(document.querySelector('.mistakes'));
+  watch(document.querySelector('.progress'), 'progress');
+  watch(document.getElementById('tutorApp'), 'tutor');
+  watch(document.getElementById('doneCard'), 'done');
+
+  /* tutor demo */
+  const msgs = document.getElementById('msgs'), steps = [...document.querySelectorAll('#steps .step')];
+  const script = [
+    { r:'t', x:'চলো দেখি, 2x + 5 = 15 হলে x-এর মান কত?', st:0 },
+    { r:'s', x:'10?' },
+    { r:'t', x:'একটু চিন্তা করো! প্রথমে দুই পাশ থেকে 5 বাদ দিলে কী থাকে?' },
+    { r:'h', x:'হিন্ট: x-কে একা করতে হলে আগে +5 সরাতে হবে' },
+    { r:'s', x:'2x = 10!', st:1 },
+    { r:'t', x:'এই তো! মাথায় ঢুকছে! এবার দুই পাশকে 2 দিয়ে ভাগ করো।' },
+    { r:'s', x:'x = 5!', st:2 },
+    { r:'w', x:'একদম ঠিক! চ্যাপ্টার ক্লিয়ার, বস!', st:3 }
+  ];
+  let run = 0;
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  const setStep = n => steps.forEach((s, i) => { s.classList.toggle('done', i < n); s.classList.toggle('cur', i === n); });
+  const node = m => {
+    if (m.r === 'h') { const d = document.createElement('div'); d.className = 'hint msg anim'; d.style.maxWidth = 'none'; d.textContent = m.x; return d; }
+    const d = document.createElement('div'); d.className = 'msg anim ' + (m.r === 's' ? 's' : 't');
+    d.innerHTML = `<span class="ava" aria-hidden="true">${m.r === 's' ? 'না' : 'প'}</span><div class="bub ${m.r === 'w' ? 'win' : m.r}"></div>`;
+    d.querySelector('.bub').textContent = m.x; return d;
+  };
+  async function playTutor() {
+    if (reduce) return;
+    const id = ++run; msgs.innerHTML = ''; setStep(0);
+    for (const m of script) {
+      if (id !== run) return;
+      if (m.r !== 's') {
+        const t = document.createElement('div'); t.className = 'msg t anim';
+        t.innerHTML = '<span class="ava" aria-hidden="true">প</span><div class="bub t typing"><i></i><i></i><i></i></div>';
+        if (m.r !== 'h') { msgs.append(t); await wait(900); t.remove(); }
+      } else await wait(700);
+      if (id !== run) return;
+      msgs.append(node(m));
+      if (m.st !== undefined) setStep(m.st);
+      await wait(m.r === 'h' ? 700 : 500);
+    }
+  }
+  hooks.tutor = playTutor;
+  document.getElementById('replay').addEventListener('click', () => { if (reduce) return; playTutor(); });
+
+  /* progress ring */
+  const gr = document.getElementById('goalRing');
+  hooks.progress = () => { if (reduce) return; gr.style.strokeDashoffset = 364.4; requestAnimationFrame(() => requestAnimationFrame(() => gr.style.strokeDashoffset = 105.7)); };
+
+  /* confetti + completion */
+  const cv = document.getElementById('confetti'), cx = cv.getContext('2d');
+  const dcRing = document.getElementById('dcRing'), dcPct = document.getElementById('dcPct');
+  function burst() {
+    if (reduce) return;
+    const r = cv.getBoundingClientRect(), dpr = devicePixelRatio || 1;
+    cv.width = r.width * dpr; cv.height = r.height * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const cols = ['#FFB238', '#14201B', '#7FD6A0', '#FF6152'];
+    const ps = Array.from({ length: 110 }, () => ({
+      x: r.width * .22, y: r.height * .42, vx: Math.random() * 9 - 2, vy: -Math.random() * 10 - 3,
+      w: 5 + Math.random() * 6, h: 3 + Math.random() * 4, a: Math.random() * 6, va: Math.random() * .3 - .15, c: cols[Math.random() * 4 | 0]
+    }));
+    let f = 0;
+    (function draw() {
+      cx.clearRect(0, 0, r.width, r.height);
+      ps.forEach(p => { p.vy += .28; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.a += p.va;
+        cx.save(); cx.translate(p.x, p.y); cx.rotate(p.a); cx.fillStyle = p.c; cx.globalAlpha = Math.max(0, 1 - f / 150); cx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); cx.restore(); });
+      if (++f < 150) requestAnimationFrame(draw); else cx.clearRect(0, 0, r.width, r.height);
+    })();
+  }
+  function complete() {
+    if (reduce) return;
+    let p = 0; const t0 = performance.now();
+    (function step(t) {
+      p = Math.min(1, (t - t0) / 1200); const e = 1 - Math.pow(1 - p, 3);
+      dcRing.style.strokeDashoffset = 364.4 * (1 - e); dcPct.textContent = bn(Math.round(e * 100)) + '%';
+      if (p < 1) requestAnimationFrame(step); else burst();
+    })(t0);
+  }
+  hooks.done = complete;
+  document.getElementById('celebrate').addEventListener('click', complete);
+
+  /* exam: nav + timer */
+  const qnav = document.getElementById('qnav');
+  const answered = [1,2,3,4,5,6,8,9], flagged = [5];
+  for (let i = 1; i <= 20; i++) {
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = bn(i);
+    b.setAttribute('aria-label', 'প্রশ্ন ' + bn(i));
+    if (answered.includes(i)) b.classList.add('a');
+    if (flagged.includes(i)) b.classList.add('f');
+    if (i === 7) b.setAttribute('aria-current', 'true');
+    b.addEventListener('click', () => { qnav.querySelectorAll('button').forEach(x => x.removeAttribute('aria-current')); b.setAttribute('aria-current', 'true'); });
+    qnav.append(b);
+  }
+  let secs = 28 * 60 + 45; const total = 40 * 60, tEl = document.getElementById('timer'), tR = document.getElementById('tRing');
+  const paint = () => { tEl.textContent = bn(String(Math.floor(secs / 60)).padStart(2, '0')) + ':' + bn(String(secs % 60).padStart(2, '0')); tR.style.strokeDashoffset = 88 * (1 - secs / total); };
+  paint(); setInterval(() => { secs = secs > 0 ? secs - 1 : total; paint(); }, 1000);
+
+  /* copy invite code */
+  const cbtn = document.getElementById('copyBtn');
+  cbtn.addEventListener('click', () => {
+    const done = () => { cbtn.textContent = 'কপি হয়েছে ✓'; setTimeout(() => cbtn.textContent = 'কপি করো', 1800); };
+    try { navigator.clipboard.writeText('ADDA-724').then(done, sel); } catch (e) { sel(); }
+    function sel() { const r = document.createRange(); r.selectNodeContents(document.getElementById('code')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+  });
+
+  /* chalk dust in final CTA */
+  const dust = document.getElementById('dust'), dx = dust.getContext('2d');
+  let parts = [], W = 0, H = 0, raf = 0, vis = false;
+  const size = () => { const r = dust.getBoundingClientRect(), d = devicePixelRatio || 1; W = r.width; H = r.height; dust.width = W * d; dust.height = H * d; dx.setTransform(d, 0, 0, d, 0, 0);
+    parts = Array.from({ length: Math.round(W / 14) }, () => ({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.6 + .3, s: Math.random() * .25 + .05, o: Math.random() * .35 + .05, w: Math.random() * 6.28 })); };
+  const frame = () => { dx.clearRect(0, 0, W, H);
+    parts.forEach(p => { p.y -= p.s; p.w += .01; p.x += Math.sin(p.w) * .2; if (p.y < -4) { p.y = H + 4; p.x = Math.random() * W; }
+      dx.beginPath(); dx.arc(p.x, p.y, p.r, 0, 6.28); dx.fillStyle = `rgba(237,232,218,${p.o})`; dx.fill(); });
+    if (vis) raf = requestAnimationFrame(frame); };
+  size(); addEventListener('resize', size);
+  if (reduce) frame();
+  else new IntersectionObserver(([e]) => { vis = e.isIntersecting; cancelAnimationFrame(raf); if (vis) frame(); }).observe(dust);
+})();
+</script>
+
+</body></html>
