@@ -162,13 +162,6 @@ form{display:grid;gap:16px}
 .pane{animation:in .45s var(--ease) both}
 @keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
-/* design notes */
-.dnote{display:none;font-family:var(--f-mono);font-size:12px;line-height:1.55;color:#FFD9A0;background:rgba(255,178,56,.07);border:1px dashed rgba(255,178,56,.55);border-radius:10px;padding:10px 12px;margin:0}
-.dnote b{color:var(--marigold);letter-spacing:.06em}
-body.notes .dnote{display:block}
-.notes-toggle{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;min-height:44px;border-radius:999px;border:1px solid var(--rule-2);background:var(--slate);color:var(--chalk);padding:0 16px;font:600 .88rem var(--f-body);cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 14px 30px -10px rgba(0,0,0,.7)}
-.notes-toggle i{width:10px;height:10px;border-radius:50%;background:var(--chalk-3)}
-.notes-toggle[aria-pressed="true"] i{background:var(--marigold);box-shadow:0 0 0 4px rgba(255,178,56,.2)}
 
 /* ---------- responsive ---------- */
 @media (max-width:1100px){
@@ -197,7 +190,6 @@ body.notes .dnote{display:block}
     <a class="logo" href="#"><span class="logo-mark" aria-hidden="true">প</span><span class="logo-word">পড়া হবে<em>!</em></span></a>
 
     <div class="board-main">
-      <p class="dnote"><b>LOGIN · ART DIRECTION</b><br>Same board + desk world as the homepage. The left side greets a returning student and shows what's waiting on today's khata list. That's the reason to log in, shown instead of a generic illustration. On phones this collapses to logo + greeting, and the form sits on a raised sheet.</p>
       <h2 class="hello">আবার দেখা <span class="mk">হলো!</span></h2>
       <p class="hand-line"><svg viewBox="0 0 46 24" aria-hidden="true"><path d="M3 18c10-1 22-6 36-14M39 4l-9 0M39 4l-2 9" fill="none" stroke="#FFB238" stroke-width="2.4" stroke-linecap="round"/></svg>আজকে পড়া হবে, বুঝেও হবে!</p>
       <p class="sub">লগইন করলেই তোমার Tutor মনে রাখবে কোথায় থেমেছিলে, কোন অঙ্কে আটকেছিলে আর আজ কী পড়ার কথা।</p>
@@ -238,7 +230,6 @@ body.notes .dnote{display:block}
             <p>নতুন এখানে? <a href="#">অ্যাকাউন্ট খোলো →</a></p>
           </div>
 
-          <p class="dnote"><b>ROLE SWITCH</b><br>Students and guardians share one door. Choosing অভিভাবক changes the helper line and the button label, so a parent never feels they're on a kids-only page.</p>
           <div class="seg" role="tablist" aria-label="কে লগইন করছে">
             <button type="button" role="tab" id="roleStudent" aria-selected="true">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5C6.5 5 9.5 5 12 7c2.5-2 5.5-2 8-.5V19c-2.5-1.5-5.5-1.5-8 .5-2.5-2-5.5-2-8-.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 7v12.5" stroke="currentColor" stroke-width="1.8"/></svg>
@@ -341,17 +332,12 @@ body.notes .dnote{display:block}
   </main>
 </div>
 
-<button class="notes-toggle" id="notesBtn" type="button" aria-pressed="false"><i></i>ডিজাইন নোট</button>
-
 <script>
 (() => {
   const $ = id => document.getElementById(id);
   const bn = s => String(s).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
   const en = s => String(s).replace(/[০-৯]/g, d => '০১২৩৪৫৬৭৮৯'.indexOf(d));
   let role = 'student';
-
-  /* notes */
-  $('notesBtn').addEventListener('click', e => { const on = document.body.classList.toggle('notes'); e.currentTarget.setAttribute('aria-pressed', on); });
 
   /* role switch */
   const setRole = r => {
