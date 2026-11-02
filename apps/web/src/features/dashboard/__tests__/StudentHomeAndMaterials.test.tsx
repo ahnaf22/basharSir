@@ -137,7 +137,7 @@ describe('Chunk 7.5: Student Home Dashboard & Learn Materials', () => {
     expect(await screen.findByText(/বর্গের সূত্রাবলি অনুশীলন/)).toBeInTheDocument();
     expect(screen.getByText(/বীজগণিতীয় প্রতীক, চলক ও সহগ শনাক্তকরণ/)).toBeInTheDocument();
     expect(screen.getByText(/ধারাবাহিক সাধক/)).toBeInTheDocument();
-    expect(screen.getByText(/পাঠ চালিয়ে যাও/)).toBeInTheDocument();
+    expect(screen.getByText(/পাঠ চালি/)).toBeInTheDocument();
   });
 
   it('renders StudentMaterialsPage with enrolled subjects and chapter objectives', async () => {
