@@ -45,7 +45,32 @@ final class DemoDataSeeder extends Seeder
             SubscriptionPlanSeeder::class,
         ]);
 
-        // 1. Create Demo Guardian (Phone: 01712000000, Pass: password123)
+        // 1. Create Primary UI Demo Guardian (Phone: 01911223344, Pass: GuardianPass123!)
+        /** @var User $demoGuardianUser */
+        $demoGuardianUser = User::query()->firstOrCreate(
+            ['phone' => '+8801911223344'],
+            [
+                'name_bn' => 'রাশেদা বেগম',
+                'name_en' => 'Rasheda Begum',
+                'email' => 'guardian.demo@porahobe.com',
+                'password' => Hash::make('GuardianPass123!'),
+                'account_type' => AccountType::Guardian,
+                'status' => AccountStatus::Active,
+                'phone_verified_at' => Carbon::now(),
+            ]
+        );
+
+        /** @var GuardianProfile $demoGuardian */
+        $demoGuardian = GuardianProfile::query()->firstOrCreate(
+            ['user_id' => $demoGuardianUser->id],
+            [
+                'relation_type' => GuardianRelationType::Mother,
+                'preferred_language' => 'bn',
+                'weekly_report_channel' => 'sms_and_email',
+            ]
+        );
+
+        // 1b. Create Secondary Demo Guardian (Phone: 01712000000, Pass: password123)
         /** @var User $guardianUser */
         $guardianUser = User::query()->firstOrCreate(
             ['phone' => '+8801712000000'],
@@ -70,7 +95,65 @@ final class DemoDataSeeder extends Seeder
             ]
         );
 
-        // 2. Create Demo Student 1: Rafi Ahmed (Class 8, Phone: 01712000001, Pass: password123)
+        // 2. Create Primary UI Demo Student (Phone: 01712345678, Pass: SecurePass123!)
+        /** @var User $demoStudentUser */
+        $demoStudentUser = User::query()->firstOrCreate(
+            ['phone' => '+8801712345678'],
+            [
+                'name_bn' => 'রাফি আহমেদ',
+                'name_en' => 'Rafi Ahmed',
+                'email' => 'student.demo@porahobe.com',
+                'password' => Hash::make('SecurePass123!'),
+                'account_type' => AccountType::Student,
+                'status' => AccountStatus::Active,
+                'phone_verified_at' => Carbon::now(),
+            ]
+        );
+
+        /** @var StudentProfile $demoStudent */
+        $demoStudent = StudentProfile::query()->firstOrCreate(
+            ['user_id' => $demoStudentUser->id],
+            [
+                'student_code' => 'STU-2026-DEMO',
+                'current_class_level' => 8,
+                'medium' => EducationMedium::Bangla,
+                'school_name' => 'মতিঝিল আইডিয়াল স্কুল অ্যান্ড কলেজ',
+                'district' => 'ঢাকা',
+                'date_of_birth' => '2012-04-15',
+                'consent_status' => ConsentStatus::Verified,
+                'guardian_phone_invited' => '+8801911223344',
+                'daily_study_target_mins' => 45,
+                'pseudonym' => 'ধ্রুবতারা-ডেমো',
+            ]
+        );
+
+        StudentGuardianLink::query()->firstOrCreate(
+            [
+                'student_id' => $demoStudent->id,
+                'guardian_id' => $demoGuardian->id,
+            ],
+            [
+                'is_primary_payer' => true,
+                'status' => GuardianLinkStatus::Verified,
+                'verified_at' => Carbon::now(),
+            ]
+        );
+
+        ConsentRecord::query()->firstOrCreate(
+            [
+                'student_id' => $demoStudent->id,
+                'guardian_id' => $demoGuardian->id,
+            ],
+            [
+                'policy_version' => 'PDPA-2026-v1',
+                'consent_scope_json' => ['academic_tutoring' => true, 'analytics' => true],
+                'verification_method' => 'otp_sms',
+                'ip_address' => '127.0.0.1',
+                'consented_at' => Carbon::now(),
+            ]
+        );
+
+        // 2b. Create Demo Student 1: Rafi Ahmed (Class 8, Phone: 01712000001, Pass: password123)
         /** @var User $studentUser1 */
         $studentUser1 = User::query()->firstOrCreate(
             ['phone' => '+8801712000001'],
@@ -186,42 +269,43 @@ final class DemoDataSeeder extends Seeder
             ]
         );
 
-        // 4. Activate Family Subscription for Guardian
+        // 4. Activate Family Subscription for Guardians
         /** @var SubscriptionPlan $familyPlan */
         $familyPlan = SubscriptionPlan::query()->where('tier', 'family')->firstOrFail();
 
-        $invoiceNo = 'INV-DEMO-'.Carbon::now()->format('Ymd');
-        /** @var Payment $payment */
-        $payment = Payment::query()->firstOrCreate(
-            ['merchant_invoice_no' => $invoiceNo],
-            [
-                'uuid' => (string) Str::uuid(),
-                'guardian_id' => $guardian->id,
-                'subscription_plan_id' => $familyPlan->id,
-                'gateway' => 'bkash',
-                'amount_bdt' => $familyPlan->price_bdt,
-                'currency' => 'BDT',
-                'status' => 'completed',
-                'gateway_trx_id' => 'TRX-BKASH-DEMO77',
-                'idempotency_key' => 'IDEMP-DEMO-PAY-'.$guardian->id,
-                'webhook_signature_verified' => true,
-                'paid_at' => Carbon::now()->subDays(3),
-            ]
-        );
+        foreach ([$demoGuardian, $guardian] as $g) {
+            $invoiceNo = 'INV-DEMO-'.$g->id.'-'.Carbon::now()->format('Ymd');
+            Payment::query()->firstOrCreate(
+                ['idempotency_key' => 'IDEMP-DEMO-PAY-'.$g->id],
+                [
+                    'merchant_invoice_no' => $invoiceNo,
+                    'uuid' => (string) Str::uuid(),
+                    'guardian_id' => $g->id,
+                    'subscription_plan_id' => $familyPlan->id,
+                    'gateway' => 'bkash',
+                    'amount_bdt' => $familyPlan->price_bdt,
+                    'currency' => 'BDT',
+                    'status' => 'completed',
+                    'gateway_trx_id' => 'TRX-BKASH-DEMO'.$g->id,
+                    'webhook_signature_verified' => true,
+                    'paid_at' => Carbon::now()->subDays(3),
+                ]
+            );
 
-        Subscription::query()->firstOrCreate(
-            [
-                'guardian_id' => $guardian->id,
-                'subscription_plan_id' => $familyPlan->id,
-            ],
-            [
-                'student_id' => null, // family plan covers linked children
-                'status' => 'active',
-                'starts_at' => Carbon::now()->subDays(3),
-                'expires_at' => Carbon::now()->addDays(27),
-                'auto_renew' => true,
-            ]
-        );
+            Subscription::query()->firstOrCreate(
+                [
+                    'guardian_id' => $g->id,
+                    'subscription_plan_id' => $familyPlan->id,
+                ],
+                [
+                    'student_id' => null, // family plan covers linked children
+                    'status' => 'active',
+                    'starts_at' => Carbon::now()->subDays(3),
+                    'expires_at' => Carbon::now()->addDays(27),
+                    'auto_renew' => true,
+                ]
+            );
+        }
 
         // 5. Populate Realistic Historical Progress for Student 1 (Rafi)
         /** @var LearningObjective $obj1 */

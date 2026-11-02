@@ -528,17 +528,36 @@ export default function LoginPage(): React.ReactElement {
                     <button
                       type="button"
                       onClick={() => handleSelectDemo('student')}
-                      className="rounded-lg border border-[var(--rule-2)] bg-[var(--slate-3)] px-2.5 py-1 text-xs font-semibold text-[var(--marigold)] hover:bg-[var(--slate-2)] transition-colors"
+                      className={`rounded-lg border px-2.5 py-1 text-xs font-semibold transition-colors ${
+                        role === 'student'
+                          ? 'border-[var(--marigold)] bg-[var(--slate-2)] text-[var(--marigold)]'
+                          : 'border-[var(--rule-2)] bg-[var(--slate-3)] text-[var(--chalk)] hover:bg-[var(--slate-2)]'
+                      }`}
                     >
                       🎓 ডেমো শিক্ষার্থী
                     </button>
                     <button
                       type="button"
                       onClick={() => handleSelectDemo('parent')}
-                      className="rounded-lg border border-[var(--rule-2)] bg-[var(--slate-3)] px-2.5 py-1 text-xs font-semibold text-[var(--marigold)] hover:bg-[var(--slate-2)] transition-colors"
+                      className={`rounded-lg border px-2.5 py-1 text-xs font-semibold transition-colors ${
+                        role === 'parent'
+                          ? 'border-[var(--marigold)] bg-[var(--slate-2)] text-[var(--marigold)]'
+                          : 'border-[var(--rule-2)] bg-[var(--slate-3)] text-[var(--chalk)] hover:bg-[var(--slate-2)]'
+                      }`}
                     >
                       👨‍👩‍👧 ডেমো অভিভাবক
                     </button>
+                    <div className="w-full pt-1 text-[11.5px] text-[var(--chalk-2)] font-mono">
+                      {role === 'student' ? (
+                        <span>
+                          নম্বর: <strong className="text-[var(--chalk)]">01712345678</strong> • পাসওয়ার্ড: <strong className="text-[var(--marigold)]">SecurePass123!</strong>
+                        </span>
+                      ) : (
+                        <span>
+                          নম্বর: <strong className="text-[var(--chalk)]">01911223344</strong> • পাসওয়ার্ড: <strong className="text-[var(--marigold)]">GuardianPass123!</strong>
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   {/* Role Switch: Student vs Parent */}
