@@ -1,5 +1,6 @@
 @import 'katex/dist/katex.min.css';
 @import './auth.css';
+@import './student-dashboard.css';
 
 @tailwind base;
 @tailwind components;

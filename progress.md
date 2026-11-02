@@ -41,6 +41,19 @@ This file is the single source of truth for tracking development progress across
   - 09 Final CTA with interactive chalk dust canvas particles, ghost wordmark, and primary button.
 - [x] **Site-Wide Dark Theme Alignment**: Mapped semantic tokens across `AppShell.tsx`, `Button.tsx`, `Card.tsx`, and verified 14 application routes (`/login`, `/register`, `/home`, `/tutor`, `/materials`, `/planner`, `/exams`, `/scripts`, `/analytics`, `/group-learning`, `/teachers`, `/parent/dashboard`, `/parent/billing`, `/parent/children`) all return HTTP 200 OK with unified dark styling.
 - [x] **Auth Page Transformation (`পড়া হবে! Login.html`)**: Transformed `/login` and `/register` into dedicated standalone authentication portals with zero dashboard menus (`AppShell` removed). Implemented 2-column "Board + Desk" layout with authentic Khata notebook scrap checklist, rotating AI tutor quips, dynamic operator detection (+৮৮), mobile OTP 6-box input with paste/auto-advance/resend timer, role switching (Student vs Guardian), 1-click test fill chips, and animated completion resume cards.
+- [x] **Student Dashboard Blackboard Study Desk (`Student-Dashboard.html`)**: Fully implemented the student study desk dashboard (`/home`) matching `Student-Dashboard.html`:
+  - **Visual Desk Concept**: Single unified blackboard desk (`--slate: #0D1814`, `--slate-2: #13221C`, `--slate-3: #1A2D26`, `--chalk: #EDE8DA`, `--marigold: #FFB238`).
+  - **Dynamic Greetings & Dates**: Time-of-day greeting (শুভ সকাল/দুপুর/বিকেল/সন্ধ্যা), Gregorian date in Bengali (e.g. "সোমবার, ২ নভেম্বর"), official Bangladesh Bongabdo solar calendar date (e.g. "১৭ কার্তিক ১৪৩৩"), and smart 1-sentence study summary.
+  - **Unified Ledger Strip**: Replaced arbitrary metric tiles with a 4-column ledger strip:
+    1. Continuous streak with school week day track (শ, র, সো, ম, বু, বৃ, শু) and freeze badge.
+    2. Today's goal with SVG circular progress ring (animated strokeDashoffset).
+    3. Interactive tasks completed count (`X/Y শেষ`).
+    4. Total XP with next-level progress indicator.
+  - **The One Bright Card (`.desk-now`)**: Chalk-white `#EDE8DA` focal surface displaying ongoing lesson, breadcrumb path, learning objective, 5-stage pedagogical step indicator, "পাঠ চালিয়ে যাও →" button, and interactive "Ask Tutor" question box with Socratic responses.
+  - **Routine Timeline**: Today's personalized routine with interactive check buttons that toggle task completion, recalculate ledger metrics, and increase study ring progress in real time.
+  - **Subject Mastery Matrix**: Visual chapter objective block indicators with empty state explanations.
+  - **Bottom Row**: Badges shelf with SVG award icons and level progress meter, Khata upload drag-and-drop zone with ruled exercise paper preview, and upcoming model test panel.
+  - **Mobile Tab Bar & Design Notes**: 5-tab fixed bottom navigation on mobile with elevated marigold Tutor action, plus toggleable "ডিজাইন নোট" button explaining pedagogical UX improvements.
 
 ---
 

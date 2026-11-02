@@ -134,11 +134,10 @@ describe('Chunk 7.5: Student Home Dashboard & Learn Materials', () => {
 
     renderWithClient(<StudentHomePage />);
 
-    expect(await screen.findByText('স্বাগতম, রাফি আহমেদ!')).toBeInTheDocument();
-    expect(screen.getByText('বীজগণিতীয় প্রতীক, চলক ও সহগ শনাক্তকরণ')).toBeInTheDocument();
-    expect(screen.getByText('বর্গের সূত্রাবলি অনুশীলন')).toBeInTheDocument();
-    expect(screen.getByText('ধারাবাহিক সাধক (৩ দিনের স্ট্রিক)')).toBeInTheDocument();
-    expect(screen.getByText('পাঠ চালিয়ে যান')).toBeInTheDocument();
+    expect(await screen.findByText(/বর্গের সূত্রাবলি অনুশীলন/)).toBeInTheDocument();
+    expect(screen.getByText(/বীজগণিতীয় প্রতীক, চলক ও সহগ শনাক্তকরণ/)).toBeInTheDocument();
+    expect(screen.getByText(/ধারাবাহিক সাধক/)).toBeInTheDocument();
+    expect(screen.getByText(/পাঠ চালিয়ে যাও/)).toBeInTheDocument();
   });
 
   it('renders StudentMaterialsPage with enrolled subjects and chapter objectives', async () => {

@@ -1,0 +1,560 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>পড়া হবে! Student Dashboard</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wdth,wght@75..125,400..800&family=Atma:wght@500;600&family=Hind+Siliguri:wght@400;500;600&display=swap">
+<style>
+/* Layout concept: the study desk. Sidebar = the shelf, main = the desk top.
+   One bright surface (chalk-white "এখন পড়ো" card) is the thing to do next; everything else stays quiet on the board.
+   Summary sentence first, details after. No stat-tile row, no internal codes on screen. */
+:root{
+  --slate:#0D1814; --slate-2:#13221C; --slate-3:#1A2D26; --slate-4:#22382F;
+  --rule:rgba(237,232,218,.10); --rule-2:rgba(237,232,218,.2);
+  --chalk:#EDE8DA; --chalk-2:#B5B9AA; --chalk-3:#7E8A80;
+  --marigold:#FFB238; --marigold-ink:#241600;
+  --redpen:#FF6152; --tick:#7FD6A0; --ice:#9CCFE8;
+  --paper:#F3EBD5; --paper-rule:#B9CDE0; --ink:#22408F; --board-ink:#14201B;
+  --f-display:"Anek Bangla","Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;
+  --f-body:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;
+  --f-hand:"Atma","Hind Siliguri",cursive;
+  --f-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--slate);color:var(--chalk);font-family:var(--f-body);font-size:15.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--slate)}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--marigold);outline-offset:2px;border-radius:8px}
+.ico{width:20px;height:20px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.num{font-variant-numeric:tabular-nums}
+
+.app{display:grid;grid-template-columns:252px minmax(0,1fr);min-height:100%}
+
+/* ---------- sidebar (the shelf) ---------- */
+.side{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;height:100dvh;display:flex;flex-direction:column;gap:18px;padding:20px 14px 18px max(14px,env(safe-area-inset-left,0px));border-right:1px solid var(--rule);background:var(--slate);overflow-y:auto}
+.logo{display:flex;align-items:center;gap:10px;padding:2px 8px 10px}
+.logo-mark{width:36px;height:36px;border-radius:11px 11px 11px 3px;background:var(--marigold);color:var(--marigold-ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.3rem;transform:rotate(-6deg);line-height:1}
+.logo-word{font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:1.5rem;line-height:1}
+.logo-word em{font-style:normal;color:var(--marigold)}
+.nav-group{display:grid;gap:2px}
+.nav-label{font-size:.75rem;color:var(--chalk-3);padding:10px 12px 4px;letter-spacing:.03em}
+.nav a{display:flex;align-items:center;gap:12px;min-height:42px;padding:8px 12px;border-radius:12px;color:var(--chalk-2);font-weight:500;position:relative;transition:background .2s,color .2s}
+.nav a:hover{background:var(--slate-2);color:var(--chalk)}
+.nav a[aria-current="page"]{background:var(--slate-3);color:var(--chalk)}
+.nav a[aria-current="page"] .ico{color:var(--marigold)}
+.nav a .pill{margin-left:auto;font-size:.72rem;padding:1px 8px;border-radius:999px;background:var(--slate-3);color:var(--chalk-3)}
+.nav a .pill.new{background:rgba(255,178,56,.14);color:var(--marigold)}
+.quota{margin-top:auto;border:1px solid var(--rule);border-radius:16px;padding:14px;display:grid;gap:8px;background:var(--slate-2)}
+.quota .t{display:flex;justify-content:space-between;align-items:baseline;font-size:.85rem;color:var(--chalk-2)}
+.quota .t b{font-family:var(--f-display);font-weight:700;font-size:1.05rem;color:var(--chalk)}
+.meter{height:6px;border-radius:99px;background:var(--slate-4);overflow:hidden}
+.meter i{display:block;height:100%;border-radius:99px;background:var(--marigold);min-width:4px}
+.quota small{color:var(--chalk-3);font-size:.78rem}
+.plan{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:1px dashed var(--rule-2);font-size:.82rem;color:var(--chalk-3)}
+.plan b{color:var(--chalk);font-weight:600;display:block;font-size:.88rem}
+.plan .ico{color:var(--marigold)}
+
+/* ---------- main (the desk) ---------- */
+.main{min-width:0;display:flex;flex-direction:column}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;display:flex;align-items:center;gap:14px;min-height:68px;background:rgba(13,24,20,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);
+  padding-left:clamp(16px,3vw,36px);padding-right:max(clamp(16px,3vw,36px),env(safe-area-inset-right,0px))}
+.top .mlogo{display:none}
+.search{flex:1;max-width:520px;display:flex;align-items:center;gap:10px;min-height:44px;padding:0 14px;border-radius:999px;background:var(--slate-2);border:1px solid var(--rule);color:var(--chalk-3)}
+.search:focus-within{border-color:var(--marigold)}
+.search input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--chalk);font:400 .95rem var(--f-body)}
+.search input::placeholder{color:var(--chalk-3)}
+.search kbd{font-family:var(--f-mono);font-size:.72rem;border:1px solid var(--rule-2);border-radius:6px;padding:1px 6px;color:var(--chalk-3)}
+.top-act{margin-left:auto;display:flex;align-items:center;gap:6px}
+.iconbtn{position:relative;width:44px;height:44px;border-radius:50%;border:0;background:transparent;color:var(--chalk-2);display:grid;place-items:center;cursor:pointer}
+.iconbtn:hover{background:var(--slate-2);color:var(--chalk)}
+.iconbtn .dot{position:absolute;top:10px;right:11px;width:8px;height:8px;border-radius:50%;background:var(--redpen);box-shadow:0 0 0 2px var(--slate)}
+.me{display:flex;align-items:center;gap:10px;padding:4px 6px 4px 4px;border-radius:999px;border:1px solid var(--rule);background:transparent;color:var(--chalk);cursor:pointer;min-height:44px}
+.me .av{width:34px;height:34px;border-radius:50%;background:var(--chalk);color:var(--board-ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:800}
+.me span{display:grid;line-height:1.2;text-align:left;font-size:.88rem;font-weight:600;padding-right:6px}
+.me small{font-weight:400;color:var(--chalk-3);font-size:.75rem}
+
+.desk{padding-block:28px 64px;padding-left:clamp(16px,3vw,36px);padding-right:max(clamp(16px,3vw,36px),env(safe-area-inset-right,0px));display:grid;gap:22px;max-width:1240px;width:100%}
+
+/* hello row */
+.hello{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end}
+.date{font-size:.85rem;color:var(--chalk-3);margin:0 0 6px;display:flex;gap:10px;flex-wrap:wrap}
+.date .bd{color:var(--marigold)}
+.hello h1{margin:0;font-family:var(--f-display);font-stretch:80%;font-weight:750;font-size:clamp(2rem,3.6vw,2.9rem);line-height:1.1;text-wrap:balance}
+.hello h1 em{font-style:normal;color:var(--marigold)}
+.summary{margin:8px 0 0;color:var(--chalk-2);font-size:1.05rem;max-width:44em}
+.summary b{color:var(--chalk);font-weight:600}
+
+/* ledger strip: replaces the 4 tiles */
+.ledger{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;border:1px solid var(--rule);border-radius:20px;background:var(--slate-2);overflow:hidden}
+.ledger > div{padding:16px 20px;display:grid;gap:6px;align-content:start;border-left:1px solid var(--rule);min-width:0}
+.ledger > div:first-child{border-left:0}
+.lab{font-size:.8rem;color:var(--chalk-3);display:flex;justify-content:space-between;gap:8px}
+.val{font-family:var(--f-display);font-stretch:85%;font-weight:750;font-size:1.9rem;line-height:1.1}
+.val small{font-family:var(--f-body);font-size:.85rem;font-weight:500;color:var(--chalk-3);margin-left:4px}
+.week{display:flex;gap:6px;margin-top:2px}
+.week span{display:grid;justify-items:center;gap:3px;font-size:.68rem;color:var(--chalk-3)}
+.week i{width:24px;height:24px;border-radius:8px;background:var(--slate-4);display:grid;place-items:center}
+.week .d i{background:var(--marigold)}
+.week .d i::after{content:"";width:9px;height:5px;border-left:2px solid var(--marigold-ink);border-bottom:2px solid var(--marigold-ink);transform:rotate(-45deg) translate(1px,-1px)}
+.week .today i{background:transparent;border:2px solid var(--marigold)}
+.week .today{color:var(--chalk)}
+.freeze{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;color:var(--ice)}
+.freeze .ico{width:15px;height:15px}
+.mini-ring{display:flex;align-items:center;gap:12px}
+.mini-ring svg{width:46px;height:46px;flex-shrink:0}
+.mini-ring circle{fill:none;stroke-width:5}
+.mini-ring .bg{stroke:var(--slate-4)}
+.mini-ring .fg{stroke:var(--marigold);stroke-linecap:round;transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset 1.2s var(--ease)}
+
+/* the one bright card */
+.now{position:relative;background:var(--chalk);color:var(--board-ink);border-radius:26px;padding:clamp(20px,3vw,32px);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px 32px;overflow:hidden}
+.now::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;border:28px solid rgba(20,32,27,.05);pointer-events:none}
+.crumb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:.86rem;color:#4A5650}
+.crumb b{color:var(--board-ink);font-weight:600}
+.crumb .live{display:inline-flex;align-items:center;gap:6px;background:var(--board-ink);color:var(--marigold);padding:2px 10px;border-radius:999px;font-size:.75rem;font-weight:600}
+.crumb .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--marigold);animation:bl 1.6s infinite}
+@keyframes bl{50%{opacity:.3}}
+.now h2{margin:10px 0 0;font-family:var(--f-display);font-stretch:78%;font-weight:780;font-size:clamp(1.7rem,3vw,2.5rem);line-height:1.12;text-wrap:balance;max-width:22ch}
+.now .goal-l{display:block;font-family:var(--f-body);font-size:.82rem;font-weight:500;color:#4A5650;margin-bottom:2px;font-stretch:100%}
+.steps{grid-column:1 / -1;list-style:none;margin:4px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.steps li{display:grid;gap:8px;font-size:.82rem;color:#5D6862}
+.steps li::before{content:"";height:6px;border-radius:99px;background:#D6CFBD}
+.steps li.cur{color:var(--board-ink);font-weight:600}
+.steps li.cur::before{background:linear-gradient(90deg,var(--board-ink) 35%,#D6CFBD 35%)}
+.now-side{display:grid;gap:10px;align-content:center;justify-items:end;text-align:right}
+.now-side small{font-size:.82rem;color:#4A5650}
+.go{display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 26px;border-radius:999px;border:0;background:var(--board-ink);color:var(--chalk);font-family:var(--f-display);font-stretch:92%;font-weight:700;font-size:1.12rem;cursor:pointer;box-shadow:0 2px 0 #000;transition:transform .2s var(--ease)}
+.go:hover{transform:translateY(-2px)}
+.go .arr{transition:transform .2s var(--ease)}
+.go:hover .arr{transform:translateX(4px)}
+.ask{grid-column:1 / -1;display:flex;align-items:center;gap:10px;background:#E3DDCC;border-radius:16px;padding:6px 6px 6px 14px}
+.ask .ava{width:30px;height:30px;border-radius:9px 9px 9px 3px;background:var(--marigold);color:var(--marigold-ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;flex-shrink:0;font-size:.95rem}
+.ask input{flex:1;min-width:0;background:none;border:0;outline:0;font:500 .98rem var(--f-body);color:var(--board-ink);min-height:40px}
+.ask input::placeholder{color:#6B746F}
+.ask button{min-height:40px;padding:0 16px;border-radius:12px;border:0;background:var(--board-ink);color:var(--chalk);font:600 .9rem var(--f-body);cursor:pointer}
+.reply{grid-column:1 / -1;display:flex;gap:10px;align-items:flex-start;font-size:.95rem;margin-top:-6px;animation:pop .4s var(--ease) both}
+.reply .bub{background:var(--board-ink);color:var(--chalk);border-radius:4px 14px 14px 14px;padding:10px 14px;max-width:60ch}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* grid of panels */
+.grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:22px;align-items:start}
+.panel{background:var(--slate-2);border:1px solid var(--rule);border-radius:22px;padding:22px;min-width:0}
+.ph{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.ph h3{margin:0;font-family:var(--f-display);font-stretch:85%;font-weight:700;font-size:1.3rem;line-height:1.2}
+.ph p{margin:2px 0 0;font-size:.85rem;color:var(--chalk-3);flex-basis:100%}
+.ph a{font-size:.88rem;color:var(--marigold);font-weight:500;white-space:nowrap}
+.ph a:hover{text-decoration:underline}
+
+/* routine timeline */
+.tl{list-style:none;margin:0;padding:0;display:grid}
+.tl li{display:grid;grid-template-columns:62px 22px minmax(0,1fr) auto;gap:14px;align-items:start;padding:12px 0;position:relative}
+.tl li + li{border-top:1px dashed var(--rule)}
+.tl time{font-family:var(--f-display);font-weight:700;font-stretch:85%;font-size:1rem;color:var(--chalk-2);padding-top:2px}
+.tl .chk{width:22px;height:22px;border-radius:7px;border:1.5px solid var(--rule-2);background:transparent;cursor:pointer;display:grid;place-items:center;margin-top:3px;padding:0}
+.tl .chk[aria-checked="true"]{background:var(--tick);border-color:var(--tick)}
+.tl .chk[aria-checked="true"]::after{content:"";width:9px;height:5px;border-left:2px solid var(--board-ink);border-bottom:2px solid var(--board-ink);transform:rotate(-45deg) translate(1px,-1px)}
+.tl .what b{display:block;font-weight:600;font-size:1rem;line-height:1.4}
+.tl .what small{color:var(--chalk-3);font-size:.82rem;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.subj{display:inline-flex;align-items:center;gap:5px}
+.subj::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--c,var(--marigold))}
+.tl li.done .what b{color:var(--chalk-3);text-decoration:line-through;text-decoration-color:var(--tick)}
+.tl li.on time{color:var(--marigold)}
+.tl .start{min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--rule-2);background:transparent;color:var(--chalk);font-size:.85rem;cursor:pointer;white-space:nowrap}
+.tl .start:hover{border-color:var(--marigold);color:var(--marigold)}
+.tl li.on .start{background:var(--marigold);color:var(--marigold-ink);border-color:var(--marigold);font-weight:600}
+.tl-foot{margin-top:6px;padding-top:12px;border-top:1px solid var(--rule);font-size:.85rem;color:var(--chalk-3);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.tl-foot b{color:var(--chalk);font-weight:600}
+
+/* mastery: empty-state that still teaches */
+.mast{display:grid;gap:12px}
+.mrow{display:grid;gap:10px;padding:14px 16px;border-radius:16px;background:var(--slate);border:1px solid var(--rule)}
+.mrow .top-l{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.mrow b{font-family:var(--f-display);font-stretch:85%;font-weight:700;font-size:1.15rem}
+.mrow .st{font-size:.8rem;color:var(--chalk-3)}
+.blocks{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:5px}
+.blocks i{height:30px;border-radius:7px;border:1.5px dashed var(--rule-2);display:grid;place-items:center;font-style:normal;font-size:.72rem;color:var(--chalk-3)}
+.blocks i.part{border-style:solid;border-color:rgba(255,178,56,.55);background:rgba(255,178,56,.08);color:var(--marigold)}
+.mrow .cta{font-size:.85rem;color:var(--chalk-2);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.mrow .cta a{color:var(--marigold);font-weight:500}
+.note-empty{font-size:.85rem;color:var(--chalk-3);margin:2px 0 0;display:flex;gap:8px}
+.note-empty .ico{width:17px;height:17px;color:var(--chalk-3);margin-top:3px}
+
+/* bottom row */
+.row3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:22px}
+.shelf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.bdg{display:grid;justify-items:center;gap:6px;text-align:center;font-size:.78rem;line-height:1.35;color:var(--chalk-2);padding:6px 2px}
+.bdg svg{width:56px;height:56px}
+.bdg.lock{color:var(--chalk-3)}
+.bdg .prog{width:56px;height:4px;border-radius:99px;background:var(--slate-4);overflow:hidden}
+.bdg .prog i{display:block;height:100%;background:var(--marigold)}
+.xp{display:flex;align-items:center;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule);font-size:.85rem;color:var(--chalk-3)}
+.xp .meter{flex:1}
+.xp b{color:var(--chalk);font-weight:600;white-space:nowrap}
+
+.drop{display:grid;gap:12px;justify-items:start}
+.drop-zone{width:100%;border:1.5px dashed var(--rule-2);border-radius:16px;padding:18px;display:flex;gap:14px;align-items:center;cursor:pointer;transition:border-color .2s,background .2s;background:var(--slate)}
+.drop-zone:hover,.drop-zone.over{border-color:var(--marigold);background:rgba(255,178,56,.05)}
+.drop-zone input{position:absolute;width:1px;height:1px;opacity:0}
+.mini-khata{width:54px;height:66px;flex-shrink:0;border-radius:4px;background:var(--paper);transform:rotate(-4deg);
+  background-image:linear-gradient(90deg,transparent 9px,rgba(220,60,50,.5) 9px 10px,transparent 10px),repeating-linear-gradient(180deg,transparent 0 9px,var(--paper-rule) 9px 10px);box-shadow:0 8px 14px -8px rgba(0,0,0,.8)}
+.drop-zone b{display:block;font-weight:600}
+.drop-zone small{color:var(--chalk-3);font-size:.82rem}
+.upl{font-size:.85rem;color:var(--tick)}
+
+.test{display:grid;gap:14px}
+.test .big{font-family:var(--f-display);font-stretch:80%;font-weight:750;font-size:1.5rem;line-height:1.2;margin:0}
+.test .meta{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-size:.78rem;padding:3px 10px;border-radius:999px;border:1px solid var(--rule-2);color:var(--chalk-2)}
+.cta-line{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;background:var(--marigold);color:var(--marigold-ink);font-family:var(--f-display);font-stretch:92%;font-weight:700;border:0;cursor:pointer;width:fit-content;box-shadow:0 2px 0 #B97400}
+.cta-line:hover{transform:translateY(-1px)}
+.why{font-size:.82rem;color:var(--chalk-3);margin:0}
+
+/* mobile bottom tab bar */
+.tabbar{display:none}
+
+/* design notes */
+.dnote{display:none;font-family:var(--f-mono);font-size:12px;line-height:1.55;color:#FFD9A0;background:rgba(255,178,56,.07);border:1px dashed rgba(255,178,56,.55);border-radius:10px;padding:10px 12px;margin:0}
+.dnote b{color:var(--marigold);letter-spacing:.06em}
+body.notes .dnote{display:block}
+.notes-toggle{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:70;min-height:44px;border-radius:999px;border:1px solid var(--rule-2);background:var(--slate-3);color:var(--chalk);padding:0 16px;font:600 .88rem var(--f-body);cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 14px 30px -10px rgba(0,0,0,.7)}
+.notes-toggle i{width:10px;height:10px;border-radius:50%;background:var(--chalk-3)}
+.notes-toggle[aria-pressed="true"] i{background:var(--marigold);box-shadow:0 0 0 4px rgba(255,178,56,.2)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1180px){
+  .row3{grid-template-columns:1fr 1fr}
+  .row3 > :first-child{grid-column:1 / -1}
+}
+@media (max-width:1020px){
+  .app{grid-template-columns:76px minmax(0,1fr)}
+  .side{padding-inline:10px;align-items:center}
+  .logo-word,.nav-label,.nav a span,.nav a .pill,.quota,.plan{display:none}
+  .logo{padding:2px 0 10px}
+  .nav a{justify-content:center;padding:10px;width:52px}
+  .ledger{grid-template-columns:1fr 1fr}
+  .ledger > div:nth-child(3){border-left:0}
+  .ledger > div:nth-child(n+3){border-top:1px solid var(--rule)}
+  .grid{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  .app{grid-template-columns:1fr}
+  .side{display:none}
+  .top{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .top .mlogo{display:flex;padding:0}
+  .top .mlogo .logo-word{display:inline;font-size:1.3rem}
+  .search{display:none}
+  .me span{display:none}
+  .me{padding:4px}
+  .desk{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-bottom:calc(110px + env(safe-area-inset-bottom,0px));gap:16px;padding-top:20px}
+  .hello{grid-template-columns:1fr}
+  .now{grid-template-columns:1fr;border-radius:22px}
+  .now-side{justify-items:stretch;text-align:left}
+  .go{justify-content:center;width:100%}
+  .steps{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .steps li{font-size:0;gap:0}
+  .steps li.cur{font-size:.8rem;gap:6px;grid-column:span 1}
+  .steps li.cur span{white-space:nowrap}
+  .ledger > div{padding:14px 16px}
+  .val{font-size:1.6rem}
+  .row3{grid-template-columns:1fr}
+  .tl li{grid-template-columns:22px minmax(0,1fr);gap:4px 12px}
+  .tl time{grid-column:2;grid-row:1;font-size:.85rem;padding:0}
+  .tl .chk{grid-row:1 / span 2;grid-column:1}
+  .tl .what{grid-column:2}
+  .tl .start{grid-column:2;justify-self:start;margin-top:6px}
+  .panel{padding:18px;border-radius:20px}
+  .notes-toggle{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(19,34,28,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--rule);
+    padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+  .tabbar a{display:grid;justify-items:center;gap:2px;min-height:54px;align-content:center;font-size:.72rem;color:var(--chalk-3);border-radius:12px}
+  .tabbar a[aria-current="page"]{color:var(--chalk)}
+  .tabbar a[aria-current="page"] .ico{color:var(--marigold)}
+  .tabbar .tutor{position:relative}
+  .tabbar .tutor .ico{width:44px;height:44px;padding:11px;border-radius:14px 14px 14px 4px;background:var(--marigold);color:var(--marigold-ink);margin-top:-18px;box-shadow:0 8px 18px -6px rgba(255,178,56,.5)}
+  .tabbar .tutor{color:var(--chalk)}
+}
+@media (max-width:420px){
+  .ledger{grid-template-columns:1fr 1fr}
+  .week i{width:20px;height:20px}
+  .week{gap:4px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-tutor" viewBox="0 0 24 24"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-4.5 3.5V17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M8 10.5h8M8 13.5h5"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 6c2.5-1.5 5.5-1.5 8 .5 2.5-2 5.5-2 8-.5v13c-2.5-1.5-5.5-1.5-8 .5-2.5-2-5.5-2-8-.5z"/><path d="M12 6.5V19.5"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-test" viewBox="0 0 24 24"><path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1z"/><path d="M14 3.5V8h4M9 13l2 2 4-4"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20h16M7 16v-4M12 16V8M17 16v-6"/></symbol>
+  <symbol id="i-group" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3"/><circle cx="17" cy="10" r="2.3"/><path d="M3.5 19c.5-3.4 2.8-5.4 5.5-5.4s5 2 5.5 5.4M14.3 19c.3-2.3 1.4-3.8 2.9-3.8s2.8 1.5 3.1 3.8"/></symbol>
+  <symbol id="i-khata" viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="1.5"/><path d="M8 3.5v17M11 8h5M11 11.5h5M11 15h3"/></symbol>
+  <symbol id="i-teacher" viewBox="0 0 24 24"><path d="M2.5 9 12 5l9.5 4L12 13z"/><path d="M6.5 11v4.5c1.6 1.5 3.5 2.2 5.5 2.2s3.9-.7 5.5-2.2V11M21.5 9v5"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+  <symbol id="i-snow" viewBox="0 0 24 24"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 7l2.5-2.5M9.5 19.5 12 17l2.5 2.5"/></symbol>
+  <symbol id="i-family" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.5A4 4 0 0 1 12 8a4 4 0 0 1 7 2.5C19 15.6 12 20 12 20z"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></symbol>
+</svg>
+
+<div class="app">
+  <!-- SHELF -->
+  <aside class="side" aria-label="মেনু">
+    <a class="logo" href="#"><span class="logo-mark" aria-hidden="true">প</span><span class="logo-word">পড়া হবে<em>!</em></span></a>
+    <nav class="nav" aria-label="প্রধান মেনু">
+      <div class="nav-group">
+        <a href="#" aria-current="page" title="আজ"><svg class="ico"><use href="#i-home"/></svg><span>আজ</span></a>
+        <a href="#" title="AI Tutor"><svg class="ico"><use href="#i-tutor"/></svg><span>AI Tutor</span></a>
+        <a href="#" title="পড়ার রুটিন"><svg class="ico"><use href="#i-cal"/></svg><span>পড়ার রুটিন</span></a>
+      </div>
+      <div class="nav-group">
+        <p class="nav-label">পড়া</p>
+        <a href="#" title="বই ও নোট"><svg class="ico"><use href="#i-book"/></svg><span>বই ও নোট</span></a>
+        <a href="#" title="মডেল টেস্ট"><svg class="ico"><use href="#i-test"/></svg><span>মডেল টেস্ট</span></a>
+        <a href="#" title="খাতা মূল্যায়ন"><svg class="ico"><use href="#i-khata"/></svg><span>খাতা মূল্যায়ন</span><span class="pill new">নতুন</span></a>
+        <a href="#" title="অগ্রগতি"><svg class="ico"><use href="#i-chart"/></svg><span>অগ্রগতি</span></a>
+      </div>
+      <div class="nav-group">
+        <p class="nav-label">একসাথে</p>
+        <a href="#" title="পড়ার আড্ডা"><svg class="ico"><use href="#i-group"/></svg><span>পড়ার আড্ডা</span><span class="pill">৩–৫ জন</span></a>
+        <a href="#" title="শিক্ষক বুকিং"><svg class="ico"><use href="#i-teacher"/></svg><span>শিক্ষক বুকিং</span></a>
+      </div>
+    </nav>
+
+    <div class="quota">
+      <div class="t"><span>Tutor-কে প্রশ্ন</span><b class="num">২/৩০০</b></div>
+      <div class="meter"><i style="width:.7%"></i></div>
+      <small>এই মাসে আরও ২৯৮টা প্রশ্ন করতে পারবে</small>
+    </div>
+    <a class="plan" href="#"><svg class="ico"><use href="#i-family"/></svg><span><b>ফ্যামিলি প্যাক</b>৪ জন পর্যন্ত ভাইবোন</span></a>
+  </aside>
+
+  <div class="main">
+    <header class="top">
+      <a class="logo mlogo" href="#"><span class="logo-mark" aria-hidden="true">প</span><span class="logo-word">পড়া হবে<em>!</em></span></a>
+      <label class="search" for="q"><svg class="ico"><use href="#i-search"/></svg><input id="q" type="search" placeholder="অধ্যায়, টপিক বা প্রশ্ন খোঁজো"><kbd>/</kbd></label>
+      <div class="top-act">
+        <button class="iconbtn" type="button" aria-label="নোটিফিকেশন, ১টি নতুন"><svg class="ico"><use href="#i-bell"/></svg><span class="dot"></span></button>
+        <button class="me" type="button" aria-label="প্রোফাইল: রাফি আহমেদ"><span class="av" aria-hidden="true">রা</span><span>রাফি আহমেদ<small>ক্লাস ৮ · বাংলা মিডিয়াম</small></span></button>
+      </div>
+    </header>
+
+    <main class="desk">
+      <p class="dnote"><b>WHAT CHANGED VS THE OLD DASHBOARD</b><br>
+        1. Four identical stat tiles with coloured side rails → one "ledger" strip; the streak gets the most room because it drives daily return.<br>
+        2. Internal codes never reach the student: no CHECK_PREREQUISITES, BADGE_SCHOLAR_STARTER, NCTB-2026-BM-v1.0, STU-2026-DEMO. Show human words ("শুরুর আগে: আগের পড়া একটু ঝালাই").<br>
+        3. One clear next action: the chalk-white card. Everything else is quiet.<br>
+        4. 0% bars are replaced by an empty state that says how to fill them.<br>
+        5. Greeting includes a one-line summary sentence, so the page is understood in 3 seconds.</p>
+
+      <!-- greeting -->
+      <section class="hello" aria-labelledby="hi">
+        <div>
+          <p class="date"><span>সোমবার, ২ নভেম্বর</span><span class="bd">১৭ কার্তিক ১৪৩৩</span></p>
+          <h1 id="hi">শুভ সন্ধ্যা, <em>রাফি!</em></h1>
+          <p class="summary">আজ <b>৩০ মিনিট</b> পড়েছো, লক্ষ্যের আর <b>১৫ মিনিট</b> বাকি। একটা লেসন শেষ করলেই আজকের লক্ষ্য পূরণ, স্ট্রিকও থাকবে।</p>
+        </div>
+      </section>
+
+      <!-- ledger -->
+      <section class="ledger" aria-label="আজকের হিসাব">
+        <div>
+          <span class="lab"><span>টানা পড়ার স্ট্রিক</span><span class="freeze" title="একদিন মিস হলেও স্ট্রিক ভাঙবে না"><svg class="ico"><use href="#i-snow"/></svg>ফ্রিজ ১টি</span></span>
+          <span class="val num">৩ <small>দিন</small></span>
+          <div class="week" aria-label="এই সপ্তাহ: শনি, রবি পড়া হয়েছে, আজ সোমবার চলছে">
+            <span class="d"><i></i>শ</span><span class="d"><i></i>র</span><span class="today"><i></i>সো</span><span><i></i>ম</span><span><i></i>বু</span><span><i></i>বৃ</span><span><i></i>শু</span>
+          </div>
+        </div>
+        <div>
+          <span class="lab">আজকের লক্ষ্য</span>
+          <div class="mini-ring">
+            <svg viewBox="0 0 50 50" aria-hidden="true"><circle class="bg" cx="25" cy="25" r="20"/><circle class="fg" id="goalRing" cx="25" cy="25" r="20" stroke-dasharray="125.7" stroke-dashoffset="41.9"/></svg>
+            <span class="val num">৩০<small>/৪৫ মি</small></span>
+          </div>
+        </div>
+        <div>
+          <span class="lab">আজকের কাজ</span>
+          <span class="val num" id="taskCount">০<small>/২ শেষ</small></span>
+        </div>
+        <div>
+          <span class="lab">মোট XP</span>
+          <span class="val num">১০০ <small>XP</small></span>
+          <small style="color:var(--chalk-3);font-size:.78rem">পরের লেভেল ২৫০ XP-তে</small>
+        </div>
+      </section>
+
+      <!-- the one bright card -->
+      <section class="now" aria-labelledby="nowh">
+        <div>
+          <div class="crumb"><span class="live">চলমান</span><b>গণিত</b><span>›</span><span>অধ্যায় ৩: বীজগাণিতিক রাশি</span></div>
+          <h2 id="nowh"><span class="goal-l">এই লেসন শেষে তুমি পারবে</span>বীজগাণিতিক প্রতীক, চলক ও সহগ চিনে নিতে</h2>
+        </div>
+        <div class="now-side">
+          <button class="go" type="button">পাঠ চালিয়ে যাও <span class="arr" aria-hidden="true">→</span></button>
+          <small>আর আনুমানিক ১৫ মিনিট</small>
+        </div>
+        <ol class="steps" aria-label="লেসনের ধাপ">
+          <li class="cur"><span>শুরুর আগে: আগের পড়া ঝালাই</span></li>
+          <li><span>ধারণা</span></li>
+          <li><span>উদাহরণ</span></li>
+          <li><span>নিজে করো</span></li>
+          <li><span>ছোট কুইজ</span></li>
+        </ol>
+        <form class="ask" id="ask">
+          <span class="ava" aria-hidden="true">প</span>
+          <label for="askIn" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Tutor-কে প্রশ্ন</label>
+          <input id="askIn" placeholder="এই অধ্যায় নিয়ে Tutor-কে কিছু জিজ্ঞেস করো…" value="সহগ আর চলকের পার্থক্য কী?">
+          <button type="submit">জিজ্ঞেস করো</button>
+        </form>
+        <div class="reply" id="reply" hidden><span class="ava" style="width:30px;height:30px;border-radius:9px 9px 9px 3px;background:var(--marigold);color:var(--marigold-ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;flex-shrink:0" aria-hidden="true">প</span><div class="bub" id="replyTxt"></div></div>
+      </section>
+
+      <div class="grid">
+        <!-- routine -->
+        <section class="panel" aria-labelledby="rt">
+          <div class="ph"><h3 id="rt">আজকের রুটিন</h3><a href="#">পুরো সপ্তাহ →</a><p>তোমার ভুল আর গতি দেখে Tutor আজকের জন্য এগুলো বেছেছে</p></div>
+          <ul class="tl" id="tl">
+            <li class="on">
+              <time>এখন</time>
+              <button class="chk" type="button" role="checkbox" aria-checked="false" aria-label="শেষ হয়েছে চিহ্ন দাও"></button>
+              <div class="what"><b>বর্গের সূত্রাবলি অনুশীলন</b><small><span class="subj">গণিত</span>· ২৫ মিনিট · ১০টা অঙ্ক</small></div>
+              <button class="start" type="button">শুরু করো</button>
+            </li>
+            <li>
+              <time>৮:১৫</time>
+              <button class="chk" type="button" role="checkbox" aria-checked="false" aria-label="শেষ হয়েছে চিহ্ন দাও"></button>
+              <div class="what"><b>সদৃশ ও বিসদৃশ পদের যোগ-বিয়োগ</b><small><span class="subj">গণিত</span>· ২০ মিনিট · গত কুইজে ২টা ভুল ছিল</small></div>
+              <button class="start" type="button">শুরু করো</button>
+            </li>
+          </ul>
+          <div class="tl-foot"><span>আজ মোট <b>৪৫ মিনিট</b></span><span>রুটিন বদলাতে চাও? <a href="#" style="color:var(--marigold)">সময় ঠিক করো</a></span></div>
+        </section>
+
+        <!-- mastery -->
+        <section class="panel" aria-labelledby="ms">
+          <div class="ph"><h3 id="ms">কোন বিষয়ে কতটা পোক্ত</h3><a href="#">বিস্তারিত →</a><p>অধ্যায়ের কুইজ আর অনুশীলন থেকে হিসাব হয়</p></div>
+          <div class="mast">
+            <div class="mrow">
+              <div class="top-l"><b>গণিত</b><span class="st">৪টি শিখনফলের ০টি পোক্ত</span></div>
+              <div class="blocks" style="--n:4"><i class="part">চলছে</i><i></i><i></i><i></i></div>
+              <div class="cta"><span>বীজগাণিতিক রাশির কুইজ দিলেই প্রথম ঘর ভরবে</span><a href="#">অধ্যায় দেখো →</a></div>
+            </div>
+            <div class="mrow">
+              <div class="top-l"><b>বিজ্ঞান</b><span class="st">২টি শিখনফলের ০টি পোক্ত</span></div>
+              <div class="blocks" style="--n:2"><i></i><i></i></div>
+              <div class="cta"><span>এখনো শুরু হয়নি</span><a href="#">প্রথম লেসন →</a></div>
+            </div>
+            <p class="note-empty"><svg class="ico"><use href="#i-info"/></svg>প্রতিটা ঘর একটা শিখনফল। কুইজে ৮০% পেলে ঘরটা সবুজ হবে।</p>
+          </div>
+        </section>
+      </div>
+
+      <div class="row3">
+        <!-- badges -->
+        <section class="panel" aria-labelledby="bd">
+          <div class="ph"><h3 id="bd">অর্জন</h3><a href="#">সব দেখো →</a></div>
+          <div class="shelf">
+            <div class="bdg"><svg viewBox="0 0 60 60" aria-hidden="true"><path d="M30 3l6 5 8-1 3 7 7 4-1 8 5 6-5 6 1 8-7 4-3 7-8-1-6 5-6-5-8 1-3-7-7-4 1-8-5-6 5-6-1-8 7-4 3-7 8 1z" fill="#FFB238"/><text x="30" y="37" text-anchor="middle" font-family="Anek Bangla" font-weight="800" font-size="16" fill="#241600">৫০+</text></svg>উদ্যমী শিক্ষার্থী<br><small style="color:var(--chalk-3)">৫০ XP পার</small></div>
+            <div class="bdg"><svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="26" fill="none" stroke="#FFB238" stroke-width="2.5" stroke-dasharray="4 4"/><circle cx="30" cy="30" r="19" fill="#EDE8DA"/><text x="30" y="37" text-anchor="middle" font-family="Anek Bangla" font-weight="800" font-size="19" fill="#14201B">৩</text></svg>ধারাবাহিক সাধক<br><small style="color:var(--chalk-3)">৩ দিনের স্ট্রিক</small></div>
+            <div class="bdg lock"><svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="25" fill="none" stroke="#7E8A80" stroke-width="2" stroke-dasharray="3 5"/><text x="30" y="37" text-anchor="middle" font-family="Anek Bangla" font-weight="800" font-size="19" fill="#7E8A80">৭</text></svg>৭ দিনের স্ট্রিক<span class="prog"><i style="width:43%"></i></span><small>আর ৪ দিন</small></div>
+          </div>
+          <div class="xp"><span>লেভেল ১</span><div class="meter"><i style="width:40%"></i></div><b class="num">১০০/২৫০ XP</b></div>
+        </section>
+
+        <!-- khata upload -->
+        <section class="panel drop" aria-labelledby="kh">
+          <div class="ph" style="margin:0;width:100%"><h3 id="kh">খাতা দেখাও</h3><a href="#">আগের খাতা →</a><p>হাতে লেখা উত্তরের ছবি দাও, Tutor ধাপে ধাপে মতামত দেবে</p></div>
+          <label class="drop-zone" id="drop" for="file">
+            <span class="mini-khata" aria-hidden="true"></span>
+            <span><b>খাতার ছবি তোলো বা এখানে টেনে আনো</b><small>JPG, PNG বা PDF · এক পাতা বা একাধিক</small></span>
+            <input id="file" type="file" accept="image/*,.pdf" multiple>
+          </label>
+          <span class="upl" id="upl" hidden></span>
+          <p class="why">নম্বরটা প্রস্তাবিত, তুমি বা শিক্ষক রিভিউ করতে পারবে।</p>
+        </section>
+
+        <!-- next test -->
+        <section class="panel test" aria-labelledby="ts">
+          <div class="ph" style="margin:0"><h3 id="ts">পরের মডেল টেস্ট</h3></div>
+          <p class="big">বীজগাণিতিক রাশি<br><span style="color:var(--chalk-3);font-size:.75em;font-weight:600">শুক্রবার, সন্ধ্যা ৭টা</span></p>
+          <div class="meta"><span class="chip">২০টি MCQ</span><span class="chip">২টি সৃজনশীল</span><span class="chip">৪০ মিনিট</span></div>
+          <button class="cta-line" type="button">এখনই প্র্যাকটিস টেস্ট দাও →</button>
+          <p class="why">প্র্যাকটিস টেস্টের নম্বর রিপোর্টে যোগ হয় না।</p>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+
+<nav class="tabbar" aria-label="মোবাইল মেনু">
+  <a href="#" aria-current="page"><svg class="ico"><use href="#i-home"/></svg>আজ</a>
+  <a href="#"><svg class="ico"><use href="#i-cal"/></svg>রুটিন</a>
+  <a href="#" class="tutor"><svg class="ico"><use href="#i-tutor"/></svg>Tutor</a>
+  <a href="#"><svg class="ico"><use href="#i-test"/></svg>টেস্ট</a>
+  <a href="#"><svg class="ico"><use href="#i-more"/></svg>আরও</a>
+</nav>
+
+<button class="notes-toggle" id="notesBtn" type="button" aria-pressed="false"><i></i>ডিজাইন নোট</button>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const bn = s => String(s).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
+
+  $('notesBtn').addEventListener('click', e => { const on = document.body.classList.toggle('notes'); e.currentTarget.setAttribute('aria-pressed', on); });
+
+  /* sidebar active state */
+  document.querySelectorAll('.nav a, .tabbar a').forEach(a => a.addEventListener('click', e => {
+    e.preventDefault(); const grp = a.closest('.nav, .tabbar');
+    grp.querySelectorAll('a').forEach(x => x.removeAttribute('aria-current')); a.setAttribute('aria-current', 'page');
+  }));
+
+  /* "/" focuses search */
+  addEventListener('keydown', e => { if (e.key === '/' && document.activeElement.tagName !== 'INPUT') { e.preventDefault(); $('q').focus(); } });
+
+  /* routine checkboxes update the ledger */
+  const tl = $('tl');
+  const recount = () => {
+    const done = tl.querySelectorAll('.chk[aria-checked="true"]').length;
+    $('taskCount').innerHTML = bn(done) + '<small>/২ শেষ</small>';
+    const items = [...tl.children]; items.forEach(li => li.classList.remove('on'));
+    const next = items.find(li => !li.classList.contains('done')); if (next) next.classList.add('on');
+    const mins = 30 + [...tl.querySelectorAll('.chk[aria-checked="true"]')].length * 8;
+    $('goalRing').style.strokeDashoffset = 125.7 * (1 - Math.min(mins, 45) / 45);
+  };
+  tl.addEventListener('click', e => {
+    const c = e.target.closest('.chk'); if (!c) return;
+    const on = c.getAttribute('aria-checked') !== 'true';
+    c.setAttribute('aria-checked', on); c.closest('li').classList.toggle('done', on); recount();
+  });
+
+  /* ask the tutor (demo reply) */
+  const answers = [
+    [/সহগ|চলক/, 'ধরো 5x। এখানে x হলো চলক, মানে যার মান বদলাতে পারে। আর 5 হলো সহগ, x-এর সাথে গুণ হয়ে আছে। 5x মানে পাঁচটা x। বুঝলে, নাকি আরেকটা উদাহরণ দেবো?'],
+    [/.*/, 'ভালো প্রশ্ন! চলো লেসনের ধারণা ধাপে গিয়ে এটা একসাথে দেখি। আমি একটা ছোট উদাহরণ দিয়ে শুরু করছি।']
+  ];
+  $('ask').addEventListener('submit', e => {
+    e.preventDefault();
+    const q = $('askIn').value.trim(); if (!q) { $('askIn').focus(); return; }
+    $('replyTxt').textContent = answers.find(([r]) => r.test(q))[1];
+    $('reply').hidden = false; $('reply').style.animation = 'none'; $('reply').offsetHeight; $('reply').style.animation = '';
+  });
+
+  /* khata upload */
+  const drop = $('drop'), file = $('file');
+  const took = fs => { if (!fs.length) return; $('upl').hidden = false; $('upl').textContent = `${bn(fs.length)}টা পাতা নেওয়া হয়েছে · মূল্যায়ন শুরু হচ্ছে (ডেমো)`; };
+  file.addEventListener('change', () => took(file.files));
+  ['dragenter', 'dragover'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add('over'); }));
+  ['dragleave', 'drop'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove('over'); }));
+  drop.addEventListener('drop', e => took(e.dataTransfer.files));
+})();
+</script>
+
+</body></html>
