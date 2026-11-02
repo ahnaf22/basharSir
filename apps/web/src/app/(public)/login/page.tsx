@@ -134,28 +134,6 @@ export default function LoginPage(): React.ReactElement {
     }
   };
 
-  // 1-Click Demo account selection
-  const handleSelectDemo = (type: 'student' | 'parent') => {
-    if (type === 'student') {
-      setRole('student');
-      setPhone('01712345678');
-      setOperator('গ্রামীণফোন');
-      setIdentifier('01712345678');
-      setPassword('SecurePass123!');
-      setActiveTab('email');
-    } else {
-      setRole('parent');
-      setPhone('01911223344');
-      setOperator('বাংলালিংক');
-      setIdentifier('01911223344');
-      setPassword('GuardianPass123!');
-      setActiveTab('email');
-    }
-    setGeneralError(null);
-    setEmailError(null);
-    setPassError(null);
-  };
-
   // Submit phone -> send OTP
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -518,46 +496,6 @@ export default function LoginPage(): React.ReactElement {
                     <p>
                       নতুন এখানে? <Link href="/register">অ্যাকাউন্ট খোলো →</Link>
                     </p>
-                  </div>
-
-                  {/* Quick Demo Fill Buttons */}
-                  <div className="flex flex-wrap items-center gap-2 rounded-xl border border-[var(--rule)] bg-[var(--slate)] p-2.5">
-                    <span className="font-bangla text-xs text-[var(--chalk-3)]">
-                      এক-ক্লিকে টেস্ট:
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => handleSelectDemo('student')}
-                      className={`rounded-lg border px-2.5 py-1 text-xs font-semibold transition-colors ${
-                        role === 'student'
-                          ? 'border-[var(--marigold)] bg-[var(--slate-2)] text-[var(--marigold)]'
-                          : 'border-[var(--rule-2)] bg-[var(--slate-3)] text-[var(--chalk)] hover:bg-[var(--slate-2)]'
-                      }`}
-                    >
-                      🎓 ডেমো শিক্ষার্থী
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleSelectDemo('parent')}
-                      className={`rounded-lg border px-2.5 py-1 text-xs font-semibold transition-colors ${
-                        role === 'parent'
-                          ? 'border-[var(--marigold)] bg-[var(--slate-2)] text-[var(--marigold)]'
-                          : 'border-[var(--rule-2)] bg-[var(--slate-3)] text-[var(--chalk)] hover:bg-[var(--slate-2)]'
-                      }`}
-                    >
-                      👨‍👩‍👧 ডেমো অভিভাবক
-                    </button>
-                    <div className="w-full pt-1 text-[11.5px] text-[var(--chalk-2)] font-mono">
-                      {role === 'student' ? (
-                        <span>
-                          নম্বর: <strong className="text-[var(--chalk)]">01712345678</strong> • পাসওয়ার্ড: <strong className="text-[var(--marigold)]">SecurePass123!</strong>
-                        </span>
-                      ) : (
-                        <span>
-                          নম্বর: <strong className="text-[var(--chalk)]">01911223344</strong> • পাসওয়ার্ড: <strong className="text-[var(--marigold)]">GuardianPass123!</strong>
-                        </span>
-                      )}
-                    </div>
                   </div>
 
                   {/* Role Switch: Student vs Parent */}

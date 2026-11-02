@@ -84,7 +84,6 @@ export default function StudentHomePage(): React.ReactElement {
   });
 
   // UI States
-  const [notesActive, setNotesActive] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [completedTaskIds, setCompletedTaskIds] = useState<Set<number>>(new Set());
   const [askQuery, setAskQuery] = useState('সহগ আর চলকের পার্থক্য কী?');
@@ -138,15 +137,6 @@ export default function StudentHomePage(): React.ReactElement {
       }
       return next;
     });
-  };
-
-  // Toggle Design Notes
-  const handleToggleNotes = () => {
-    const nextState = !notesActive;
-    setNotesActive(nextState);
-    if (typeof document !== 'undefined') {
-      document.body.classList.toggle('notes', nextState);
-    }
   };
 
   // Ask Tutor form submit
@@ -243,7 +233,7 @@ export default function StudentHomePage(): React.ReactElement {
   if (isLoading) {
     return (
       <RoleGuard allowedRoles={['student']}>
-        <div className="app">
+        <div className="student-desk app">
           <aside className="side" aria-label="মেনু">
             <a className="logo" href="/home">
               <span className="logo-mark" aria-hidden="true">প</span>
@@ -291,7 +281,7 @@ export default function StudentHomePage(): React.ReactElement {
         <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.3" /><circle cx="12" cy="12" r="1.3" /><circle cx="19" cy="12" r="1.3" /></symbol>
       </svg>
 
-      <div className={`app ${notesActive ? 'notes' : ''}`}>
+      <div id="studentDesk" className="student-desk app">
         {/* ====================================================================
             SIDEBAR (The Shelf)
             ==================================================================== */}
@@ -451,21 +441,6 @@ export default function StudentHomePage(): React.ReactElement {
 
           {/* Desk Surface */}
           <main className="desk">
-            {/* Design Note Rationale Banner */}
-            <p className="dnote">
-              <b>WHAT CHANGED VS THE OLD DASHBOARD</b>
-              <br />
-              1. Four identical stat tiles with coloured side rails → one &quot;ledger&quot; strip; the streak gets the most room because it drives daily return.
-              <br />
-              2. Internal codes never reach the student: no CHECK_PREREQUISITES, BADGE_SCHOLAR_STARTER, NCTB-2026-BM-v1.0, STU-2026-DEMO. Show human words (&quot;শুরুর আগে: আগের পড়া একটু ঝালাই&quot;).
-              <br />
-              3. One clear next action: the chalk-white card. Everything else is quiet.
-              <br />
-              4. 0% bars are replaced by an empty state that says how to fill them.
-              <br />
-              5. Greeting includes a one-line summary sentence, so the page is understood in 3 seconds.
-            </p>
-
             {/* Error Banner with Retry */}
             {isError && (
               <div style={{
@@ -999,20 +974,6 @@ export default function StudentHomePage(): React.ReactElement {
             আরও
           </Link>
         </nav>
-
-        {/* ====================================================================
-            FLOATING "ডিজাইন নোট" BUTTON (Toggle Design Notes Rationale Banner)
-            ==================================================================== */}
-        <button
-          className="notes-toggle"
-          id="notesBtn"
-          type="button"
-          aria-pressed={notesActive}
-          onClick={handleToggleNotes}
-        >
-          <i />
-          ডিজাইন নোট
-        </button>
       </div>
     </RoleGuard>
   );
