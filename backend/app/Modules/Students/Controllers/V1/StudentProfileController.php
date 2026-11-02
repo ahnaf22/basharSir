@@ -238,8 +238,10 @@ final class StudentProfileController extends Controller
         if ($academicClass !== null) {
             $exams = Exam::query()
                 ->with('subject')
-                ->where('class_id', $academicClass->id)
-                ->where('is_published', true)
+                ->whereHas('subject', function ($q) use ($academicClass): void {
+                    $q->where('class_id', $academicClass->id);
+                })
+                ->latest('id')
                 ->limit(4)
                 ->get();
 
