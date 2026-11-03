@@ -1,0 +1,536 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-03T06:40:37.969Z",
+  "title": "Design System: পড়া হবে! (AI Home Tutor Bangladesh)",
+  "extensions": {
+    "colorMeta": {
+      "slate": {
+        "role": "neutral",
+        "displayName": "Night Slate",
+        "canonical": "#0D1814",
+        "tonalRamp": [
+          "#090e0c",
+          "#0a100e",
+          "#0b1310",
+          "#0c1512",
+          "#0d1814",
+          "#4b524d",
+          "#888c85",
+          "#c6c6be"
+        ]
+      },
+      "slate-raised": {
+        "role": "neutral",
+        "displayName": "Raised Slate",
+        "canonical": "#13221C",
+        "tonalRamp": [
+          "#0a0f0d",
+          "#0c1411",
+          "#0e1914",
+          "#111d18",
+          "#13221c",
+          "#4f5953",
+          "#8b9189",
+          "#c7c8c0"
+        ]
+      },
+      "slate-active": {
+        "role": "neutral",
+        "displayName": "Active Slate",
+        "canonical": "#1A2D26",
+        "tonalRamp": [
+          "#0b110e",
+          "#0f1814",
+          "#121f1a",
+          "#162620",
+          "#1a2d26",
+          "#54625a",
+          "#8e968e",
+          "#c9cbc2"
+        ]
+      },
+      "slate-track": {
+        "role": "neutral",
+        "displayName": "Track Slate",
+        "canonical": "#22382F",
+        "tonalRamp": [
+          "#0c1310",
+          "#111c17",
+          "#17251f",
+          "#1c2f27",
+          "#22382f",
+          "#5a6a61",
+          "#929b92",
+          "#cacdc4"
+        ]
+      },
+      "chalk": {
+        "role": "neutral",
+        "displayName": "Chalk",
+        "canonical": "#EDE8DA",
+        "tonalRamp": [
+          "#2a2d29",
+          "#5b5c55",
+          "#8c8b82",
+          "#bcb9ae",
+          "#ede8da",
+          "#f0ecdf",
+          "#f4f0e4",
+          "#f7f4ea"
+        ]
+      },
+      "chalk-soft": {
+        "role": "neutral",
+        "displayName": "Soft Chalk",
+        "canonical": "#B5B9AA",
+        "tonalRamp": [
+          "#222622",
+          "#474b44",
+          "#6b6f66",
+          "#909488",
+          "#b5b9aa",
+          "#c7c9bc",
+          "#d9d9cd",
+          "#ebe9df"
+        ]
+      },
+      "chalk-faint": {
+        "role": "neutral",
+        "displayName": "Faint Chalk",
+        "canonical": "#8E9A90",
+        "tonalRamp": [
+          "#1a1f1c",
+          "#333a35",
+          "#4c544e",
+          "#656f67",
+          "#7e8a80",
+          "#9ea69d",
+          "#bec3b9",
+          "#dfdfd6"
+        ]
+      },
+      "marigold": {
+        "role": "primary",
+        "displayName": "Marigold Lamp",
+        "canonical": "#FFB238",
+        "tonalRamp": [
+          "#2d2511",
+          "#62481b",
+          "#966b24",
+          "#cb8f2e",
+          "#ffb238",
+          "#fec467",
+          "#fcd697",
+          "#fbe8c6"
+        ]
+      },
+      "marigold-ink": {
+        "role": "primary",
+        "displayName": "Burnt Umber Ink",
+        "canonical": "#241600",
+        "tonalRamp": [
+          "#0c0e09",
+          "#121006",
+          "#181204",
+          "#1e1402",
+          "#241600",
+          "#5c513e",
+          "#938b7c",
+          "#cbc6ba"
+        ]
+      },
+      "marigold-edge": {
+        "role": "primary",
+        "displayName": "Marigold Edge",
+        "canonical": "#B97400",
+        "tonalRamp": [
+          "#231c09",
+          "#483206",
+          "#6e4804",
+          "#935e02",
+          "#b97400",
+          "#ca963e",
+          "#dbb87c",
+          "#ecdaba"
+        ]
+      },
+      "board-ink": {
+        "role": "neutral",
+        "displayName": "Board Ink",
+        "canonical": "#14201B",
+        "tonalRamp": [
+          "#0a0f0d",
+          "#0c1310",
+          "#0f1814",
+          "#111c17",
+          "#14201b",
+          "#505852",
+          "#8c9089",
+          "#c7c8c0"
+        ]
+      },
+      "board-ink-soft": {
+        "role": "neutral",
+        "displayName": "Board Ink Soft",
+        "canonical": "#4A5650",
+        "tonalRamp": [
+          "#121715",
+          "#202723",
+          "#2e3732",
+          "#3c4641",
+          "#4a5650",
+          "#788079",
+          "#a6aaa2",
+          "#d3d4cb"
+        ]
+      },
+      "chalk-track": {
+        "role": "neutral",
+        "displayName": "Chalk Track",
+        "canonical": "#D6CFBD",
+        "tonalRamp": [
+          "#272925",
+          "#53534b",
+          "#7e7c71",
+          "#aaa697",
+          "#d6cfbd",
+          "#dfd9ca",
+          "#e9e4d6",
+          "#f2eee3"
+        ]
+      },
+      "chalk-inset": {
+        "role": "neutral",
+        "displayName": "Chalk Inset",
+        "canonical": "#E3DDCC",
+        "tonalRamp": [
+          "#292b27",
+          "#575850",
+          "#86847a",
+          "#b4b1a3",
+          "#e3ddcc",
+          "#e9e4d5",
+          "#efebde",
+          "#f5f1e7"
+        ]
+      },
+      "redpen": {
+        "role": "secondary",
+        "displayName": "Red Pen",
+        "canonical": "#FF6152",
+        "tonalRamp": [
+          "#2d1915",
+          "#622b24",
+          "#963d33",
+          "#cb4f43",
+          "#ff6152",
+          "#fe887b",
+          "#fcafa3",
+          "#fbd6cc"
+        ]
+      },
+      "tick": {
+        "role": "secondary",
+        "displayName": "Tick Green",
+        "canonical": "#7FD6A0",
+        "tonalRamp": [
+          "#1a2a21",
+          "#335540",
+          "#4c8060",
+          "#66ab80",
+          "#7fd6a0",
+          "#9fdfb4",
+          "#bfe7c9",
+          "#dff0dd"
+        ]
+      },
+      "ice": {
+        "role": "secondary",
+        "displayName": "Frost Ice",
+        "canonical": "#9CCFE8",
+        "tonalRamp": [
+          "#1e292b",
+          "#3e535a",
+          "#5d7c8a",
+          "#7da6b9",
+          "#9ccfe8",
+          "#b4d9ea",
+          "#cde4eb",
+          "#e5eeed"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Exercise Paper",
+        "canonical": "#F3EBD5",
+        "tonalRamp": [
+          "#2b2d28",
+          "#5d5d54",
+          "#8f8c7f",
+          "#c1bcaa",
+          "#f3ebd5",
+          "#f5eedc",
+          "#f7f1e2",
+          "#f8f4e9"
+        ]
+      },
+      "paper-rule": {
+        "role": "neutral",
+        "displayName": "Paper Rule",
+        "canonical": "#B9CDE0",
+        "tonalRamp": [
+          "#23292a",
+          "#485258",
+          "#6e7b85",
+          "#93a4b3",
+          "#b9cde0",
+          "#cad8e4",
+          "#dbe3e7",
+          "#eceeeb"
+        ]
+      },
+      "exercise-ink": {
+        "role": "neutral",
+        "displayName": "Exercise Ink",
+        "canonical": "#22408F",
+        "tonalRamp": [
+          "#0c141e",
+          "#111f3a",
+          "#172a56",
+          "#1c3573",
+          "#22408f",
+          "#5a70a8",
+          "#929fc0",
+          "#cacfd9"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "One greeting headline per screen."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "The title of what to study now, on the chalk card."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Panel headings."
+      },
+      "figure": {
+        "displayName": "Figure",
+        "purpose": "Ledger values in tabular Bangla numerals."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Paragraphs and rows, open leading for Bangla."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Captions, group labels and helper lines."
+      }
+    },
+    "shadows": [
+      {
+        "name": "pressed-edge",
+        "value": "0 2px 0 #000",
+        "purpose": "The big dark go button on the chalk card."
+      },
+      {
+        "name": "marigold-pressed-edge",
+        "value": "0 2px 0 #B97400",
+        "purpose": "The marigold call-to-action button."
+      },
+      {
+        "name": "paper-lift",
+        "value": "0 8px 14px -8px rgba(0,0,0,.8)",
+        "purpose": "The tilted notebook thumbnail only."
+      },
+      {
+        "name": "tutor-tab-glow",
+        "value": "0 8px 18px -6px rgba(255,178,56,.5)",
+        "purpose": "The raised Tutor tab in the phone bar."
+      },
+      {
+        "name": "menu-float",
+        "value": "0 14px 30px -10px rgba(0,0,0,.7)",
+        "purpose": "Popovers and floating toggles."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-desk",
+        "value": "cubic-bezier(.2,.7,.2,1)",
+        "purpose": "Lifts, slides and ring fills."
+      },
+      {
+        "name": "state-fast",
+        "value": ".2s",
+        "purpose": "Hover and active colour or background changes."
+      },
+      {
+        "name": "ring-fill",
+        "value": "1.2s cubic-bezier(.2,.7,.2,1)",
+        "purpose": "Progress ring stroke animation."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation and transition durations collapse to .001ms under prefers-reduced-motion",
+        "purpose": "Required honour of the user setting."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "laptop",
+        "value": "1180px"
+      },
+      {
+        "name": "rail",
+        "value": "1020px"
+      },
+      {
+        "name": "phone",
+        "value": "720px"
+      },
+      {
+        "name": "small-phone",
+        "value": "420px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Go Button",
+      "kind": "button",
+      "refersTo": "button-go",
+      "description": "Primary action on the chalk card: start or continue the lesson.",
+      "html": "<button class=\"ds-go\">পাঠ চালিয়ে যাও <span aria-hidden=\"true\">→</span></button>",
+      "css": ".ds-go{display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 26px;border-radius:999px;border:0;background:#14201B;color:#EDE8DA;font-family:'Anek Bangla','Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;font-weight:700;font-size:1.12rem;font-variation-settings:'wdth' 92;cursor:pointer;box-shadow:0 2px 0 #000;transition:transform .2s cubic-bezier(.2,.7,.2,1)}.ds-go:hover{transform:translateY(-2px)}.ds-go:focus-visible{outline:2px solid #FFB238;outline-offset:2px}.ds-go:active{transform:translateY(0)}"
+    },
+    {
+      "name": "Marigold CTA",
+      "kind": "button",
+      "refersTo": "button-cta-marigold",
+      "description": "Primary action on the slate: practice test, first lesson.",
+      "html": "<button class=\"ds-cta\">এখনই প্র্যাকটিস টেস্ট দাও →</button>",
+      "css": ".ds-cta{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;border:0;background:#FFB238;color:#241600;font-family:'Anek Bangla','Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;font-weight:700;font-variation-settings:'wdth' 92;cursor:pointer;box-shadow:0 2px 0 #B97400;transition:transform .2s}.ds-cta:hover{transform:translateY(-1px)}.ds-cta:focus-visible{outline:2px solid #FFB238;outline-offset:2px}"
+    },
+    {
+      "name": "Outline Start Button",
+      "kind": "button",
+      "description": "Row action in the routine timeline.",
+      "html": "<button class=\"ds-start\">অনুশীলন →</button>",
+      "css": ".ds-start{min-height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(237,232,218,.2);background:transparent;color:#EDE8DA;font:400 .85rem 'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;cursor:pointer;white-space:nowrap}.ds-start:hover{border-color:#FFB238;color:#FFB238}.ds-start:focus-visible{outline:2px solid #FFB238;outline-offset:2px}"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "search",
+      "description": "Top-bar curriculum search, with a keyboard hint.",
+      "html": "<label class=\"ds-search\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m20 20-3.5-3.5\"/></svg><input type=\"search\" placeholder=\"অধ্যায়, টপিক বা প্রশ্ন খোঁজো\"><kbd>/</kbd></label>",
+      "css": ".ds-search{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 14px;border-radius:999px;background:#13221C;border:1px solid rgba(237,232,218,.1);color:#8E9A90;max-width:520px}.ds-search:focus-within{border-color:#FFB238}.ds-search input{flex:1;min-width:0;background:none;border:0;outline:0;color:#EDE8DA;font:400 .95rem 'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif}.ds-search input::placeholder{color:#8E9A90}.ds-search kbd{font:.72rem ui-monospace,Menlo,Consolas,monospace;border:1px solid rgba(237,232,218,.2);border-radius:6px;padding:1px 6px;color:#8E9A90}"
+    },
+    {
+      "name": "Sidebar Nav",
+      "kind": "nav",
+      "refersTo": "nav-item",
+      "description": "Shelf navigation: grouped rows, active row marked with a marigold icon.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\" aria-current=\"page\"><span class=\"ds-ic\"></span>আজ</a><a href=\"#\"><span class=\"ds-ic\"></span>AI Tutor</a><p>পড়া</p><a href=\"#\"><span class=\"ds-ic\"></span>খাতা মূল্যায়ন<i>নতুন</i></a></nav>",
+      "css": ".ds-nav{display:grid;gap:2px;width:220px;padding:10px;background:#0D1814;border-radius:16px}.ds-nav a{display:flex;align-items:center;gap:12px;min-height:42px;padding:8px 12px;border-radius:12px;color:#B5B9AA;font:500 15.5px 'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;text-decoration:none;transition:background .2s,color .2s}.ds-nav a:hover{background:#13221C;color:#EDE8DA}.ds-nav a[aria-current=page]{background:#1A2D26;color:#EDE8DA}.ds-nav a[aria-current=page] .ds-ic{background:#FFB238}.ds-nav a:focus-visible{outline:2px solid #FFB238;outline-offset:2px}.ds-ic{width:18px;height:18px;border-radius:5px;background:currentColor;opacity:.9}.ds-nav p{margin:0;padding:10px 12px 4px;font-size:.75rem;color:#8E9A90;letter-spacing:.03em}.ds-nav i{margin-left:auto;font-style:normal;font-size:.72rem;padding:1px 8px;border-radius:999px;background:rgba(255,178,56,.14);color:#FFB238}"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Metadata pill: question count, duration, marks.",
+      "html": "<span class=\"ds-chip\">২০ মিনিট</span>",
+      "css": ".ds-chip{display:inline-block;font:400 .78rem 'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;padding:3px 10px;border-radius:999px;border:1px solid rgba(237,232,218,.2);color:#B5B9AA}"
+    },
+    {
+      "name": "Panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Standard content container: flat Raised Slate with a hairline.",
+      "html": "<section class=\"ds-panel\"><header><h3>আজকের রুটিন</h3><a href=\"#\">পুরো সপ্তাহ →</a></header><p>তোমার ভুল আর গতি দেখে Tutor এগুলো বেছেছে</p></section>",
+      "css": ".ds-panel{background:#13221C;border:1px solid rgba(237,232,218,.1);border-radius:22px;padding:22px;color:#EDE8DA;font-family:'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;max-width:420px}.ds-panel header{display:flex;justify-content:space-between;align-items:baseline;gap:12px}.ds-panel h3{margin:0;font:700 1.3rem/1.2 'Anek Bangla','Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;font-variation-settings:'wdth' 85}.ds-panel a{font-size:.88rem;color:#FFB238;font-weight:500;text-decoration:none}.ds-panel a:hover{text-decoration:underline}.ds-panel p{margin:6px 0 0;font-size:.85rem;color:#8E9A90}"
+    },
+    {
+      "name": "Chalk Now Card",
+      "kind": "custom",
+      "refersTo": "now-card",
+      "description": "The one bright surface: what to study right now, with a live pill and a five-step track.",
+      "html": "<article class=\"ds-now\"><span class=\"ds-live\">চলমান</span><h2>বীজগাণিতিক প্রতীক, চলক ও সহগ শনাক্ত করতে পারবে</h2><ol><li class=\"cur\">ধারণা</li><li>উদাহরণ</li><li>নিজে করো</li></ol></article>",
+      "css": ".ds-now{background:#EDE8DA;color:#14201B;border-radius:26px;padding:28px;max-width:520px;font-family:'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;position:relative;overflow:hidden}.ds-now::after{content:\"\";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;border:28px solid rgba(20,32,27,.05)}.ds-live{display:inline-flex;align-items:center;gap:6px;background:#14201B;color:#FFB238;padding:2px 10px;border-radius:999px;font-size:.75rem;font-weight:600}.ds-live::before{content:\"\";width:6px;height:6px;border-radius:50%;background:#FFB238}.ds-now h2{margin:10px 0 0;font:780 1.7rem/1.12 'Anek Bangla','Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;font-variation-settings:'wdth' 78;max-width:22ch;text-wrap:balance}.ds-now ol{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;font-size:.82rem;color:#5D6862}.ds-now li::before{content:\"\";display:block;height:6px;border-radius:99px;background:#D6CFBD;margin-bottom:8px}.ds-now li.cur{color:#14201B;font-weight:600}.ds-now li.cur::before{background:linear-gradient(90deg,#14201B 35%,#D6CFBD 35%)}"
+    },
+    {
+      "name": "Mastery Blocks",
+      "kind": "custom",
+      "description": "One block per learning objective: empty dashed, partial marigold, mastered green.",
+      "html": "<div class=\"ds-blocks\"><i class=\"part\">চলছে</i><i></i><i></i><i class=\"done\"></i></div>",
+      "css": ".ds-blocks{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;width:300px;font-family:'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif}.ds-blocks i{height:30px;border-radius:7px;border:1.5px dashed rgba(237,232,218,.2);display:grid;place-items:center;font-style:normal;font-size:.72rem;color:#8E9A90}.ds-blocks i.part{border-style:solid;border-color:rgba(255,178,56,.55);background:rgba(255,178,56,.08);color:#FFB238}.ds-blocks i.done{border:0;background:#7FD6A0}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Night Study Desk",
+    "overview": "The student opens the app in the evening, on a phone, with a textbook next to them. The interface is a dark slate desk lit by one marigold lamp. The sidebar is the shelf and the main column is the desk top. Everything quiet sits on the slate. One chalk-white card, the \"এখন পড়ো\" (study now) card, is the single bright surface and always answers the question *what do I do next?* Chalk text, a handful of exercise-book details and a hand-lettered accent make it feel like a tutor's board, not a SaaS dashboard.\n\nDensity is calm and readable. A summary sentence leads each screen and the numbers come after it. Bangla is the primary script, so display type is condensed and heavy while body copy stays open and roomy at 15.5px with a 1.6 line height, because Bangla conjuncts need the space. Colour is rare and meaningful. Marigold means \"act or progress here\", green means done, red pen means attention, ice blue means protection (streak freeze).\n\nThe system is flat. Depth comes from tonal slate layers and hairline rules, with a hard 2px pressed edge under the main buttons. It is tactile in the way a chunky physical button is, and there are no ambient glows.",
+    "keyCharacteristics": [
+      "One bright chalk card per screen; everything else stays on slate.",
+      "Condensed, heavy Bangla display type over an open, readable body face.",
+      "Marigold is the only action colour and appears on a small fraction of any screen.",
+      "Flat tonal layering with 1px hairlines; buttons have a hard pressed lower edge.",
+      "A summary sentence first, a ledger strip instead of stat tiles, no internal codes.",
+      "Exercise-book details (ruled paper, handwritten accent) appear only in the places that stand for the student's own work."
+    ],
+    "rules": [
+      {
+        "name": "The One Lamp Rule",
+        "body": "Marigold is used on a small fraction of any screen. If two marigold things compete, one of them is wrong.",
+        "section": "colors"
+      },
+      {
+        "name": "The Chalk-Card Text Rule",
+        "body": "Anything on a chalk or paper surface uses Board Ink, never Chalk. Light text on a light card is a bug.",
+        "section": "colors"
+      },
+      {
+        "name": "The Meaning-Only Hue Rule",
+        "body": "Green, red and ice carry fixed meanings (done, attention, protected). They are never used for decoration or subject theming beyond a small subject swatch.",
+        "section": "colors"
+      },
+      {
+        "name": "The Open Bangla Body Rule",
+        "body": "Body line height never drops below 1.5. Bangla matras and conjuncts collide at tighter leading.",
+        "section": "typography"
+      },
+      {
+        "name": "The Bangla Numerals Rule",
+        "body": "Numbers shown to students are Bangla digits (০–৯) with tabular alignment where figures line up.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "A surface at rest has no shadow. Shadows mark only a pressable edge or something that floats above the page.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep one chalk-white card per screen for the next thing to do; place all other content on the slate ramp.",
+      "Do put Board Ink (#14201B) text on every chalk or paper surface, including inner-page cards.",
+      "Do use marigold for the primary action and the current location only, and pair it with Burnt Umber Ink (#241600) text.",
+      "Do lead a screen with a summary sentence, then the details; use the ledger strip for the numbers.",
+      "Do show honest empty states with dashed outlines and a next action, as the mastery blocks do.",
+      "Do give every interactive element a 44px target and the 2px marigold focus ring.",
+      "Do show digits in Bangla numerals and keep body line height at 1.5 or more."
+    ],
+    "donts": [
+      "Don't use a row of equal stat tiles. Use the ledger strip and a summary sentence.",
+      "Don't show internal codes, ids or state names to students (for example `STU-2026-DEMO`, `BADGE_STREAK_3D`, `CHECK_PREREQUISITES`). Use plain Bangla.",
+      "Don't add drop shadows or glows to panels. Panels are flat with a hairline.",
+      "Don't place light Chalk text on a light surface.",
+      "Don't give the app a frame, outer margin or border radius around the whole page; the slate runs edge to edge.",
+      "Don't use green, red or ice blue for decoration; they keep their fixed meanings.",
+      "Don't let the landing page's global styles leak into the study desk; the desk's styles stay scoped to it."
+    ]
+  }
+}
