@@ -124,6 +124,9 @@ final class StudyPlanAndCalendarController extends Controller
             $updates['status'] = $newStatus;
             if ($newStatus === 'completed') {
                 $updates['completed_at'] = Carbon::now();
+            } elseif ($item->completed_at !== null) {
+                // Un-ticking a finished task must not leave a stale completion timestamp.
+                $updates['completed_at'] = null;
             }
         }
         if ($activeMins !== null) {

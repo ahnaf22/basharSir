@@ -183,26 +183,64 @@ final class CurriculumController extends Controller
         }
 
         $studentId = $student?->id;
+
+        // One query for every objective in the class, instead of one per chapter.
+        /** @var array<int, MasteryRecord> $masteryByObjective */
+        $masteryByObjective = [];
+        if ($studentId !== null) {
+            $allObjectiveIds = $academicClass->subjects
+                ->flatMap(fn ($subj) => $subj->chapters)
+                ->flatMap(fn ($ch) => $ch->topics)
+                ->flatMap(fn ($tp) => $tp->learningObjectives)
+                ->pluck('id')
+                ->all();
+
+            if ($allObjectiveIds !== []) {
+                foreach (MasteryRecord::query()
+                    ->where('student_id', $studentId)
+                    ->whereIn('learning_objective_id', $allObjectiveIds)
+                    ->get() as $record) {
+                    $masteryByObjective[$record->learning_objective_id] = $record;
+                }
+            }
+        }
+
         $subjectsData = [];
 
         foreach ($academicClass->subjects as $subj) {
             $chaptersData = [];
             foreach ($subj->chapters as $ch) {
-                $objIds = $ch->topics
-                    ->flatMap(fn ($tp) => $tp->learningObjectives)
-                    ->pluck('id')
-                    ->all();
+                $topicsData = [];
+                $objectiveCount = 0;
+                $scoreSum = 0.0;
+                $scored = 0;
 
-                $chMastery = 0.0;
-                if ($studentId !== null && ! empty($objIds)) {
-                    $records = MasteryRecord::query()
-                        ->where('student_id', $studentId)
-                        ->whereIn('learning_objective_id', $objIds)
-                        ->get();
-
-                    if ($records->isNotEmpty()) {
-                        $chMastery = round((float) $records->avg('mastery_score') * 100, 1);
+                foreach ($ch->topics as $tp) {
+                    $objectivesData = [];
+                    foreach ($tp->learningObjectives as $obj) {
+                        $record = $masteryByObjective[$obj->id] ?? null;
+                        if ($record !== null) {
+                            $scoreSum += (float) $record->mastery_score;
+                            $scored++;
+                        }
+                        $objectivesData[] = [
+                            'id' => $obj->id,
+                            'code' => $obj->code,
+                            'title_bn' => $obj->title_bn,
+                            'bloom_taxonomy_level' => $obj->bloom_level->value,
+                            'mastery' => $record === null ? null : [
+                                'score' => (float) $record->mastery_score,
+                                'status' => $record->mastery_status,
+                                'attempts' => $record->attempts_count,
+                            ],
+                        ];
+                        $objectiveCount++;
                     }
+                    $topicsData[] = [
+                        'id' => $tp->id,
+                        'title_bn' => $tp->title_bn,
+                        'learning_objectives' => $objectivesData,
+                    ];
                 }
 
                 $chaptersData[] = [
@@ -212,8 +250,10 @@ final class CurriculumController extends Controller
                     'title_en' => $ch->title_en,
                     'syllabus_status' => $ch->syllabus_status,
                     'topics_count' => $ch->topics->count(),
-                    'objectives_count' => count($objIds),
-                    'mastery_pct' => $chMastery,
+                    'objectives_count' => $objectiveCount,
+                    // mastery_score is already 0-100 (MasteryCalculationService clamps it), so no *100 here
+                    'mastery_pct' => $scored > 0 ? round($scoreSum / $scored, 1) : 0.0,
+                    'topics' => $topicsData,
                 ];
             }
 

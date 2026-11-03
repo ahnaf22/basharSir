@@ -33,6 +33,20 @@ it('Chunk 7.2: seeds realistic interconnected demo data and serves /dashboard, /
         ->and($dashRes->json('data.today_study_time.active_seconds'))->toBe(1800)
         ->and($dashRes->json('data.subject_mastery'))->not->toBeEmpty();
 
+    // 2b. Study-desk read model: derived fields only (no presentation-only invention)
+    expect($dashRes->json('data.continue_lesson.learning_objective_id'))->toBeInt()
+        ->and($dashRes->json('data.continue_lesson.chapter_number'))->toBeInt()
+        ->and($dashRes->json('data.next_lesson'))->toBeNull()
+        ->and($dashRes->json('data.streak.week'))->toHaveCount(7)
+        ->and($dashRes->json('data.streak.week.0.weekday'))->toBe(6) // school week starts Saturday
+        ->and(collect($dashRes->json('data.streak.week'))->where('is_today', true))->toHaveCount(1)
+        ->and($dashRes->json('data.streak.next_milestone.target_days'))->toBe(7)
+        ->and($dashRes->json('data.streak.next_milestone.remaining_days'))->toBe(4)
+        ->and($dashRes->json('data.gamification.level.number'))->toBe(1)
+        ->and($dashRes->json('data.gamification.level.next_level_total_xp'))->toBe(250)
+        ->and($dashRes->json('data.subject_mastery.0.objectives'))->toBeArray()
+        ->and($dashRes->json('data.subject_mastery.0.attempted_objectives'))->toBeInt();
+
     // 3. GET /api/v1/curriculum/my-subjects
     $subjRes = $this->withHeader('Authorization', "Bearer {$studentToken}")
         ->getJson('/api/v1/curriculum/my-subjects')
@@ -41,6 +55,13 @@ it('Chunk 7.2: seeds realistic interconnected demo data and serves /dashboard, /
     expect($subjRes->json('data.grade_level'))->toBe(8)
         ->and($subjRes->json('data.subjects'))->not->toBeEmpty()
         ->and($subjRes->json('data.subjects.0.chapters'))->not->toBeEmpty();
+
+    // chapters carry their topics + objectives (the materials page and dashboard search read them),
+    // and mastery_pct is a real 0-100 percentage
+    $chapters = collect($subjRes->json('data.subjects'))->flatMap(fn (array $s): array => $s['chapters']);
+    expect($chapters->every(fn (array $ch): bool => is_array($ch['topics']) && $ch['mastery_pct'] >= 0 && $ch['mastery_pct'] <= 100))->toBeTrue()
+        ->and($chapters->sum(fn (array $ch): int => count($ch['topics'])))->toBe($chapters->sum(fn (array $ch): int => $ch['topics_count']))
+        ->and($chapters->flatMap(fn (array $ch): array => $ch['topics'])->flatMap(fn (array $tp): array => $tp['learning_objectives'])->first())->toHaveKeys(['id', 'code', 'title_bn', 'bloom_taxonomy_level', 'mastery']);
 
     // 4. GET /api/v1/students/me/exam-attempts
     $attemptsRes = $this->withHeader('Authorization', "Bearer {$studentToken}")
