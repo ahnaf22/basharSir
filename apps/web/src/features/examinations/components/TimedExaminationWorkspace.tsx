@@ -237,15 +237,15 @@ export function TimedExaminationWorkspace(): React.ReactElement {
         data-testid="exam-rubric-result-breakdown"
         className="mx-auto max-w-5xl space-y-6 px-4 py-6 sm:px-6"
       >
-        <div className="rounded-xl border-2 border-teal-600 bg-white p-6 shadow-sm">
+        <div className="rounded-xl border-2 border-desk-accent-line bg-desk-paper p-6 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <span className="font-bangla text-xs font-semibold text-teal-700">
+              <span className="font-bangla text-xs font-semibold text-desk-accent-ink">
                 এনসিটিবি রুব্রিক-ভিত্তিক মূল্যায়ন প্রতিবেদন
               </span>
-              <h1 className="font-bangla text-xl font-bold text-[#0F2942]">
+              <h2 className="font-bangla text-xl font-bold text-desk-ink">
                 {attempt.exam.title_bn}
-              </h1>
+              </h2>
             </div>
             <Badge variant={attempt.status === 'final_graded' ? 'success' : 'warning'}>
               {attempt.status === 'final_graded'
@@ -254,29 +254,29 @@ export function TimedExaminationWorkspace(): React.ReactElement {
             </Badge>
           </div>
 
-          <div className="mt-4 grid grid-cols-3 gap-4 rounded-lg bg-slate-50 p-4 text-center">
+          <div className="mt-4 grid grid-cols-3 gap-4 rounded-lg bg-desk-paper-2 p-4 text-center">
             <div>
-              <span className="block font-bangla text-xs text-slate-500">প্রাপ্ত নম্বর</span>
+              <span className="block font-bangla text-xs text-desk-muted">প্রাপ্ত নম্বর</span>
               <span
                 data-testid="result-obtained-marks"
-                className="font-bangla text-2xl font-bold text-[#0F2942]"
+                className="font-bangla text-2xl font-bold text-desk-ink"
               >
                 {toBanglaNumerals(attempt.obtained_marks)} /{' '}
                 {toBanglaNumerals(attempt.total_marks)}
               </span>
             </div>
             <div>
-              <span className="block font-bangla text-xs text-slate-500">শতকরা হার</span>
+              <span className="block font-bangla text-xs text-desk-muted">শতকরা হার</span>
               <span
                 data-testid="result-percentage-score"
-                className="font-bangla text-2xl font-bold text-teal-700"
+                className="font-bangla text-2xl font-bold text-desk-accent-ink"
               >
                 {toBanglaNumerals(Math.round(attempt.percentage_score))}%
               </span>
             </div>
             <div>
-              <span className="block font-bangla text-xs text-slate-500">মোট প্রশ্ন</span>
-              <span className="font-bangla text-2xl font-bold text-slate-800">
+              <span className="block font-bangla text-xs text-desk-muted">মোট প্রশ্ন</span>
+              <span className="font-bangla text-2xl font-bold text-desk-text">
                 {toBanglaNumerals(attempt.questions.length)}টি
               </span>
             </div>
@@ -296,10 +296,10 @@ export function TimedExaminationWorkspace(): React.ReactElement {
               <section
                 key={q.id}
                 data-testid={`rubric-breakdown-q-${q.id}`}
-                className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
+                className="rounded-xl border border-desk-line bg-desk-paper p-5 shadow-sm"
               >
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
-                  <span className="font-bangla text-sm font-bold text-[#0F2942]">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-desk-line-soft pb-3">
+                  <span className="font-bangla text-sm font-bold text-desk-ink">
                     প্রশ্ন {toBanglaNumerals(idx + 1)} ({q.question_type})
                   </span>
                   <Badge
@@ -315,17 +315,17 @@ export function TimedExaminationWorkspace(): React.ReactElement {
                 <div className="mt-3">
                   <MathBanglaText
                     content={q.stem_markdown}
-                    className="font-bangla text-base font-medium text-slate-900"
+                    className="font-bangla text-base font-medium text-desk-text"
                   />
                 </div>
 
                 {ev && (
-                  <div className="mt-4 space-y-3 rounded-lg border border-slate-100 bg-[#FAF8F5] p-4">
-                    <p className="font-bangla text-sm font-medium text-slate-800">
+                  <div className="mt-4 space-y-3 rounded-lg border border-desk-line-soft bg-[#FAF8F5] p-4">
+                    <p className="font-bangla text-sm font-medium text-desk-text">
                       <strong>মূল্যায়ন মন্তব্য:</strong> {ev.feedback_bn}
                     </p>
                     {ev.nctb_citation && (
-                      <p className="font-bangla text-xs font-semibold text-teal-800">
+                      <p className="font-bangla text-xs font-semibold text-desk-accent-ink">
                         এনসিটিবি রেফারেন্স: {ev.nctb_citation}
                       </p>
                     )}
@@ -335,13 +335,13 @@ export function TimedExaminationWorkspace(): React.ReactElement {
                         {steps.map((st) => (
                           <li
                             key={st.step_id}
-                            className="flex items-center justify-between rounded border border-slate-200 bg-white px-3 py-1.5 font-bangla text-xs"
+                            className="flex items-center justify-between rounded border border-desk-line bg-desk-paper px-3 py-1.5 font-bangla text-xs"
                           >
                             <span>
                               <strong>{st.step_id}:</strong>{' '}
                               {st.description_bn ?? 'নৈর্ব্যক্তিক যাচাই'}
                             </span>
-                            <span className="font-bold text-[#0F2942]">
+                            <span className="font-bold text-desk-ink">
                               {toBanglaNumerals(st.marks_awarded)} /{' '}
                               {toBanglaNumerals(st.max_marks)}
                             </span>
@@ -362,12 +362,12 @@ export function TimedExaminationWorkspace(): React.ReactElement {
   return (
     <div className="mx-auto max-w-6xl space-y-6 px-4 py-6 sm:px-6">
       {/* Top Distraction-Free Exam Header & Server-Synced Countdown Timer */}
-      <header className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-200 bg-[#0F2942] px-6 py-4 text-white shadow-sm">
+      <header className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-desk-line bg-desk-ink px-6 py-4 text-white shadow-sm">
         <div>
-          <span className="font-bangla text-xs text-teal-300">
+          <span className="font-bangla text-xs text-desk-accent">
             সময়াবদ্ধ মূল্যায়ন পরীক্ষা (Timed Examination)
           </span>
-          <h1 className="font-bangla text-lg font-bold">{attempt.exam.title_bn}</h1>
+          <h2 className="font-bangla text-lg font-bold">{attempt.exam.title_bn}</h2>
         </div>
 
         <div className="flex items-center gap-4">
@@ -375,7 +375,7 @@ export function TimedExaminationWorkspace(): React.ReactElement {
             data-testid="exam-countdown-timer"
             className="rounded-lg bg-white/10 px-4 py-2 text-center"
           >
-            <span className="block font-bangla text-[11px] text-slate-200">
+            <span className="block font-bangla text-xs text-slate-200">
               অবশিষ্ট সময়
             </span>
             <span className="font-mono text-lg font-bold text-amber-300">
@@ -399,9 +399,9 @@ export function TimedExaminationWorkspace(): React.ReactElement {
         {/* Left / Top Question Navigation Palette */}
         <aside
           aria-label="প্রশ্ন নেভিগেশন প্যালেট"
-          className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:col-span-4"
+          className="rounded-xl border border-desk-line bg-desk-paper p-5 shadow-sm lg:col-span-4"
         >
-          <h2 className="font-bangla text-sm font-bold text-[#0F2942]">
+          <h2 className="font-bangla text-sm font-bold text-desk-ink">
             প্রশ্ন প্যালেট ({toBanglaNumerals(attempt.questions.length)}টি প্রশ্ন)
           </h2>
           <div className="mt-3 grid grid-cols-3 gap-2">
@@ -423,16 +423,16 @@ export function TimedExaminationWorkspace(): React.ReactElement {
                   onClick={() => setActiveIndex(idx)}
                   className={`flex flex-col items-center justify-center rounded-lg border p-2.5 font-bangla text-xs font-bold transition ${
                     isCurrent
-                      ? 'border-2 border-[#0F2942] bg-teal-50 text-[#0F2942]'
+                      ? 'border-2 border-desk-ink bg-desk-accent-soft text-desk-ink'
                       : isFlagged
                         ? 'border-amber-400 bg-amber-50 text-amber-900'
                         : isAnswered
                           ? 'border-emerald-300 bg-emerald-50 text-emerald-900'
-                          : 'border-slate-200 bg-white text-slate-600'
+                          : 'border-desk-line bg-desk-paper text-desk-muted'
                   }`}
                 >
                   <span>প্রশ্ন {toBanglaNumerals(idx + 1)}</span>
-                  <span className="mt-0.5 text-[10px] font-normal">
+                  <span className="mt-0.5 text-xs font-normal">
                     {isFlagged ? 'চিহ্নিত ★' : isAnswered ? 'উত্তরকৃত ✓' : 'বাকি'}
                   </span>
                 </button>
@@ -442,11 +442,11 @@ export function TimedExaminationWorkspace(): React.ReactElement {
         </aside>
 
         {/* Main Active Question Canvas */}
-        <main
+        <section
           aria-label="সক্রিয় প্রশ্ন ও উত্তরপত্র"
-          className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-8"
+          className="rounded-xl border border-desk-line bg-desk-paper p-6 shadow-sm lg:col-span-8"
         >
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-desk-line-soft pb-4">
             <div className="flex items-center gap-2">
               <Badge variant="navy">
                 প্রশ্ন {toBanglaNumerals(activeIndex + 1)} /{' '}
@@ -468,7 +468,7 @@ export function TimedExaminationWorkspace(): React.ReactElement {
               className={`rounded-lg border px-3 py-1.5 font-bangla text-xs font-semibold ${
                 currentDraft.is_flagged_for_review
                   ? 'border-amber-400 bg-amber-100 text-amber-950'
-                  : 'border-slate-200 bg-slate-50 text-slate-700'
+                  : 'border-desk-line bg-desk-paper-2 text-desk-text-2'
               }`}
             >
               {currentDraft.is_flagged_for_review
@@ -480,7 +480,7 @@ export function TimedExaminationWorkspace(): React.ReactElement {
           <div className="mt-4">
             <MathBanglaText
               content={activeQuestion.stem_markdown}
-              className="font-bangla text-base font-semibold leading-relaxed text-slate-900"
+              className="font-bangla text-base font-semibold leading-relaxed text-desk-text"
             />
           </div>
 
@@ -501,15 +501,15 @@ export function TimedExaminationWorkspace(): React.ReactElement {
                     }
                     className={`flex w-full items-center gap-3 rounded-xl border p-3.5 text-left transition ${
                       isSelected
-                        ? 'border-teal-600 bg-teal-50 text-slate-900'
-                        : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                        ? 'border-desk-accent-line bg-desk-accent-soft text-desk-text'
+                        : 'border-desk-line bg-desk-paper text-desk-text-2 hover:bg-desk-paper-2'
                     }`}
                   >
                     <span
                       className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold ${
                         isSelected
-                          ? 'bg-[#0F2942] text-white'
-                          : 'bg-slate-100 text-slate-700'
+                          ? 'bg-desk-ink text-white'
+                          : 'bg-desk-paper-3 text-desk-text-2'
                       }`}
                     >
                       {opt.key}
@@ -526,7 +526,7 @@ export function TimedExaminationWorkspace(): React.ReactElement {
             <div className="mt-5">
               <label
                 htmlFor={`typed-answer-${activeQuestion.id}`}
-                className="block font-bangla text-xs font-semibold text-slate-700"
+                className="block font-bangla text-xs font-semibold text-desk-text-2"
               >
                 ধাপে ধাপে তোমার গাণিতিক বা সৃজনশীল উত্তর লেখো:
               </label>
@@ -540,12 +540,12 @@ export function TimedExaminationWorkspace(): React.ReactElement {
                     typed_answer_text: e.target.value,
                   })
                 }
-                className="mt-2 w-full rounded-xl border border-slate-300 p-3.5 font-bangla text-sm text-slate-900 focus:border-teal-600 focus:outline-none"
+                className="mt-2 w-full rounded-xl border border-desk-line-strong p-3.5 font-bangla text-sm text-desk-text focus:border-desk-accent-ink focus:outline-none"
               />
             </div>
           )}
 
-          <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
+          <div className="mt-6 flex items-center justify-between border-t border-desk-line-soft pt-4">
             <Button
               type="button"
               variant="secondary"
@@ -567,7 +567,7 @@ export function TimedExaminationWorkspace(): React.ReactElement {
               পরবর্তী প্রশ্ন
             </Button>
           </div>
-        </main>
+        </section>
       </div>
     </div>
   );

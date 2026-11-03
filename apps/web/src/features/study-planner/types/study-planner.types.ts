@@ -1,5 +1,6 @@
 export type StudyTaskType =
   | 'concept_lesson'
+  | 'concept_review'
   | 'prerequisite_remedial'
   | 'guided_practice'
   | 'revision'

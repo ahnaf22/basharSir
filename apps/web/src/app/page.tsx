@@ -1,11 +1,24 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import '@/styles/landing.css';
 import Link from 'next/link';
+import { useFocusTrap } from '@/lib/useFocusTrap';
 
 export default function HomePage(): React.JSX.Element {
   // --- State for Interactivity ---
   const [sheetOpen, setSheetOpen] = useState(false);
+  const sheetRef = useRef<HTMLDivElement | null>(null);
+  // Modal menu: trap Tab, close on Esc, return focus to the "মেনু" button.
+  useFocusTrap(sheetRef, sheetOpen, () => setSheetOpen(false));
+  useEffect(() => {
+    if (!sheetOpen) return undefined;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [sheetOpen]);
   const [selectedChip, setSelectedChip] = useState('কেন এমন হয়?');
   const [examCurrentQ, setExamCurrentQ] = useState(7);
   const [selectedOption, setSelectedOption] = useState('b');
@@ -352,7 +365,15 @@ export default function HomePage(): React.JSX.Element {
       </header>
 
       {/* ===================== MOBILE SHEET ===================== */}
-      <div className={`sheet ${sheetOpen ? 'open' : ''}`} id="sheet" role="dialog" aria-modal="true" aria-label="মেনু" hidden={!sheetOpen}>
+      <div
+        ref={sheetRef}
+        tabIndex={-1}
+        className={`sheet ${sheetOpen ? 'open' : ''}`}
+        id="sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-label="মেনু"
+      >
         <div className="sheet-top">
           <Link className="logo" href="#top" onClick={() => setSheetOpen(false)}>
             <span className="logo-mark" aria-hidden="true">প</span>
@@ -486,7 +507,7 @@ export default function HomePage(): React.JSX.Element {
                     <rect x="198" y="296" width="208" height="136" rx="8" fill="#0B1310" />
                     <rect x="206" y="304" width="192" height="120" rx="3" fill="url(#scr)" />
                     <ellipse cx="302" cy="364" rx="160" ry="110" fill="url(#sg)" />
-                    <text x="222" y="336" fontFamily="Atma, cursive" fontSize="22" fill="#22408F">2x + 5 = 15</text>
+                    <text x="222" y="336" style={{ fontFamily: 'var(--f-hand)' }} fontSize="22" fill="#22408F">2x + 5 = 15</text>
                     <rect x="222" y="350" width="104" height="18" rx="9" fill="#14201B" opacity=".85" />
                     <rect x="290" y="374" width="94" height="18" rx="9" fill="#FFB238" />
                     <rect x="222" y="398" width="70" height="12" rx="6" fill="#14201B" opacity=".25" />
@@ -501,7 +522,7 @@ export default function HomePage(): React.JSX.Element {
                     <rect x="470" y="420" width="62" height="20" rx="2" fill="#7A2E2A" />
                     <rect x="466" y="402" width="62" height="18" rx="2" fill="#1F4F44" />
                     <rect x="474" y="386" width="58" height="16" rx="2" fill="#C78B2A" />
-                    <text x="478" y="415" fontFamily="Hind Siliguri" fontSize="10" fill="#F3EBD5">গণিত</text>
+                    <text x="478" y="415" style={{ fontFamily: 'var(--f-body)' }} fontSize="10" fill="#F3EBD5">গণিত</text>
                     {/* Student over-the-shoulder */}
                     <path d="M40 560 C46 488 104 474 176 474 C248 474 300 488 310 560 Z" fill="#0A110E" />
                     <path d="M120 478 C150 492 200 492 232 478" stroke="#1C2D26" strokeWidth="3" fill="none" />
@@ -972,7 +993,7 @@ export default function HomePage(): React.JSX.Element {
                     <li className="d"><i>২</i>সূচক</li>
                     <li className="d"><i>৩</i>রাশি</li>
                     <li className="d"><i>৪</i>উৎপাদক</li>
-                    <li className="d now"><i>৫</i>সমীকরণ</li>
+                    <li className="now"><i>৫</i>সমীকরণ</li>
                     <li><i>৬</i>সেট</li>
                     <li><i>৭</i>জ্যামিতি</li>
                     <li><i>৮</i>পরিসংখ্যান</li>
@@ -983,7 +1004,7 @@ export default function HomePage(): React.JSX.Element {
                   <div className="badge-item">
                     <svg viewBox="0 0 60 60" aria-hidden="true">
                       <path d="M30 3l6 5 8-1 3 7 7 4-1 8 5 6-5 6 1 8-7 4-3 7-8-1-6 5-6-5-8 1-3-7-7-4 1-8-5-6 5-6-1-8 7-4 3-7 8 1z" fill="#FFB238" />
-                      <text x="30" y="37" textAnchor="middle" fontFamily="Anek Bangla" fontWeight="800" fontSize="18" fill="#241600">৭</text>
+                      <text x="30" y="37" textAnchor="middle" style={{ fontFamily: 'var(--f-display)' }} fontWeight="800" fontSize="18" fill="#241600">৭</text>
                     </svg>
                     ৭ দিনের স্ট্রিক
                   </div>
@@ -1323,7 +1344,7 @@ export default function HomePage(): React.JSX.Element {
               </p>
             </div>
             <div>
-              <h4>পড়া হবে!</h4>
+              <h3>পড়া হবে!</h3>
               <ul>
                 <li><a href="#how">কীভাবে কাজ করে</a></li>
                 <li><a href="#features">ফিচারসমূহ</a></li>
@@ -1332,7 +1353,7 @@ export default function HomePage(): React.JSX.Element {
               </ul>
             </div>
             <div>
-              <h4>অভিভাবকদের জন্য</h4>
+              <h3>অভিভাবকদের জন্য</h3>
               <ul>
                 <li><Link href="/parent/dashboard">সাপ্তাহিক রিপোর্ট</Link></li>
                 <li><a href="#security">নিরাপত্তা ও গোপনীয়তা</a></li>
@@ -1340,7 +1361,7 @@ export default function HomePage(): React.JSX.Element {
               </ul>
             </div>
             <div>
-              <h4>যোগাযোগ</h4>
+              <h3>যোগাযোগ</h3>
               <ul>
                 <li><a href="#about">আমাদের সম্পর্কে</a></li>
                 <li><a href="#help">সাহায্য কেন্দ্র</a></li>

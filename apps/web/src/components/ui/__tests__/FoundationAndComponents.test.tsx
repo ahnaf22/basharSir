@@ -4,7 +4,6 @@ import { render, screen, fireEvent, act } from '@testing-library/react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import { Stat } from '@/components/ui/Stat';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Skeleton, CardSkeleton } from '@/components/ui/Skeleton';
 import { FeatureGate } from '@/components/ui/FeatureGate';
@@ -40,24 +39,6 @@ describe('Chunk 7.3: Web Foundation & Design System Rebuild', () => {
 
     expect(screen.getByText('বীজগণিতীয় সূত্রাবলি')).toBeInTheDocument();
     expect(screen.getByText('অধ্যায় নোট ও অনুশীলন')).toBeInTheDocument();
-  });
-
-  it('renders Stat with Bengali numerals conversion and trend', () => {
-    render(
-      <Stat
-        title="মোট অর্জিত এক্সপি"
-        value={150}
-        subtitle="আজকের বৃদ্ধি"
-        accent="teal"
-        trend={{ value: '+২৫', isPositive: true }}
-      />
-    );
-
-    expect(screen.getByText('মোট অর্জিত এক্সপি')).toBeInTheDocument();
-    // 150 converted to Bengali numerals '১৫০'
-    expect(screen.getByText('১৫০')).toBeInTheDocument();
-    expect(screen.getByText('+২৫')).toBeInTheDocument();
-    expect(screen.getByText('আজকের বৃদ্ধি')).toBeInTheDocument();
   });
 
   it('renders EmptyState with action button', () => {

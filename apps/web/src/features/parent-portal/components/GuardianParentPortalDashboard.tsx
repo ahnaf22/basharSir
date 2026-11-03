@@ -110,9 +110,9 @@ export function GuardianParentPortalDashboard({
   return (
     <div className="space-y-6">
       {/* Parent Child Switcher & Weekly Report Banner */}
-      <div className="flex flex-col justify-between gap-4 rounded-2xl border border-slate-200 bg-[#0F2942] p-6 text-white shadow-sm md:flex-row md:items-center">
+      <div className="flex flex-col justify-between gap-4 rounded-2xl border border-desk-line bg-desk-ink p-6 text-white shadow-sm md:flex-row md:items-center">
         <div>
-          <span className="rounded-full bg-teal-400/20 px-3 py-1 text-xs font-semibold text-teal-200">
+          <span className="rounded-full bg-teal-400/20 px-3 py-1 text-xs font-semibold text-desk-accent">
             অভিভাবক পোর্টাল (Guardian Portal • PDPA 2026 Verified)
           </span>
           <h1 className="mt-2 font-heading text-2xl font-bold">
@@ -152,7 +152,7 @@ export function GuardianParentPortalDashboard({
             target="_blank"
             rel="noreferrer"
             data-testid="download-weekly-pdf-btn"
-            className="rounded-xl bg-[#0D9488] px-4 py-2 text-xs font-semibold text-white hover:bg-[#0D9488]/90"
+            className="rounded-xl bg-desk-accent px-4 py-2 text-xs font-semibold text-white hover:bg-desk-accent-hover"
           >
             সাপ্তাহিক রিপোর্ট কার্ড (PDF) ডাউনলোড
           </a>
@@ -160,13 +160,13 @@ export function GuardianParentPortalDashboard({
       </div>
 
       {loading && !activeReport ? (
-        <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center text-sm text-slate-500">
+        <div className="rounded-2xl border border-desk-line bg-desk-paper p-8 text-center text-sm text-desk-muted">
           প্রতিবেদন লোড হচ্ছে...
         </div>
       ) : activeReport ? (
         <StudentPerformanceDashboard initialData={activeReport.analytics} />
       ) : (
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
+        <div className="rounded-2xl border border-desk-line bg-desk-paper p-6 text-sm text-desk-muted">
           কোনো শিক্ষার্থীর তথ্য পাওয়া যায়নি। অনুগ্রহ করে প্রথমে সন্তান যুক্ত করুন।
         </div>
       )}

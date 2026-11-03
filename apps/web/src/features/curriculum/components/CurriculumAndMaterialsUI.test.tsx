@@ -148,7 +148,7 @@ describe('StudyMaterialsReader & AdminCurriculumCmsWorkspace UI', () => {
     expect(screen.getByText('C7-MATH-CH5-T1-LO1')).toBeInTheDocument();
 
     const preview = screen.getByTestId('cms-live-preview');
-    expect(preview.querySelector('.katex')).not.toBeNull();
+    await waitFor(() => expect(preview.querySelector('.katex')).not.toBeNull());
 
     // Click "রিভিউয়ে পাঠান (In Review)" on Draft resource #12
     fireEvent.click(screen.getByTestId('transition-in-review-12'));

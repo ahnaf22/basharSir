@@ -190,13 +190,13 @@ export function AdminCurriculumCmsWorkspace({
                   <MathBanglaText content={obj.title_bn} variant="compact" />
 
                   {obj.prerequisites && obj.prerequisites.length > 0 && (
-                    <div className="mt-2 flex flex-wrap items-center gap-1.5 border-t border-border-subtle pt-1.5 text-[11px] text-content-secondary">
+                    <div className="mt-2 flex flex-wrap items-center gap-1.5 border-t border-border-subtle pt-1.5 text-xs text-content-secondary">
                       <GitBranch className="h-3 w-3 text-brand-secondary" />
                       <span>পূর্বশর্ত (DAG):</span>
                       {obj.prerequisites.map((pr) => (
                         <span
                           key={pr.id}
-                          className="rounded bg-surface px-1.5 py-0.5 font-mono text-[10px] font-medium text-brand-primary"
+                          className="rounded bg-surface px-1.5 py-0.5 font-mono text-xs font-medium text-brand-primary"
                         >
                           {pr.code}
                         </span>
@@ -383,7 +383,7 @@ export function AdminCurriculumCmsWorkspace({
                       </span>
                     )}
                     {res.vector_embedding_id && (
-                      <span className="rounded bg-subtle px-1.5 py-0.5 font-mono text-[11px] text-brand-secondary">
+                      <span className="rounded bg-subtle px-1.5 py-0.5 font-mono text-xs text-brand-secondary">
                         RAG: {res.vector_embedding_id}
                       </span>
                     )}

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import '@/styles/auth.css';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {

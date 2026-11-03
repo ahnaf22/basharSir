@@ -18,7 +18,7 @@ const config: Config = {
         chalk: {
           DEFAULT: '#EDE8DA',
           2: '#B5B9AA',
-          3: '#7E8A80',
+          3: '#8E9A90',
         },
         marigold: {
           DEFAULT: '#FFB238',
@@ -31,6 +31,28 @@ const config: Config = {
           rule: '#B9CDE0',
         },
         ink: '#22408F',
+
+        // Study-desk accent roles (values live in student-dashboard.css under .student-desk)
+        desk: {
+          accent: 'rgb(var(--desk-accent-rgb) / <alpha-value>)',
+          'accent-hover': 'var(--desk-accent-hover)',
+          'accent-ink': 'var(--desk-accent-ink)',
+          'accent-soft': 'var(--desk-accent-soft)',
+          'accent-soft-hover': 'var(--desk-accent-soft-hover)',
+          'accent-line': 'var(--desk-accent-line)',
+          ink: 'rgb(var(--desk-ink-rgb) / <alpha-value>)',
+          'ink-hover': 'var(--desk-ink-hover)',
+          paper: 'var(--desk-paper)',
+          'paper-2': 'var(--desk-paper-2)',
+          'paper-3': 'var(--desk-paper-3)',
+          track: 'var(--desk-track)',
+          'line-soft': 'var(--desk-line-soft)',
+          line: 'var(--desk-line)',
+          'line-strong': 'var(--desk-line-strong)',
+          text: 'var(--desk-text)',
+          'text-2': 'var(--desk-text-2)',
+          muted: 'var(--desk-muted)',
+        },
 
         // Semantic bindings mapped to CSS variables
         canvas: 'var(--bg-canvas)',
@@ -60,18 +82,17 @@ const config: Config = {
       fontFamily: {
         display: [
           'var(--f-display)',
-          'Anek Bangla',
-          'Hind Siliguri',
-          'Noto Sans Bengali',
+          'var(--font-hind-siliguri)',
+          'var(--font-noto-sans-bengali)',
           'sans-serif',
         ],
         body: [
           'var(--f-body)',
-          'Hind Siliguri',
-          'Noto Sans Bengali',
+          'var(--font-hind-siliguri)',
+          'var(--font-noto-sans-bengali)',
           'sans-serif',
         ],
-        hand: ['var(--f-hand)', 'Atma', 'Hind Siliguri', 'cursive'],
+        hand: ['var(--f-hand)', 'cursive'],
         heading: [
           'var(--font-hind-siliguri)',
           'var(--font-plus-jakarta)',

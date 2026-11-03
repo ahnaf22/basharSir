@@ -92,18 +92,18 @@ export function GuardianBillingAndCheckoutWorkspace({
   return (
     <div className="space-y-6">
       {/* Active Plan & Usage Quota Meter */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-desk-line bg-desk-paper p-6 shadow-sm">
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
           <div>
-            <span className="rounded-full bg-[#0D9488]/10 px-3 py-1 text-xs font-bold text-[#0D9488]">
+            <span className="rounded-full bg-desk-accent/10 px-3 py-1 text-xs font-bold text-desk-accent-ink">
               বর্তমান প্ল্যান: {currentQuota.plan_name_bn}
             </span>
-            <h2 className="mt-2 font-heading text-xl font-bold text-[#0F2942]">
+            <h2 className="mt-2 font-heading text-xl font-bold text-desk-ink">
               দৈনিক এআই টিউটর ও মাসিক পরীক্ষার কোটা মিটার
             </h2>
           </div>
           <div className="text-right">
-            <p className="text-sm font-semibold text-slate-700">
+            <p className="text-sm font-semibold text-desk-text-2">
               মাসিক ফি: ৳{toBanglaNumerals(currentQuota.price_bdt)}
             </p>
           </div>
@@ -112,18 +112,18 @@ export function GuardianBillingAndCheckoutWorkspace({
         <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
           <div
             data-testid="quota-meter-ai"
-            className="rounded-xl border border-slate-100 bg-slate-50 p-4"
+            className="rounded-xl border border-desk-line-soft bg-desk-paper-2 p-4"
           >
-            <div className="flex items-center justify-between text-xs font-semibold text-slate-700">
+            <div className="flex items-center justify-between text-xs font-semibold text-desk-text-2">
               <span>দৈনিক এআই টিউটর টার্ন ব্যবহার</span>
               <span>
                 {toBanglaNumerals(currentQuota.daily_ai_turns_used)} /{" "}
                 {toBanglaNumerals(currentQuota.daily_ai_turns_limit)}
               </span>
             </div>
-            <div className="mt-2 h-2.5 w-full overflow-hidden rounded-full bg-slate-200">
+            <div className="mt-2 h-2.5 w-full overflow-hidden rounded-full bg-desk-track">
               <div
-                className="h-full rounded-full bg-[#0D9488]"
+                className="h-full rounded-full bg-desk-accent"
                 style={{ width: `${aiQuotaPct}%` }}
               />
             </div>
@@ -131,18 +131,18 @@ export function GuardianBillingAndCheckoutWorkspace({
 
           <div
             data-testid="quota-meter-exam"
-            className="rounded-xl border border-slate-100 bg-slate-50 p-4"
+            className="rounded-xl border border-desk-line-soft bg-desk-paper-2 p-4"
           >
-            <div className="flex items-center justify-between text-xs font-semibold text-slate-700">
+            <div className="flex items-center justify-between text-xs font-semibold text-desk-text-2">
               <span>মাসিক মডেল ও অধ্যায়ভিত্তিক পরীক্ষা</span>
               <span>
                 {toBanglaNumerals(currentQuota.monthly_exams_used)} /{" "}
                 {toBanglaNumerals(currentQuota.monthly_exams_limit)}
               </span>
             </div>
-            <div className="mt-2 h-2.5 w-full overflow-hidden rounded-full bg-slate-200">
+            <div className="mt-2 h-2.5 w-full overflow-hidden rounded-full bg-desk-track">
               <div
-                className="h-full rounded-full bg-[#0F2942]"
+                className="h-full rounded-full bg-desk-ink"
                 style={{ width: `${examQuotaPct}%` }}
               />
             </div>
@@ -151,8 +151,8 @@ export function GuardianBillingAndCheckoutWorkspace({
       </div>
 
       {/* Pricing Tier Selector */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="font-heading text-xl font-bold text-[#0F2942]">
+      <div className="rounded-2xl border border-desk-line bg-desk-paper p-6 shadow-sm">
+        <h2 className="font-heading text-xl font-bold text-desk-ink">
           সাবস্ক্রিপশন প্ল্যান নির্বাচন করুন (Select Subscription Tier)
         </h2>
         <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -172,31 +172,31 @@ export function GuardianBillingAndCheckoutWorkspace({
                 }}
                 className={`cursor-pointer rounded-2xl border p-5 transition-all ${
                   isSelected
-                    ? "border-2 border-[#0D9488] bg-teal-50/40 shadow-sm"
-                    : "border-slate-200 bg-white hover:border-slate-300"
+                    ? "border-2 border-desk-accent-line bg-desk-accent-soft shadow-sm"
+                    : "border-desk-line bg-desk-paper hover:border-desk-line-strong"
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#0D9488]">
+                  <span className="text-xs font-bold uppercase tracking-wider text-desk-accent-ink">
                     {plan.tier.toUpperCase()}
                   </span>
                   {isSelected ? (
-                    <span className="rounded-full bg-[#0D9488] px-2.5 py-0.5 text-[10px] font-bold text-white">
+                    <span className="rounded-full bg-desk-accent px-2.5 py-0.5 text-xs font-bold text-white">
                       নির্বাচিত
                     </span>
                   ) : null}
                 </div>
-                <h3 className="mt-1 font-heading text-base font-bold text-[#0F2942]">
+                <h3 className="mt-1 font-heading text-base font-bold text-desk-ink">
                   {plan.name_bn}
                 </h3>
-                <p className="mt-2 font-heading text-2xl font-bold text-slate-900">
+                <p className="mt-2 font-heading text-2xl font-bold text-desk-text">
                   ৳{toBanglaNumerals(plan.price_bdt)}
-                  <span className="text-xs font-normal text-slate-500">
+                  <span className="text-xs font-normal text-desk-muted">
                     {" "}
                     / মাস
                   </span>
                 </p>
-                <ul className="mt-3 space-y-1.5 text-xs text-slate-600">
+                <ul className="mt-3 space-y-1.5 text-xs text-desk-muted">
                   {plan.features_json.map((feat) => (
                     <li key={feat} className="flex items-start gap-1.5">
                       <span className="text-emerald-600">✓</span>
@@ -210,8 +210,8 @@ export function GuardianBillingAndCheckoutWorkspace({
         </div>
 
         {/* Bangladesh Payment Gateway Selector */}
-        <div className="mt-6 border-t border-slate-200 pt-6">
-          <h3 className="font-heading text-base font-bold text-[#0F2942]">
+        <div className="mt-6 border-t border-desk-line pt-6">
+          <h3 className="font-heading text-base font-bold text-desk-ink">
             পেমেন্ট মাধ্যম নির্বাচন করুন (Bangladesh Payment Gateways)
           </h3>
           <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -225,11 +225,11 @@ export function GuardianBillingAndCheckoutWorkspace({
                   onClick={() => setSelectedGateway(gw.id)}
                   className={`flex flex-col items-start rounded-xl border p-4 text-left transition-all ${
                     isGwSelected
-                      ? "border-2 border-[#0F2942] bg-slate-900 text-white"
-                      : "border-slate-200 bg-slate-50 text-slate-800 hover:bg-slate-100"
+                      ? "border-2 border-desk-ink bg-slate-900 text-white"
+                      : "border-desk-line bg-desk-paper-2 text-desk-text hover:bg-desk-paper-3"
                   }`}
                 >
-                  <span className="text-[10px] font-bold uppercase text-teal-400">
+                  <span className="text-xs font-bold uppercase text-desk-accent">
                     {gw.badge}
                   </span>
                   <span className="mt-1 text-sm font-bold">{gw.label_bn}</span>
@@ -238,12 +238,12 @@ export function GuardianBillingAndCheckoutWorkspace({
             })}
           </div>
 
-          <div className="mt-5 flex flex-wrap items-center justify-between gap-4 rounded-xl bg-slate-50 p-4">
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-4 rounded-xl bg-desk-paper-2 p-4">
             <div>
-              <p className="text-xs text-slate-500">নির্বাচিত প্ল্যান ও মাধ্যম</p>
+              <p className="text-xs text-desk-muted">নির্বাচিত প্ল্যান ও মাধ্যম</p>
               <p
                 data-testid="checkout-summary-line"
-                className="text-sm font-bold text-[#0F2942]"
+                className="text-sm font-bold text-desk-ink"
               >
                 {selectedPlan?.name_bn} — ৳
                 {toBanglaNumerals(selectedPlan?.price_bdt ?? 0)} ({selectedGateway.toUpperCase()})
@@ -254,7 +254,7 @@ export function GuardianBillingAndCheckoutWorkspace({
               data-testid="proceed-checkout-btn"
               disabled={isSubmitting || (selectedPlan?.price_bdt ?? 0) === 0}
               onClick={() => void handleCheckout()}
-              className="rounded-xl bg-[#0D9488] px-5 py-2.5 text-sm font-bold text-white hover:bg-[#0D9488]/90 disabled:opacity-50"
+              className="rounded-xl bg-desk-accent px-5 py-2.5 text-sm font-bold text-white hover:bg-desk-accent-hover disabled:opacity-50"
             >
               {isSubmitting
                 ? "পেমেন্ট গেটওয়ে প্রস্তুত হচ্ছে..."
@@ -271,12 +271,12 @@ export function GuardianBillingAndCheckoutWorkspace({
                 <p className="font-bold">
                   ইনভয়েস নম্বর: {checkoutSession.merchant_invoice_no} ({checkoutSession.gateway.toUpperCase()})
                 </p>
-                <span className="rounded-md bg-emerald-200/80 px-2 py-0.5 font-mono text-[10px] font-semibold text-emerald-900">
+                <span className="rounded-md bg-emerald-200/80 px-2 py-0.5 font-mono text-xs font-semibold text-emerald-900">
                   {checkoutSession.gateway}
                 </span>
               </div>
-              <p className="text-slate-700">
-                পেমেন্ট গেটওয়ে রিডাইরেক্ট লিংক তৈরি হয়েছে: <span className="font-mono text-[11px] underline">{checkoutSession.checkout_url}</span>
+              <p className="text-desk-text-2">
+                পেমেন্ট গেটওয়ে রিডাইরেক্ট লিংক তৈরি হয়েছে: <span className="font-mono text-xs underline">{checkoutSession.checkout_url}</span>
               </p>
               <div>
                 <button
@@ -307,14 +307,14 @@ export function GuardianBillingAndCheckoutWorkspace({
       </div>
 
       {/* Payment History Table */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="font-heading text-lg font-bold text-[#0F2942]">
+      <div className="rounded-2xl border border-desk-line bg-desk-paper p-6 shadow-sm">
+        <h2 className="font-heading text-lg font-bold text-desk-ink">
           পেমেন্ট ও ইনভয়েস ইতিহাস (Payment History)
         </h2>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-slate-200 text-slate-500">
+              <tr className="border-b border-desk-line text-desk-muted">
                 <th className="pb-2">ইনভয়েস</th>
                 <th className="pb-2">প্ল্যান</th>
                 <th className="pb-2">গেটওয়ে</th>
@@ -322,10 +322,10 @@ export function GuardianBillingAndCheckoutWorkspace({
                 <th className="pb-2">স্ট্যাটাস</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-desk-line-soft">
               {paymentHistory.map((item) => (
                 <tr key={item.uuid}>
-                  <td className="py-3 font-mono font-semibold text-slate-800">
+                  <td className="py-3 font-mono font-semibold text-desk-text">
                     {item.merchant_invoice_no}
                   </td>
                   <td className="py-3">{item.plan_name_bn}</td>
@@ -334,7 +334,7 @@ export function GuardianBillingAndCheckoutWorkspace({
                     ৳{toBanglaNumerals(item.amount_bdt)}
                   </td>
                   <td className="py-3">
-                    <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-800">
+                    <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">
                       {item.status === "completed" ? "পরিশোধিত" : item.status}
                     </span>
                   </td>

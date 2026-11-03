@@ -151,6 +151,7 @@ export function AiPrivateTutorWorkspace({
   const searchParams = useSearchParams();
   const sessionIdParam = searchParams ? searchParams.get('session_id') : null;
   const objectiveIdParam = searchParams ? searchParams.get('objective_id') : null;
+  const questionParam = searchParams ? searchParams.get('q') : null;
 
   useEffect(() => {
     let isMounted = true;
@@ -257,7 +258,7 @@ export function AiPrivateTutorWorkspace({
       {toastBannerBn && (
         <div
           role="alert"
-          className="mb-4 rounded-lg border border-teal-300 bg-teal-50 px-4 py-2.5 font-bangla text-sm font-medium text-teal-950"
+          className="mb-4 rounded-lg border border-desk-accent-line bg-desk-accent-soft px-4 py-2.5 font-bangla text-sm font-medium text-desk-ink"
         >
           {toastBannerBn}
         </div>
@@ -274,6 +275,7 @@ export function AiPrivateTutorWorkspace({
             isSubmitting={isSubmitting}
             onSubmitAnswer={(ans) => void executeTurn('text_reply', ans)}
             onRequestHint={() => void executeTurn('hint', 'ইঙ্গিত দাও')}
+            initialInput={questionParam ?? ''}
           />
         </div>
         <div className="lg:col-span-3">

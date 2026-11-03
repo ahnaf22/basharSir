@@ -16,6 +16,16 @@
   z-index: 0;
 }
 
+/* Same marigold ring as the landing page and the study desk, instead of the
+   browser default. Inputs keep their wrapper ring (.auth-inp:focus-within). */
+.auth-shell a:focus-visible,
+.auth-shell button:focus-visible,
+.auth-shell [role="tab"]:focus-visible,
+.auth-shell [tabindex]:focus-visible {
+  outline: 2px solid var(--marigold);
+  outline-offset: 3px;
+}
+
 .auth-shell {
   position: relative;
   min-height: 100vh;
@@ -150,7 +160,7 @@
 .auth-scrap h2 {
   margin: 0;
   font: 600 0.95rem/38px var(--f-body);
-  color: #5B5A52;
+  color: var(--paper-muted-2);
 }
 
 .auth-scrap ul {
@@ -176,22 +186,22 @@
 }
 
 .auth-scrap li.ok {
-  color: #1D7A45;
+  color: var(--tick-ink);
 }
 
 .auth-scrap li.ok .box {
-  border-color: #1D7A45;
+  border-color: var(--tick-ink);
 }
 
 .auth-scrap li.ok s {
-  text-decoration-color: #1D7A45;
+  text-decoration-color: var(--tick-ink);
   text-decoration-thickness: 2px;
 }
 
 .auth-scrap .eg {
   display: block;
   font: 400 0.75rem/1.4 var(--f-body);
-  color: #7A776B;
+  color: var(--paper-muted);
   margin-top: 6px;
 }
 
@@ -247,6 +257,7 @@
   place-items: center;
   font-family: var(--f-display);
   font-weight: 800;
+  font-size: 0.95rem;
   flex-shrink: 0;
 }
 
@@ -256,6 +267,9 @@
   padding: 10px 14px;
   font-size: 0.95rem;
   min-height: 44px;
+  line-height: 1.5;
+  max-width: 88%;
+  width: fit-content;
   transition: opacity 0.35s;
   color: var(--chalk);
 }
@@ -266,9 +280,13 @@
   flex-wrap: wrap;
   font-size: 0.85rem;
   color: var(--chalk-3);
+  align-items: center;
 }
 
 .auth-board-foot a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   text-decoration: none;
   color: inherit;
 }
@@ -280,6 +298,7 @@
 /* ---------- right: the desk ---------- */
 .auth-desk {
   position: relative;
+  overflow-x: clip;
   background: var(--slate-2);
   border-left: 1px solid var(--rule);
   display: flex;
@@ -608,18 +627,18 @@
   font-weight: 700;
   font-size: 1.15rem;
   cursor: pointer;
-  box-shadow: 0 2px 0 #B97400, 0 10px 30px -12px rgba(255, 178, 56, 0.55);
+  box-shadow: 0 2px 0 var(--marigold-deep), 0 10px 30px -12px rgba(255, 178, 56, 0.55);
   transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), opacity 0.2s;
 }
 
 .auth-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 0 #B97400, 0 16px 34px -12px rgba(255, 178, 56, 0.65);
+  box-shadow: 0 4px 0 var(--marigold-deep), 0 16px 34px -12px rgba(255, 178, 56, 0.65);
 }
 
 .auth-btn:active {
   transform: translateY(1px);
-  box-shadow: 0 1px 0 #B97400;
+  box-shadow: 0 1px 0 var(--marigold-deep);
 }
 
 .auth-btn[disabled] {

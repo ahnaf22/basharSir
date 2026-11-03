@@ -39,7 +39,7 @@ export function QuotaMeter({
       <div className={cn('text-xs font-bangla', className)}>
         <div className="flex items-center justify-between text-content-secondary mb-1">
           <span className="font-heading truncate">{displayLabel}</span>
-          <span className="font-mono text-[11px] font-semibold text-content-primary">
+          <span className="font-mono text-xs font-semibold text-content-primary">
             {toBanglaNumerals(used)}/{toBanglaNumerals(limit)}
           </span>
         </div>
@@ -74,7 +74,7 @@ export function QuotaMeter({
         </span>
         <span
           className={cn(
-            'rounded-md px-1.5 py-0.5 text-[11px] font-semibold font-mono',
+            'rounded-md px-1.5 py-0.5 text-xs font-semibold font-mono',
             isExhausted
               ? 'bg-status-danger/10 text-status-danger'
               : isNearLimit
@@ -100,7 +100,7 @@ export function QuotaMeter({
         />
       </div>
 
-      <div className="mt-2 flex items-center justify-between text-[11px] text-content-secondary">
+      <div className="mt-2 flex items-center justify-between text-xs text-content-secondary">
         <span>
           ব্যবহৃত: {toBanglaNumerals(used)} / {toBanglaNumerals(limit)}
         </span>

@@ -139,7 +139,7 @@ export function StudyMaterialsReader({
                       {RESOURCE_TYPE_LABELS[res.resource_type]}
                     </Badge>
                     {res.nctb_page_reference && (
-                      <span className="text-[11px] text-content-secondary">
+                      <span className="text-xs text-content-secondary">
                         {res.nctb_page_reference}
                       </span>
                     )}
@@ -182,7 +182,7 @@ export function StudyMaterialsReader({
               value={newHighlightText}
               onChange={(e) => setNewHighlightText(e.target.value)}
               placeholder="গুরুত্বপূর্ণ সূত্র বা পয়েন্ট..."
-              className="flex-1 rounded-lg border border-border-subtle bg-canvas px-2.5 py-1.5 text-xs"
+              className="min-w-0 flex-1 rounded-lg border border-border-subtle bg-canvas px-2.5 py-1.5 text-xs"
               data-testid="highlight-input"
             />
             <Button

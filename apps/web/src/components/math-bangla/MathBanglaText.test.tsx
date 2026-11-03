@@ -1,9 +1,11 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import katex from 'katex';
+import { render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import {
   MathBanglaText,
   parseMathBanglaSegments,
+  tokenizeMathBangla,
 } from '@/components/math-bangla/MathBanglaText';
 import {
   toAsciiNumerals,
@@ -25,7 +27,7 @@ describe('MathBanglaText & KaTeX Parser', () => {
   it('tokenizes mixed Bangla prose, inline LaTeX ($...$), and block LaTeX ($$...$$)', () => {
     const input =
       'যদি $x = 5$ হয়, তবে নিচের রাশিটির মান নির্ণয় করো: $$(a + b)^2 = a^2 + 2ab + b^2$$ ধন্যবাদ।';
-    const segments = parseMathBanglaSegments(input);
+    const segments = parseMathBanglaSegments(input, katex);
 
     expect(segments).toHaveLength(5);
     expect(segments[0]).toEqual({ type: 'text', value: 'যদি ' });
@@ -40,7 +42,15 @@ describe('MathBanglaText & KaTeX Parser', () => {
     }
   });
 
-  it('renders Bangla text and KaTeX formulas with proper typography classes', () => {
+
+  it('tokenizes without KaTeX so plain text never needs the maths library', () => {
+    expect(tokenizeMathBangla('শুধু বাংলা লেখা')).toEqual([
+      { type: 'text', value: 'শুধু বাংলা লেখা' },
+    ]);
+    expect(tokenizeMathBangla('মান $x$')[1]).toEqual({ type: 'math-inline', latex: 'x' });
+  });
+
+  it('renders Bangla text and KaTeX formulas with proper typography classes', async () => {
     render(
       <MathBanglaText
         content="বীজগণিতের সূত্র: $(2x + 3y)^2 = 4x^2 + 12xy + 9y^2$"
@@ -56,7 +66,6 @@ describe('MathBanglaText & KaTeX Parser', () => {
     expect(mathNode?.getAttribute('data-latex')).toBe(
       '(2x + 3y)^2 = 4x^2 + 12xy + 9y^2'
     );
-    expect(container.querySelector('.katex')).not.toBeNull();
+    await waitFor(() => expect(container.querySelector('.katex')).not.toBeNull());
   });
 });
-

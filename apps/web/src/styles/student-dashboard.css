@@ -12,7 +12,7 @@
   --rule-2: rgba(237, 232, 218, 0.2);
   --chalk: #EDE8DA;
   --chalk-2: #B5B9AA;
-  --chalk-3: #7E8A80;
+  --chalk-3: #8E9A90;
   --marigold: #FFB238;
   --marigold-ink: #241600;
   --redpen: #FF6152;
@@ -22,9 +22,9 @@
   --paper-rule: #B9CDE0;
   --ink: #22408F;
   --board-ink: #14201B;
-  --f-display: "Anek Bangla", "Hind Siliguri", "Noto Sans Bengali", system-ui, sans-serif;
-  --f-body: "Hind Siliguri", "Noto Sans Bengali", system-ui, sans-serif;
-  --f-hand: "Atma", "Hind Siliguri", cursive;
+  --f-display: var(--nf-anek), var(--nf-hind), var(--nf-noto), system-ui, sans-serif;
+  --f-body: var(--nf-hind), var(--nf-noto), system-ui, sans-serif;
+  --f-hand: var(--nf-atma), var(--nf-hind), cursive;
   --f-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   color-scheme: dark;
@@ -38,26 +38,55 @@
 }
 
 .student-desk.app {
-  display: grid !important;
-  grid-template-columns: 252px minmax(0, 1fr) !important;
-  min-height: 100vh !important;
-  min-height: 100dvh !important;
+  display: grid;
+  grid-template-columns: 252px minmax(0, 1fr);
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--slate);
+}
+
+/* Positioning contexts: sections, main, header and footer anchor their absolutely positioned
+   children. Zero specificity, so Tailwind utilities (absolute, sticky) still win. */
+:where(.student-desk) section {
+  position: relative;
+}
+:where(.student-desk) :is(main, header, footer) {
+  position: relative;
+  z-index: 1;
+}
+:where(.student-desk) .panel {
+  position: relative;
+}
+
+.student-desk .home-desk,
+.student-desk .page {
+  overflow: visible;
+  z-index: auto;
+}
+
+.student-desk .top {
+  z-index: 30;
+}
+
+.student-desk .home-desk .chip {
+  line-height: normal;
+  cursor: default;
 }
 
 .student-desk * {
   box-sizing: border-box;
 }
 
-.student-desk a {
+:where(.student-desk) :where(a) {
   color: inherit;
   text-decoration: none;
 }
 
-.student-desk button {
+:where(.student-desk) :where(button) {
   font-family: inherit;
 }
 
-.student-desk :focus-visible {
+.student-desk :where(:focus-visible) {
   outline: 2px solid var(--marigold);
   outline-offset: 2px;
   border-radius: 8px;
@@ -80,98 +109,99 @@
 
 /* ---------- sidebar (the shelf) ---------- */
 .student-desk .side {
-  position: sticky !important;
-  top: env(safe-area-inset-top, 0px) !important;
-  height: 100vh !important;
-  height: 100dvh !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 18px !important;
-  padding: 20px 14px 18px max(14px, env(safe-area-inset-left, 0px)) !important;
-  border-right: 1px solid var(--rule) !important;
-  background: var(--slate) !important;
-  overflow-y: auto !important;
-  z-index: 40 !important;
-  width: 252px !important;
-  box-sizing: border-box !important;
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px 14px 18px max(14px, env(safe-area-inset-left, 0px));
+  border-right: 1px solid var(--rule);
+  background: var(--slate);
+  overflow-y: auto;
+  z-index: 40;
+  width: 252px;
+  box-sizing: border-box;
 }
 
 .student-desk .logo {
-  display: flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-  padding: 2px 8px 10px !important;
-  text-decoration: none !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 8px 10px;
+  text-decoration: none;
 }
 
 .student-desk .logo-mark {
-  width: 36px !important;
-  height: 36px !important;
-  border-radius: 11px 11px 11px 3px !important;
-  background: var(--marigold) !important;
-  color: var(--marigold-ink) !important;
-  display: grid !important;
-  place-items: center !important;
-  font-family: var(--f-display) !important;
-  font-weight: 800 !important;
-  font-size: 1.3rem !important;
-  transform: rotate(-6deg) !important;
-  line-height: 1 !important;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px 11px 11px 3px;
+  background: var(--marigold);
+  color: var(--marigold-ink);
+  display: grid;
+  place-items: center;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 1.3rem;
+  transform: rotate(-6deg);
+  line-height: 1;
 }
 
 .student-desk .logo-word {
-  font-family: var(--f-display) !important;
-  font-weight: 800 !important;
-  font-stretch: 80% !important;
-  font-size: 1.5rem !important;
-  line-height: 1 !important;
-  color: var(--chalk) !important;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 80%;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--chalk);
 }
 
 .student-desk .logo-word em {
-  font-style: normal !important;
-  color: var(--marigold) !important;
+  font-style: normal;
+  color: var(--marigold);
 }
 
 .student-desk .nav {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 .student-desk .nav-group {
-  display: grid !important;
-  gap: 2px !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .student-desk .nav-label {
-  font-size: 0.75rem !important;
-  color: var(--chalk-3) !important;
-  padding: 10px 12px 4px !important;
-  letter-spacing: 0.03em !important;
-  margin: 0 !important;
+  font-size: 0.75rem;
+  color: var(--chalk-3);
+  padding: 10px 12px 4px;
+  letter-spacing: 0.03em;
+  /* the design's <p> keeps the browser default 1em margin (Tailwind preflight removes it here) */
+  margin: 0.75rem 0;
 }
 
 .student-desk .nav a {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-  min-height: 42px !important;
-  padding: 8px 12px !important;
-  border-radius: 12px !important;
-  color: var(--chalk-2) !important;
-  font-weight: 500 !important;
-  position: relative !important;
-  transition: background 0.2s, color 0.2s !important;
-  text-decoration: none !important;
-  box-sizing: border-box !important;
-  width: 100% !important;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 42px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  color: var(--chalk-2);
+  font-weight: 500;
+  position: relative;
+  transition: background 0.2s, color 0.2s;
+  text-decoration: none;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .student-desk .nav a:hover {
@@ -180,136 +210,136 @@
 }
 
 .student-desk .nav a[aria-current="page"] {
-  background: var(--slate-3) !important;
-  color: var(--chalk) !important;
+  background: var(--slate-3);
+  color: var(--chalk);
 }
 
 .student-desk .nav a[aria-current="page"] .ico {
-  color: var(--marigold) !important;
+  color: var(--marigold);
 }
 
 .student-desk .nav a .pill {
-  margin-left: auto !important;
-  font-size: 0.72rem !important;
-  padding: 1px 8px !important;
-  border-radius: 999px !important;
-  background: var(--slate-3) !important;
-  color: var(--chalk-3) !important;
+  margin-left: auto;
+  font-size: 0.75rem;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--slate-3);
+  color: var(--chalk-3);
 }
 
 .student-desk .nav a .pill.new {
-  background: rgba(255, 178, 56, 0.14) !important;
-  color: var(--marigold) !important;
+  background: rgba(255, 178, 56, 0.14);
+  color: var(--marigold);
 }
 
 .student-desk .quota {
-  margin-top: auto !important;
-  border: 1px solid var(--rule) !important;
-  border-radius: 16px !important;
-  padding: 14px !important;
-  display: grid !important;
-  gap: 8px !important;
-  background: var(--slate-2) !important;
+  margin-top: auto;
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  padding: 14px;
+  display: grid;
+  gap: 8px;
+  background: var(--slate-2);
 }
 
 .student-desk .quota .t {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: baseline !important;
-  font-size: 0.85rem !important;
-  color: var(--chalk-2) !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.85rem;
+  color: var(--chalk-2);
 }
 
 .student-desk .quota .t b {
-  font-family: var(--f-display) !important;
-  font-weight: 700 !important;
-  font-size: 1.05rem !important;
-  color: var(--chalk) !important;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--chalk);
 }
 
 .student-desk .meter {
-  height: 6px !important;
-  border-radius: 99px !important;
-  background: var(--slate-4) !important;
-  overflow: hidden !important;
+  height: 6px;
+  border-radius: 99px;
+  background: var(--slate-4);
+  overflow: hidden;
 }
 
 .student-desk .meter i {
-  display: block !important;
-  height: 100% !important;
-  border-radius: 99px !important;
-  background: var(--marigold) !important;
-  min-width: 4px !important;
-  transition: width 0.4s ease !important;
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  background: var(--marigold);
+  min-width: 4px;
+  transition: width 0.4s ease;
 }
 
 .student-desk .quota small {
-  color: var(--chalk-3) !important;
-  font-size: 0.78rem !important;
+  color: var(--chalk-3);
+  font-size: 0.78rem;
 }
 
 .student-desk .plan {
-  display: flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-  padding: 10px 12px !important;
-  border-radius: 14px !important;
-  border: 1px dashed var(--rule-2) !important;
-  font-size: 0.82rem !important;
-  color: var(--chalk-3) !important;
-  text-decoration: none !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px dashed var(--rule-2);
+  font-size: 0.82rem;
+  color: var(--chalk-3);
+  text-decoration: none;
 }
 
 .student-desk .plan b {
-  color: var(--chalk) !important;
-  font-weight: 600 !important;
-  display: block !important;
-  font-size: 0.88rem !important;
+  color: var(--chalk);
+  font-weight: 600;
+  display: block;
+  font-size: 0.88rem;
 }
 
 .student-desk .plan .ico {
-  color: var(--marigold) !important;
+  color: var(--marigold);
 }
 
 /* ---------- main (the desk) ---------- */
 .student-desk .main {
-  min-width: 0 !important;
-  display: flex !important;
-  flex-direction: column !important;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .student-desk .top {
-  position: sticky !important;
-  top: env(safe-area-inset-top, 0px) !important;
-  z-index: 30 !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 14px !important;
-  min-height: 68px !important;
-  background: rgba(13, 24, 20, 0.85) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  border-bottom: 1px solid var(--rule) !important;
-  padding-left: clamp(16px, 3vw, 36px) !important;
-  padding-right: max(clamp(16px, 3vw, 36px), env(safe-area-inset-right, 0px)) !important;
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 68px;
+  background: rgba(13, 24, 20, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+  padding-left: clamp(16px, 3vw, 36px);
+  padding-right: max(clamp(16px, 3vw, 36px), env(safe-area-inset-right, 0px));
 }
 
 .student-desk .top .mlogo {
-  display: none !important;
+  display: none;
 }
 
 .student-desk .search {
-  flex: 1 !important;
-  max-width: 520px !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-  min-height: 44px !important;
-  padding: 0 14px !important;
-  border-radius: 999px !important;
-  background: var(--slate-2) !important;
-  border: 1px solid var(--rule) !important;
-  color: var(--chalk-3) !important;
+  flex: 1;
+  max-width: 520px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: var(--slate-2);
+  border: 1px solid var(--rule);
+  color: var(--chalk-3);
 }
 
 .student-desk .search:focus-within {
@@ -317,47 +347,47 @@
 }
 
 .student-desk .search input {
-  flex: 1 !important;
-  min-width: 0 !important;
-  background: none !important;
-  border: 0 !important;
-  outline: 0 !important;
-  color: var(--chalk) !important;
-  font: 400 0.95rem var(--f-body) !important;
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: 0;
+  outline: 0;
+  color: var(--chalk);
+  font: 400 0.95rem var(--f-body);
 }
 
 .student-desk .search input::placeholder {
-  color: var(--chalk-3) !important;
+  color: var(--chalk-3);
 }
 
 .student-desk .search kbd {
-  font-family: var(--f-mono) !important;
-  font-size: 0.72rem !important;
-  border: 1px solid var(--rule-2) !important;
-  border-radius: 6px !important;
-  padding: 1px 6px !important;
-  color: var(--chalk-3) !important;
+  font-family: var(--f-mono);
+  font-size: 0.75rem;
+  border: 1px solid var(--rule-2);
+  border-radius: 6px;
+  padding: 1px 6px;
+  color: var(--chalk-3);
 }
 
 .student-desk .top-act {
-  margin-left: auto !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 6px !important;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .student-desk .iconbtn {
-  position: relative !important;
-  width: 44px !important;
-  height: 44px !important;
-  border-radius: 50% !important;
-  border: 0 !important;
-  background: transparent !important;
-  color: var(--chalk-2) !important;
-  display: grid !important;
-  place-items: center !important;
-  cursor: pointer !important;
-  transition: background 0.2s, color 0.2s !important;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 0;
+  background: transparent;
+  color: var(--chalk-2);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
 }
 
 .student-desk .iconbtn:hover {
@@ -366,29 +396,29 @@
 }
 
 .student-desk .iconbtn .dot {
-  position: absolute !important;
-  top: 10px !important;
-  right: 11px !important;
-  width: 8px !important;
-  height: 8px !important;
-  border-radius: 50% !important;
-  background: var(--redpen) !important;
-  box-shadow: 0 0 0 2px var(--slate) !important;
+  position: absolute;
+  top: 10px;
+  right: 11px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--redpen);
+  box-shadow: 0 0 0 2px var(--slate);
 }
 
 .student-desk .me {
-  position: relative !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-  padding: 4px 6px 4px 4px !important;
-  border-radius: 999px !important;
-  border: 1px solid var(--rule) !important;
-  background: transparent !important;
-  color: var(--chalk) !important;
-  cursor: pointer !important;
-  min-height: 44px !important;
-  box-shadow: none !important;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 6px 4px 4px;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--chalk);
+  cursor: pointer;
+  min-height: 44px;
+  box-shadow: none;
 }
 
 .student-desk .me:hover {
@@ -396,61 +426,61 @@
 }
 
 .student-desk .me .av {
-  width: 34px !important;
-  height: 34px !important;
-  border-radius: 50% !important;
-  background: var(--chalk) !important;
-  color: var(--board-ink) !important;
-  display: grid !important;
-  place-items: center !important;
-  font-family: var(--f-display) !important;
-  font-weight: 800 !important;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--chalk);
+  color: var(--board-ink);
+  display: grid;
+  place-items: center;
+  font-family: var(--f-display);
+  font-weight: 800;
 }
 
 .student-desk .me span {
-  display: grid !important;
-  line-height: 1.2 !important;
-  text-align: left !important;
-  font-size: 0.88rem !important;
-  font-weight: 600 !important;
-  padding-right: 6px !important;
+  display: grid;
+  line-height: 1.2;
+  text-align: left;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding-right: 6px;
 }
 
 .student-desk .me small {
-  font-weight: 400 !important;
-  color: var(--chalk-3) !important;
-  font-size: 0.75rem !important;
+  font-weight: 400;
+  color: var(--chalk-3);
+  font-size: 0.75rem;
 }
 
 .student-desk .me-menu {
-  position: absolute !important;
-  top: calc(100% + 8px) !important;
-  right: 0 !important;
-  width: 220px !important;
-  background: var(--slate-2) !important;
-  border: 1px solid var(--rule-2) !important;
-  border-radius: 16px !important;
-  padding: 8px !important;
-  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.8) !important;
-  z-index: 50 !important;
-  display: grid !important;
-  gap: 4px !important;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 220px;
+  background: var(--slate-2);
+  border: 1px solid var(--rule-2);
+  border-radius: 16px;
+  padding: 8px;
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.8);
+  z-index: 50;
+  display: grid;
+  gap: 4px;
 }
 
 .student-desk .me-menu a,
 .student-desk .me-menu button {
-  display: flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-  padding: 8px 12px !important;
-  border-radius: 10px !important;
-  font-size: 0.85rem !important;
-  color: var(--chalk-2) !important;
-  background: transparent !important;
-  border: 0 !important;
-  width: 100% !important;
-  cursor: pointer !important;
-  text-align: left !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  color: var(--chalk-2);
+  background: transparent;
+  border: 0;
+  width: 100%;
+  cursor: pointer;
+  text-align: left;
 }
 
 .student-desk .me-menu a:hover,
@@ -460,261 +490,261 @@
 }
 
 .student-desk .me-menu button.logout {
-  color: var(--redpen) !important;
+  color: var(--redpen);
 }
 
-.student-desk .desk {
-  padding-block: 28px 64px !important;
-  padding-left: clamp(16px, 3vw, 36px) !important;
-  padding-right: max(clamp(16px, 3vw, 36px), env(safe-area-inset-right, 0px)) !important;
-  display: grid !important;
-  gap: 22px !important;
-  max-width: 1240px !important;
-  width: 100% !important;
+.student-desk .home-desk {
+  padding-block: 28px 64px;
+  padding-left: clamp(16px, 3vw, 36px);
+  padding-right: max(clamp(16px, 3vw, 36px), env(safe-area-inset-right, 0px));
+  display: grid;
+  gap: 22px;
+  max-width: 1240px;
+  width: 100%;
 }
 
 /* hello row */
-.student-desk .hello {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) auto !important;
-  gap: 24px !important;
-  align-items: end !important;
+.student-desk .home-desk .hello {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: end;
 }
 
-.student-desk .date {
-  font-size: 0.85rem !important;
-  color: var(--chalk-3) !important;
-  margin: 0 0 6px !important;
-  display: flex !important;
-  gap: 10px !important;
-  flex-wrap: wrap !important;
+.student-desk .home-desk .date {
+  font-size: 0.85rem;
+  color: var(--chalk-3);
+  margin: 0 0 6px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.student-desk .date .bd {
-  color: var(--marigold) !important;
+.student-desk .home-desk .date .bd {
+  color: var(--marigold);
 }
 
-.student-desk .hello h1 {
-  margin: 0 !important;
-  font-family: var(--f-display) !important;
-  font-stretch: 80% !important;
-  font-weight: 750 !important;
-  font-size: clamp(2rem, 3.6vw, 2.9rem) !important;
-  line-height: 1.1 !important;
-  text-wrap: balance !important;
-  color: var(--chalk) !important;
+.student-desk .home-desk .hello h1 {
+  margin: 0;
+  font-family: var(--f-display);
+  font-stretch: 80%;
+  font-weight: 750;
+  font-size: clamp(2rem, 3.6vw, 2.9rem);
+  line-height: 1.1;
+  text-wrap: balance;
+  color: var(--chalk);
 }
 
-.student-desk .hello h1 em {
-  font-style: normal !important;
-  color: var(--marigold) !important;
+.student-desk .home-desk .hello h1 em {
+  font-style: normal;
+  color: var(--marigold);
 }
 
-.student-desk .summary {
-  margin: 8px 0 0 !important;
-  color: var(--chalk-2) !important;
-  font-size: 1.05rem !important;
-  max-width: 44em !important;
+.student-desk .home-desk .summary {
+  margin: 8px 0 0;
+  color: var(--chalk-2);
+  font-size: 1.05rem;
+  max-width: 44em;
 }
 
-.student-desk .summary b {
-  color: var(--chalk) !important;
-  font-weight: 600 !important;
+.student-desk .home-desk .summary b {
+  color: var(--chalk);
+  font-weight: 600;
 }
 
 /* ledger strip: replaces the 4 tiles */
-.student-desk .ledger {
-  display: grid !important;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr !important;
-  border: 1px solid var(--rule) !important;
-  border-radius: 20px !important;
-  background: var(--slate-2) !important;
-  overflow: hidden !important;
+.student-desk .home-desk .ledger {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  border: 1px solid var(--rule);
+  border-radius: 20px;
+  background: var(--slate-2);
+  overflow: hidden;
 }
 
-.student-desk .ledger > div {
-  padding: 16px 20px !important;
-  display: grid !important;
-  gap: 6px !important;
-  align-content: start !important;
-  border-left: 1px solid var(--rule) !important;
-  min-width: 0 !important;
+.student-desk .home-desk .ledger > div {
+  padding: 16px 20px;
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  border-left: 1px solid var(--rule);
+  min-width: 0;
 }
 
-.student-desk .ledger > div:first-child {
-  border-left: 0 !important;
+.student-desk .home-desk .ledger > div:first-child {
+  border-left: 0;
 }
 
-.student-desk .lab {
-  font-size: 0.8rem !important;
-  color: var(--chalk-3) !important;
-  display: flex !important;
-  justify-content: space-between !important;
-  gap: 8px !important;
+.student-desk .home-desk .lab {
+  font-size: 0.8rem;
+  color: var(--chalk-3);
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
 }
 
-.student-desk .val {
-  font-family: var(--f-display) !important;
-  font-stretch: 85% !important;
-  font-weight: 750 !important;
-  font-size: 1.9rem !important;
-  line-height: 1.1 !important;
-  color: var(--chalk) !important;
+.student-desk .home-desk .val {
+  font-family: var(--f-display);
+  font-stretch: 85%;
+  font-weight: 750;
+  font-size: 1.9rem;
+  line-height: 1.1;
+  color: var(--chalk);
 }
 
-.student-desk .val small {
-  font-family: var(--f-body) !important;
-  font-size: 0.85rem !important;
-  font-weight: 500 !important;
-  color: var(--chalk-3) !important;
-  margin-left: 4px !important;
+.student-desk .home-desk .val small {
+  font-family: var(--f-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--chalk-3);
+  margin-left: 4px;
 }
 
-.student-desk .week {
-  display: flex !important;
-  gap: 6px !important;
-  margin-top: 2px !important;
+.student-desk .home-desk .week {
+  display: flex;
+  gap: 6px;
+  margin-top: 2px;
 }
 
-.student-desk .week span {
-  display: grid !important;
-  justify-items: center !important;
-  gap: 3px !important;
-  font-size: 0.68rem !important;
-  color: var(--chalk-3) !important;
+.student-desk .home-desk .week span {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  font-size: 0.75rem;
+  color: var(--chalk-3);
 }
 
-.student-desk .week i {
-  width: 24px !important;
-  height: 24px !important;
-  border-radius: 8px !important;
-  background: var(--slate-4) !important;
-  display: grid !important;
-  place-items: center !important;
+.student-desk .home-desk .week i {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: var(--slate-4);
+  display: grid;
+  place-items: center;
 }
 
-.student-desk .week .d i {
-  background: var(--marigold) !important;
+.student-desk .home-desk .week .d i {
+  background: var(--marigold);
 }
 
-.student-desk .week .d i::after {
-  content: "" !important;
-  width: 9px !important;
-  height: 5px !important;
-  border-left: 2px solid var(--marigold-ink) !important;
-  border-bottom: 2px solid var(--marigold-ink) !important;
-  transform: rotate(-45deg) translate(1px, -1px) !important;
+.student-desk .home-desk .week .d i::after {
+  content: "";
+  width: 9px;
+  height: 5px;
+  border-left: 2px solid var(--marigold-ink);
+  border-bottom: 2px solid var(--marigold-ink);
+  transform: rotate(-45deg) translate(1px, -1px);
 }
 
-.student-desk .week .today i {
-  background: transparent !important;
-  border: 2px solid var(--marigold) !important;
+.student-desk .home-desk .week .today i {
+  background: transparent;
+  border: 2px solid var(--marigold);
 }
 
-.student-desk .week .today {
-  color: var(--chalk) !important;
+.student-desk .home-desk .week .today {
+  color: var(--chalk);
 }
 
-.student-desk .freeze {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  font-size: 0.78rem !important;
-  color: var(--ice) !important;
+.student-desk .home-desk .freeze {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--ice);
 }
 
-.student-desk .freeze .ico {
-  width: 15px !important;
-  height: 15px !important;
+.student-desk .home-desk .freeze .ico {
+  width: 15px;
+  height: 15px;
 }
 
-.student-desk .mini-ring {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
+.student-desk .home-desk .mini-ring {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.student-desk .mini-ring svg {
-  width: 46px !important;
-  height: 46px !important;
-  flex-shrink: 0 !important;
+.student-desk .home-desk .mini-ring svg {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
 }
 
-.student-desk .mini-ring circle {
-  fill: none !important;
-  stroke-width: 5 !important;
+.student-desk .home-desk .mini-ring circle {
+  fill: none;
+  stroke-width: 5;
 }
 
-.student-desk .mini-ring .bg {
-  stroke: var(--slate-4) !important;
+.student-desk .home-desk .mini-ring .bg {
+  stroke: var(--slate-4);
 }
 
-.student-desk .mini-ring .fg {
-  stroke: var(--marigold) !important;
-  stroke-linecap: round !important;
-  transform: rotate(-90deg) !important;
-  transform-origin: center !important;
-  transition: stroke-dashoffset 1.2s var(--ease) !important;
+.student-desk .home-desk .mini-ring .fg {
+  stroke: var(--marigold);
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transition: stroke-dashoffset 1.2s var(--ease);
 }
 
 /* the one bright card */
-.student-desk .now {
-  position: relative !important;
-  background: var(--chalk) !important;
-  color: var(--board-ink) !important;
-  border-radius: 26px !important;
-  padding: clamp(20px, 3vw, 32px) !important;
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) auto !important;
-  gap: 20px 32px !important;
-  overflow: hidden !important;
+.student-desk .home-desk .now {
+  position: relative;
+  background: var(--chalk);
+  color: var(--board-ink);
+  border-radius: 26px;
+  padding: clamp(20px, 3vw, 32px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px 32px;
+  overflow: hidden;
 }
 
-.student-desk .now::after {
-  content: "" !important;
-  position: absolute !important;
-  right: -60px !important;
-  top: -60px !important;
-  width: 220px !important;
-  height: 220px !important;
-  border-radius: 50% !important;
-  border: 28px solid rgba(20, 32, 27, 0.05) !important;
-  pointer-events: none !important;
+.student-desk .home-desk .now::after {
+  content: "";
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 28px solid rgba(20, 32, 27, 0.05);
+  pointer-events: none;
 }
 
-.student-desk .crumb {
-  display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  flex-wrap: wrap !important;
-  font-size: 0.86rem !important;
-  color: #4A5650 !important;
+.student-desk .home-desk .crumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 0.86rem;
+  color: #4A5650;
 }
 
-.student-desk .crumb b {
-  color: var(--board-ink) !important;
-  font-weight: 600 !important;
+.student-desk .home-desk .crumb b {
+  color: var(--board-ink);
+  font-weight: 600;
 }
 
-.student-desk .crumb .live {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  background: var(--board-ink) !important;
-  color: var(--marigold) !important;
-  padding: 2px 10px !important;
-  border-radius: 999px !important;
-  font-size: 0.75rem !important;
-  font-weight: 600 !important;
+.student-desk .home-desk .crumb .live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--board-ink);
+  color: var(--marigold);
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
-.student-desk .crumb .live::before {
-  content: "" !important;
-  width: 6px !important;
-  height: 6px !important;
-  border-radius: 50% !important;
-  background: var(--marigold) !important;
-  animation: desk-bl 1.6s infinite !important;
+.student-desk .home-desk .crumb .live::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--marigold);
+  animation: desk-bl 1.6s infinite;
 }
 
 @keyframes desk-bl {
@@ -723,183 +753,183 @@
   }
 }
 
-.student-desk .now h2 {
-  margin: 10px 0 0 !important;
-  font-family: var(--f-display) !important;
-  font-stretch: 78% !important;
-  font-weight: 780 !important;
-  font-size: clamp(1.7rem, 3vw, 2.5rem) !important;
-  line-height: 1.12 !important;
-  text-wrap: balance !important;
-  max-width: 22ch !important;
-  color: var(--board-ink) !important;
+.student-desk .home-desk .now h2 {
+  margin: 10px 0 0;
+  font-family: var(--f-display);
+  font-stretch: 78%;
+  font-weight: 780;
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  line-height: 1.12;
+  text-wrap: balance;
+  max-width: 22ch;
+  color: var(--board-ink);
 }
 
-.student-desk .now .goal-l {
-  display: block !important;
-  font-family: var(--f-body) !important;
-  font-size: 0.82rem !important;
-  font-weight: 500 !important;
-  color: #4A5650 !important;
-  margin-bottom: 2px !important;
-  font-stretch: 100% !important;
+.student-desk .home-desk .now .goal-l {
+  display: block;
+  font-family: var(--f-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #4A5650;
+  margin-bottom: 2px;
+  font-stretch: 100%;
 }
 
-.student-desk .steps {
-  grid-column: 1 / -1 !important;
-  list-style: none !important;
-  margin: 4px 0 0 !important;
-  padding: 0 !important;
-  display: grid !important;
-  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-  gap: 6px !important;
+.student-desk .home-desk .steps {
+  grid-column: 1 / -1;
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
 }
 
-.student-desk .steps li {
-  display: grid !important;
-  gap: 8px !important;
-  font-size: 0.82rem !important;
-  color: #5D6862 !important;
+.student-desk .home-desk .steps li {
+  display: grid;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #5D6862;
 }
 
-.student-desk .steps li::before {
-  content: "" !important;
-  height: 6px !important;
-  border-radius: 99px !important;
-  background: #D6CFBD !important;
+.student-desk .home-desk .steps li::before {
+  content: "";
+  height: 6px;
+  border-radius: 99px;
+  background: #D6CFBD;
 }
 
-.student-desk .steps li.cur {
-  color: var(--board-ink) !important;
-  font-weight: 600 !important;
+.student-desk .home-desk .steps li.cur {
+  color: var(--board-ink);
+  font-weight: 600;
 }
 
-.student-desk .steps li.cur::before {
-  background: linear-gradient(90deg, var(--board-ink) 35%, #D6CFBD 35%) !important;
+.student-desk .home-desk .steps li.cur::before {
+  background: linear-gradient(90deg, var(--board-ink) 35%, #D6CFBD 35%);
 }
 
-.student-desk .steps li.passed::before {
-  background: var(--board-ink) !important;
+.student-desk .home-desk .steps li.passed::before {
+  background: var(--board-ink);
 }
 
-.student-desk .now-side {
-  display: grid !important;
-  gap: 10px !important;
-  align-content: center !important;
-  justify-items: end !important;
-  text-align: right !important;
+.student-desk .home-desk .now-side {
+  display: grid;
+  gap: 10px;
+  align-content: center;
+  justify-items: end;
+  text-align: right;
 }
 
-.student-desk .now-side small {
-  font-size: 0.82rem !important;
-  color: #4A5650 !important;
+.student-desk .home-desk .now-side small {
+  font-size: 0.82rem;
+  color: #4A5650;
 }
 
-.student-desk .go {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-  min-height: 56px !important;
-  padding: 0 26px !important;
-  border-radius: 999px !important;
-  border: 0 !important;
-  background: var(--board-ink) !important;
-  color: var(--chalk) !important;
-  font-family: var(--f-display) !important;
-  font-stretch: 92% !important;
-  font-weight: 700 !important;
-  font-size: 1.12rem !important;
-  cursor: pointer !important;
-  box-shadow: 0 2px 0 #000 !important;
-  transition: transform 0.2s var(--ease) !important;
-  text-decoration: none !important;
+.student-desk .home-desk .go {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 0 26px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--board-ink);
+  color: var(--chalk);
+  font-family: var(--f-display);
+  font-stretch: 92%;
+  font-weight: 700;
+  font-size: 1.12rem;
+  cursor: pointer;
+  box-shadow: 0 2px 0 #000;
+  transition: transform 0.2s var(--ease);
+  text-decoration: none;
 }
 
-.student-desk .go:hover {
+.student-desk .home-desk .go:hover {
   transform: translateY(-2px) !important;
   color: var(--chalk) !important;
 }
 
-.student-desk .go .arr {
-  transition: transform 0.2s var(--ease) !important;
+.student-desk .home-desk .go .arr {
+  transition: transform 0.2s var(--ease);
 }
 
-.student-desk .go:hover .arr {
+.student-desk .home-desk .go:hover .arr {
   transform: translateX(4px) !important;
 }
 
-.student-desk .ask {
-  grid-column: 1 / -1 !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-  background: #E3DDCC !important;
-  border-radius: 16px !important;
-  padding: 6px 6px 6px 14px !important;
+.student-desk .home-desk .ask {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #E3DDCC;
+  border-radius: 16px;
+  padding: 6px 6px 6px 14px;
 }
 
-.student-desk .ask .ava {
-  width: 30px !important;
-  height: 30px !important;
-  border-radius: 9px 9px 9px 3px !important;
-  background: var(--marigold) !important;
-  color: var(--marigold-ink) !important;
-  display: grid !important;
-  place-items: center !important;
-  font-family: var(--f-display) !important;
-  font-weight: 800 !important;
-  flex-shrink: 0 !important;
-  font-size: 0.95rem !important;
+.student-desk .home-desk .ask .ava {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px 9px 9px 3px;
+  background: var(--marigold);
+  color: var(--marigold-ink);
+  display: grid;
+  place-items: center;
+  font-family: var(--f-display);
+  font-weight: 800;
+  flex-shrink: 0;
+  font-size: 0.95rem;
 }
 
-.student-desk .ask input {
-  flex: 1 !important;
-  min-width: 0 !important;
-  background: none !important;
-  border: 0 !important;
-  outline: 0 !important;
-  font: 500 0.98rem var(--f-body) !important;
-  color: var(--board-ink) !important;
-  min-height: 40px !important;
+.student-desk .home-desk .ask input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: 0;
+  outline: 0;
+  font: 500 0.98rem var(--f-body);
+  color: var(--board-ink);
+  min-height: 40px;
 }
 
-.student-desk .ask input::placeholder {
-  color: #6B746F !important;
+.student-desk .home-desk .ask input::placeholder {
+  color: #6B746F;
 }
 
-.student-desk .ask button {
-  min-height: 40px !important;
-  padding: 0 16px !important;
-  border-radius: 12px !important;
-  border: 0 !important;
-  background: var(--board-ink) !important;
-  color: var(--chalk) !important;
-  font: 600 0.9rem var(--f-body) !important;
-  cursor: pointer !important;
-  transition: background 0.2s !important;
+.student-desk .home-desk .ask button {
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: 0;
+  background: var(--board-ink);
+  color: var(--chalk);
+  font: 600 0.9rem var(--f-body);
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-.student-desk .ask button:hover {
+.student-desk .home-desk .ask button:hover {
   background: #253930 !important;
 }
 
-.student-desk .reply {
-  grid-column: 1 / -1 !important;
-  display: flex !important;
-  gap: 10px !important;
-  align-items: flex-start !important;
-  font-size: 0.95rem !important;
-  margin-top: -6px !important;
-  animation: desk-pop 0.4s var(--ease) both !important;
+.student-desk .home-desk .reply {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.95rem;
+  margin-top: -6px;
+  animation: desk-pop 0.4s var(--ease) both;
 }
 
-.student-desk .reply .bub {
-  background: var(--board-ink) !important;
-  color: var(--chalk) !important;
-  border-radius: 4px 14px 14px 14px !important;
-  padding: 10px 14px !important;
-  max-width: 60ch !important;
-  line-height: 1.5 !important;
+.student-desk .home-desk .reply .bub {
+  background: var(--board-ink);
+  color: var(--chalk);
+  border-radius: 4px 14px 14px 14px;
+  padding: 10px 14px;
+  max-width: 60ch;
+  line-height: 1.5;
 }
 
 @keyframes desk-pop {
@@ -914,521 +944,525 @@
 }
 
 /* grid of panels */
-.student-desk .grid {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr) !important;
-  gap: 22px !important;
-  align-items: start !important;
+.student-desk .home-desk .grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 22px;
+  align-items: start;
 }
 
-.student-desk .panel {
-  background: var(--slate-2) !important;
-  border: 1px solid var(--rule) !important;
-  border-radius: 22px !important;
-  padding: 22px !important;
-  min-width: 0 !important;
+.student-desk .home-desk .panel {
+  background: var(--slate-2);
+  border: 1px solid var(--rule);
+  border-radius: 22px;
+  padding: 22px;
+  min-width: 0;
 }
 
-.student-desk .ph {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: baseline !important;
-  gap: 12px !important;
+.student-desk .home-desk .ph {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
   margin-bottom: 14px !important;
-  flex-wrap: wrap !important;
+  flex-wrap: wrap;
 }
 
-.student-desk .ph h3 {
-  margin: 0 !important;
-  font-family: var(--f-display) !important;
-  font-stretch: 85% !important;
-  font-weight: 700 !important;
-  font-size: 1.3rem !important;
-  line-height: 1.2 !important;
-  color: var(--chalk) !important;
+.student-desk .home-desk .ph h3 {
+  margin: 0;
+  font-family: var(--f-display);
+  font-stretch: 85%;
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  color: var(--chalk);
 }
 
-.student-desk .ph p {
-  margin: 2px 0 0 !important;
-  font-size: 0.85rem !important;
-  color: var(--chalk-3) !important;
-  flex-basis: 100% !important;
+.student-desk .home-desk .ph p {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: var(--chalk-3);
+  flex-basis: 100%;
 }
 
-.student-desk .ph a {
-  font-size: 0.88rem !important;
-  color: var(--marigold) !important;
-  font-weight: 500 !important;
-  white-space: nowrap !important;
-  text-decoration: none !important;
+.student-desk .home-desk .ph a {
+  font-size: 0.88rem;
+  color: var(--marigold);
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
 }
 
-.student-desk .ph a:hover {
+.student-desk .home-desk .ph a:hover {
   text-decoration: underline !important;
 }
 
 /* routine timeline */
-.student-desk .tl {
-  list-style: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  display: grid !important;
+.student-desk .home-desk .tl {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
 }
 
-.student-desk .tl li {
-  display: grid !important;
-  grid-template-columns: 62px 22px minmax(0, 1fr) auto !important;
-  gap: 14px !important;
-  align-items: start !important;
-  padding: 12px 0 !important;
-  position: relative !important;
-  border-top: 0 !important;
-  border-bottom: 0 !important;
+.student-desk .home-desk .tl li {
+  display: grid;
+  grid-template-columns: 62px 22px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: start;
+  padding: 12px 0;
+  position: relative;
+  border-top: 0;
+  border-bottom: 0;
 }
 
-.student-desk .tl li + li {
-  border-top: 1px dashed var(--rule) !important;
+.student-desk .home-desk .tl li + li {
+  border-top: 1px dashed var(--rule);
 }
 
-.student-desk .tl time {
-  font-family: var(--f-display) !important;
-  font-weight: 700 !important;
-  font-stretch: 85% !important;
-  font-size: 1rem !important;
-  color: var(--chalk-2) !important;
-  padding-top: 2px !important;
+.student-desk .home-desk .tl time {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-stretch: 85%;
+  font-size: 1rem;
+  color: var(--chalk-2);
+  padding-top: 2px;
 }
 
-.student-desk .tl .chk {
-  width: 22px !important;
-  height: 22px !important;
-  border-radius: 7px !important;
-  border: 1.5px solid var(--rule-2) !important;
-  background: transparent !important;
-  cursor: pointer !important;
-  display: grid !important;
-  place-items: center !important;
-  margin-top: 3px !important;
-  padding: 0 !important;
-  transition: background 0.2s, border-color 0.2s !important;
-  box-shadow: none !important;
+.student-desk .home-desk .tl .chk {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  border: 1.5px solid var(--rule-2);
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  margin-top: 3px;
+  padding: 0;
+  transition: background 0.2s, border-color 0.2s;
+  box-shadow: none;
 }
 
-.student-desk .tl .chk[aria-checked="true"] {
-  background: var(--tick) !important;
-  border-color: var(--tick) !important;
+.student-desk .home-desk .tl .chk[aria-checked="true"] {
+  background: var(--tick);
+  border-color: var(--tick);
 }
 
-.student-desk .tl .chk[aria-checked="true"]::after {
-  content: "" !important;
-  width: 9px !important;
-  height: 5px !important;
-  border-left: 2px solid var(--board-ink) !important;
-  border-bottom: 2px solid var(--board-ink) !important;
-  transform: rotate(-45deg) translate(1px, -1px) !important;
+.student-desk .home-desk .tl .chk[aria-checked="true"]::after {
+  content: "";
+  width: 9px;
+  height: 5px;
+  border-left: 2px solid var(--board-ink);
+  border-bottom: 2px solid var(--board-ink);
+  transform: rotate(-45deg) translate(1px, -1px);
 }
 
-.student-desk .tl .what b {
-  display: block !important;
-  font-weight: 600 !important;
-  font-size: 1rem !important;
-  line-height: 1.4 !important;
-  color: var(--chalk) !important;
+.student-desk .home-desk .tl .what b {
+  display: block;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--chalk);
 }
 
-.student-desk .tl .what small {
-  color: var(--chalk-3) !important;
-  font-size: 0.82rem !important;
-  display: flex !important;
-  gap: 8px !important;
-  flex-wrap: wrap !important;
-  align-items: center !important;
+.student-desk .home-desk .tl .what small {
+  color: var(--chalk-3);
+  font-size: 0.82rem;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
-.student-desk .subj {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 5px !important;
+.student-desk .home-desk .subj {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.student-desk .subj::before {
-  content: "" !important;
-  width: 8px !important;
-  height: 8px !important;
-  border-radius: 2px !important;
-  background: var(--marigold) !important;
+.student-desk .home-desk .subj::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--marigold);
 }
 
-.student-desk .tl li.done .what b {
-  color: var(--chalk-3) !important;
-  text-decoration: line-through !important;
-  text-decoration-color: var(--tick) !important;
+.student-desk .home-desk .tl li.done .what b {
+  color: var(--chalk-3);
+  text-decoration: line-through;
+  text-decoration-color: var(--tick);
 }
 
-.student-desk .tl li.on time {
-  color: var(--marigold) !important;
+.student-desk .home-desk .tl li.on time {
+  color: var(--marigold);
 }
 
-.student-desk .tl .start {
-  min-height: 36px !important;
-  padding: 0 14px !important;
-  border-radius: 999px !important;
-  border: 1px solid var(--rule-2) !important;
-  background: transparent !important;
-  color: var(--chalk) !important;
-  font-size: 0.85rem !important;
-  cursor: pointer !important;
-  white-space: nowrap !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  text-decoration: none !important;
-  transition: border-color 0.2s, color 0.2s, background 0.2s !important;
+.student-desk .home-desk .tl .start {
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--rule-2);
+  background: transparent;
+  color: var(--chalk);
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
 }
 
-.student-desk .tl .start:hover {
+.student-desk .home-desk .tl .start:hover {
   border-color: var(--marigold) !important;
   color: var(--marigold) !important;
 }
 
-.student-desk .tl li.on .start {
-  background: var(--marigold) !important;
-  color: var(--marigold-ink) !important;
-  border-color: var(--marigold) !important;
-  font-weight: 600 !important;
+.student-desk .home-desk .tl li.on .start {
+  background: var(--marigold);
+  color: var(--marigold-ink);
+  border-color: var(--marigold);
+  font-weight: 600;
 }
 
-.student-desk .tl-foot {
-  margin-top: 6px !important;
-  padding-top: 12px !important;
-  border-top: 1px solid var(--rule) !important;
-  font-size: 0.85rem !important;
-  color: var(--chalk-3) !important;
-  display: flex !important;
-  justify-content: space-between !important;
-  gap: 10px !important;
-  flex-wrap: wrap !important;
+.student-desk .home-desk .tl-foot {
+  margin-top: 6px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+  font-size: 0.85rem;
+  color: var(--chalk-3);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.student-desk .tl-foot b {
-  color: var(--chalk) !important;
-  font-weight: 600 !important;
+.student-desk .home-desk .tl-foot b {
+  color: var(--chalk);
+  font-weight: 600;
 }
 
 /* mastery */
-.student-desk .mast {
-  display: grid !important;
-  gap: 12px !important;
+.student-desk .home-desk .mast {
+  display: grid;
+  gap: 12px;
 }
 
-.student-desk .mrow {
-  display: grid !important;
-  gap: 10px !important;
-  padding: 14px 16px !important;
-  border-radius: 16px !important;
-  background: var(--slate) !important;
-  border: 1px solid var(--rule) !important;
+.student-desk .home-desk .mrow {
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: var(--slate);
+  border: 1px solid var(--rule);
 }
 
-.student-desk .mrow .top-l {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: baseline !important;
-  gap: 10px !important;
+.student-desk .home-desk .mrow .top-l {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
 }
 
-.student-desk .mrow b {
-  font-family: var(--f-display) !important;
-  font-stretch: 85% !important;
-  font-weight: 700 !important;
-  font-size: 1.15rem !important;
-  color: var(--chalk) !important;
+.student-desk .home-desk .mrow b {
+  font-family: var(--f-display);
+  font-stretch: 85%;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--chalk);
 }
 
-.student-desk .mrow .st {
-  font-size: 0.8rem !important;
-  color: var(--chalk-3) !important;
+.student-desk .home-desk .mrow .st {
+  font-size: 0.8rem;
+  color: var(--chalk-3);
 }
 
-.student-desk .blocks {
-  display: grid !important;
-  grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)) !important;
-  gap: 5px !important;
+.student-desk .home-desk .blocks {
+  display: grid;
+  grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr));
+  gap: 5px;
 }
 
-.student-desk .blocks i {
-  height: 30px !important;
-  border-radius: 7px !important;
-  border: 1.5px dashed var(--rule-2) !important;
-  display: grid !important;
-  place-items: center !important;
-  font-style: normal !important;
-  font-size: 0.72rem !important;
-  color: var(--chalk-3) !important;
+.student-desk .home-desk .blocks i {
+  height: 30px;
+  border-radius: 7px;
+  border: 1.5px dashed var(--rule-2);
+  display: grid;
+  place-items: center;
+  font-style: normal;
+  font-size: 0.75rem;
+  color: var(--chalk-3);
 }
 
-.student-desk .blocks i.part {
-  border-style: solid !important;
-  border-color: rgba(255, 178, 56, 0.55) !important;
-  background: rgba(255, 178, 56, 0.08) !important;
-  color: var(--marigold) !important;
+.student-desk .home-desk .blocks i.part {
+  border-style: solid;
+  border-color: rgba(255, 178, 56, 0.55);
+  background: rgba(255, 178, 56, 0.08);
+  color: var(--marigold);
 }
 
-.student-desk .blocks i.done {
-  border-style: solid !important;
-  border-color: var(--tick) !important;
-  background: rgba(127, 214, 160, 0.15) !important;
-  color: var(--tick) !important;
-  font-weight: 700 !important;
+.student-desk .home-desk .blocks i.done {
+  border-style: solid;
+  border-color: var(--tick);
+  background: rgba(127, 214, 160, 0.15);
+  color: var(--tick);
+  font-weight: 700;
 }
 
-.student-desk .mrow .cta {
-  font-size: 0.85rem !important;
-  color: var(--chalk-2) !important;
-  display: flex !important;
-  justify-content: space-between !important;
-  gap: 10px !important;
-  flex-wrap: wrap !important;
+.student-desk .home-desk .mrow .cta {
+  font-size: 0.85rem;
+  color: var(--chalk-2);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.student-desk .mrow .cta a {
-  color: var(--marigold) !important;
-  font-weight: 500 !important;
-  text-decoration: none !important;
+.student-desk .home-desk .mrow .cta a {
+  color: var(--marigold);
+  font-weight: 500;
+  text-decoration: none;
 }
 
-.student-desk .mrow .cta a:hover {
+.student-desk .home-desk .mrow .cta a:hover {
   text-decoration: underline !important;
 }
 
-.student-desk .note-empty {
-  font-size: 0.85rem !important;
-  color: var(--chalk-3) !important;
+.student-desk .home-desk .note-empty {
+  font-size: 0.85rem;
+  color: var(--chalk-3);
   margin: 2px 0 0 !important;
-  display: flex !important;
-  gap: 8px !important;
-  align-items: flex-start !important;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
 }
 
-.student-desk .note-empty .ico {
-  width: 17px !important;
-  height: 17px !important;
-  color: var(--chalk-3) !important;
-  margin-top: 3px !important;
-  flex-shrink: 0 !important;
+.student-desk .home-desk .note-empty .ico {
+  width: 17px;
+  height: 17px;
+  color: var(--chalk-3);
+  margin-top: 3px;
+  flex-shrink: 0;
 }
 
 /* bottom row */
-.student-desk .row3 {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) !important;
-  gap: 22px !important;
+.student-desk .home-desk .row3 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
 }
 
-.student-desk .shelf {
-  display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 10px !important;
+.student-desk .home-desk .shelf {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
 }
 
-.student-desk .bdg {
-  display: grid !important;
-  justify-items: center !important;
-  gap: 6px !important;
-  text-align: center !important;
-  font-size: 0.78rem !important;
-  line-height: 1.35 !important;
-  color: var(--chalk-2) !important;
-  padding: 6px 2px !important;
+.student-desk .home-desk .bdg {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  text-align: center;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: var(--chalk-2);
+  padding: 6px 2px;
 }
 
-.student-desk .bdg svg {
-  width: 56px !important;
-  height: 56px !important;
+.student-desk .home-desk .bdg small {
+  font-size: 0.75rem;
 }
 
-.student-desk .bdg.lock {
-  color: var(--chalk-3) !important;
+.student-desk .home-desk .bdg svg {
+  width: 56px;
+  height: 56px;
 }
 
-.student-desk .bdg .prog {
-  width: 56px !important;
-  height: 4px !important;
-  border-radius: 99px !important;
-  background: var(--slate-4) !important;
-  overflow: hidden !important;
+.student-desk .home-desk .bdg.lock {
+  color: var(--chalk-3);
 }
 
-.student-desk .bdg .prog i {
-  display: block !important;
-  height: 100% !important;
-  background: var(--marigold) !important;
+.student-desk .home-desk .bdg .prog {
+  width: 56px;
+  height: 4px;
+  border-radius: 99px;
+  background: var(--slate-4);
+  overflow: hidden;
 }
 
-.student-desk .xp {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-  margin-top: 14px !important;
-  padding-top: 14px !important;
-  border-top: 1px solid var(--rule) !important;
-  font-size: 0.85rem !important;
-  color: var(--chalk-3) !important;
+.student-desk .home-desk .bdg .prog i {
+  display: block;
+  height: 100%;
+  background: var(--marigold);
 }
 
-.student-desk .xp .meter {
-  flex: 1 !important;
+.student-desk .home-desk .xp {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+  font-size: 0.85rem;
+  color: var(--chalk-3);
 }
 
-.student-desk .xp b {
-  color: var(--chalk) !important;
-  font-weight: 600 !important;
-  white-space: nowrap !important;
+.student-desk .home-desk .xp .meter {
+  flex: 1;
 }
 
-.student-desk .drop {
-  display: grid !important;
-  gap: 12px !important;
-  justify-items: start !important;
+.student-desk .home-desk .xp b {
+  color: var(--chalk);
+  font-weight: 600;
+  white-space: nowrap;
 }
 
-.student-desk .drop-zone {
-  width: 100% !important;
-  border: 1.5px dashed var(--rule-2) !important;
-  border-radius: 16px !important;
-  padding: 18px !important;
-  display: flex !important;
-  gap: 14px !important;
-  align-items: center !important;
-  cursor: pointer !important;
-  transition: border-color 0.2s, background 0.2s !important;
-  background: var(--slate) !important;
+.student-desk .home-desk .drop {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
 }
 
-.student-desk .drop-zone:hover,
-.student-desk .drop-zone.over {
+.student-desk .home-desk .drop-zone {
+  width: 100%;
+  border: 1.5px dashed var(--rule-2);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  background: var(--slate);
+}
+
+.student-desk .home-desk .drop-zone:hover,
+.student-desk .home-desk .drop-zone.over {
   border-color: var(--marigold) !important;
   background: rgba(255, 178, 56, 0.05) !important;
 }
 
-.student-desk .drop-zone input {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  opacity: 0 !important;
+.student-desk .home-desk .drop-zone input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
 }
 
-.student-desk .mini-khata {
-  width: 54px !important;
-  height: 66px !important;
-  flex-shrink: 0 !important;
-  border-radius: 4px !important;
-  background: var(--paper) !important;
-  transform: rotate(-4deg) !important;
+.student-desk .home-desk .mini-khata {
+  width: 54px;
+  height: 66px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: var(--paper);
+  transform: rotate(-4deg);
   background-image: linear-gradient(90deg, transparent 9px, rgba(220, 60, 50, 0.5) 9px 10px, transparent 10px),
-    repeating-linear-gradient(180deg, transparent 0 9px, var(--paper-rule) 9px 10px) !important;
-  box-shadow: 0 8px 14px -8px rgba(0, 0, 0, 0.8) !important;
+    repeating-linear-gradient(180deg, transparent 0 9px, var(--paper-rule) 9px 10px);
+  box-shadow: 0 8px 14px -8px rgba(0, 0, 0, 0.8);
 }
 
-.student-desk .drop-zone b {
-  display: block !important;
-  font-weight: 600 !important;
-  color: var(--chalk) !important;
+.student-desk .home-desk .drop-zone b {
+  display: block;
+  font-weight: 600;
+  color: var(--chalk);
 }
 
-.student-desk .drop-zone small {
-  color: var(--chalk-3) !important;
-  font-size: 0.82rem !important;
+.student-desk .home-desk .drop-zone small {
+  color: var(--chalk-3);
+  font-size: 0.82rem;
 }
 
-.student-desk .upl {
-  font-size: 0.85rem !important;
-  color: var(--tick) !important;
+.student-desk .home-desk .upl {
+  font-size: 0.85rem;
+  color: var(--tick);
 }
 
-.student-desk .test {
-  display: grid !important;
-  gap: 14px !important;
+.student-desk .home-desk .test {
+  display: grid;
+  gap: 14px;
 }
 
-.student-desk .test .big {
-  font-family: var(--f-display) !important;
-  font-stretch: 80% !important;
-  font-weight: 750 !important;
-  font-size: 1.5rem !important;
-  line-height: 1.2 !important;
-  margin: 0 !important;
-  color: var(--chalk) !important;
+.student-desk .home-desk .test .big {
+  font-family: var(--f-display);
+  font-stretch: 80%;
+  font-weight: 750;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  margin: 0;
+  color: var(--chalk);
 }
 
-.student-desk .test .meta {
-  display: flex !important;
-  gap: 8px !important;
-  flex-wrap: wrap !important;
+.student-desk .home-desk .test .meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.student-desk .chip {
-  font-size: 0.78rem !important;
-  padding: 3px 10px !important;
-  border-radius: 999px !important;
-  border: 1px solid var(--rule-2) !important;
-  color: var(--chalk-2) !important;
+.student-desk .home-desk .chip {
+  font-size: 0.78rem;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--rule-2);
+  color: var(--chalk-2);
 }
 
-.student-desk .cta-line {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  min-height: 44px !important;
-  padding: 0 18px !important;
-  border-radius: 999px !important;
-  background: var(--marigold) !important;
-  color: var(--marigold-ink) !important;
-  font-family: var(--f-display) !important;
-  font-stretch: 92% !important;
-  font-weight: 700 !important;
-  border: 0 !important;
-  cursor: pointer !important;
-  width: fit-content !important;
-  box-shadow: 0 2px 0 #B97400 !important;
-  text-decoration: none !important;
-  transition: transform 0.2s !important;
+.student-desk .home-desk .cta-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: var(--marigold);
+  color: var(--marigold-ink);
+  font-family: var(--f-display);
+  font-stretch: 92%;
+  font-weight: 700;
+  border: 0;
+  cursor: pointer;
+  width: fit-content;
+  box-shadow: 0 2px 0 #B97400;
+  text-decoration: none;
+  transition: transform 0.2s;
 }
 
-.student-desk .cta-line:hover {
+.student-desk .home-desk .cta-line:hover {
   transform: translateY(-1px) !important;
   color: var(--marigold-ink) !important;
 }
 
-.student-desk .why {
-  font-size: 0.82rem !important;
-  color: var(--chalk-3) !important;
-  margin: 0 !important;
+.student-desk .home-desk .why {
+  font-size: 0.82rem;
+  color: var(--chalk-3);
+  margin: 0;
 }
 
 /* mobile bottom tab bar */
 .student-desk .tabbar {
-  display: none !important;
+  display: none;
 }
 
 
 /* ---------- responsive ---------- */
 @media (max-width: 1180px) {
-  .student-desk .row3 {
-    grid-template-columns: 1fr 1fr !important;
+  .student-desk .home-desk .row3 {
+    grid-template-columns: 1fr 1fr;
   }
-  .student-desk .row3 > :first-child {
-    grid-column: 1 / -1 !important;
+  .student-desk .home-desk .row3 > :first-child {
+    grid-column: 1 / -1;
   }
 }
 
 @media (max-width: 1020px) {
   .student-desk.app {
-    grid-template-columns: 76px minmax(0, 1fr) !important;
+    grid-template-columns: 76px minmax(0, 1fr);
   }
   .student-desk .side {
-    width: 76px !important;
-    padding-inline: 10px !important;
-    align-items: center !important;
+    width: 76px;
+    padding-inline: 10px;
+    align-items: center;
   }
   .student-desk .logo-word,
   .student-desk .nav-label,
@@ -1436,189 +1470,497 @@
   .student-desk .nav a .pill,
   .student-desk .quota,
   .student-desk .plan {
-    display: none !important;
+    display: none;
   }
   .student-desk .logo {
-    padding: 2px 0 10px !important;
+    padding: 2px 0 10px;
   }
   .student-desk .nav a {
-    justify-content: center !important;
-    padding: 10px !important;
-    width: 52px !important;
+    justify-content: center;
+    padding: 10px;
+    width: 52px;
   }
-  .student-desk .ledger {
-    grid-template-columns: 1fr 1fr !important;
+  .student-desk .home-desk .ledger {
+    grid-template-columns: 1fr 1fr;
   }
-  .student-desk .ledger > div:nth-child(3) {
-    border-left: 0 !important;
+  .student-desk .home-desk .ledger > div:nth-child(3) {
+    border-left: 0;
   }
-  .student-desk .ledger > div:nth-child(n + 3) {
-    border-top: 1px solid var(--rule) !important;
+  .student-desk .home-desk .ledger > div:nth-child(n + 3) {
+    border-top: 1px solid var(--rule);
   }
-  .student-desk .grid {
-    grid-template-columns: 1fr !important;
+  .student-desk .home-desk .grid {
+    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 720px) {
   .student-desk.app {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: 1fr;
   }
   .student-desk .side {
-    display: none !important;
+    display: none;
   }
   .student-desk .top {
-    padding-left: max(16px, env(safe-area-inset-left, 0px)) !important;
-    padding-right: max(16px, env(safe-area-inset-right, 0px)) !important;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
   }
   .student-desk .top .mlogo {
-    display: flex !important;
-    padding: 0 !important;
-    align-items: center !important;
-    gap: 8px !important;
-    text-decoration: none !important;
+    display: flex;
+    padding: 0;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
   }
   .student-desk .top .mlogo .logo-word {
-    display: inline !important;
-    font-size: 1.3rem !important;
+    display: inline;
+    font-size: 1.3rem;
   }
   .student-desk .search {
-    display: none !important;
+    display: none;
   }
   .student-desk .me span {
-    display: none !important;
+    display: none;
   }
   .student-desk .me {
-    padding: 4px !important;
+    padding: 4px;
   }
-  .student-desk .desk {
-    padding-left: max(16px, env(safe-area-inset-left, 0px)) !important;
-    padding-right: max(16px, env(safe-area-inset-right, 0px)) !important;
-    padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px)) !important;
-    gap: 16px !important;
-    padding-top: 20px !important;
+  .student-desk .home-desk {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px));
+    gap: 16px;
+    padding-top: 20px;
   }
-  .student-desk .hello {
-    grid-template-columns: 1fr !important;
+  .student-desk .home-desk .hello {
+    grid-template-columns: 1fr;
   }
-  .student-desk .now {
-    grid-template-columns: 1fr !important;
-    border-radius: 22px !important;
+  .student-desk .home-desk .now {
+    grid-template-columns: 1fr;
+    border-radius: 22px;
   }
-  .student-desk .now-side {
-    justify-items: stretch !important;
-    text-align: left !important;
+  .student-desk .home-desk .now-side {
+    justify-items: stretch;
+    text-align: left;
   }
-  .student-desk .go {
-    justify-content: center !important;
-    width: 100% !important;
+  .student-desk .home-desk .go {
+    justify-content: center;
+    width: 100%;
   }
-  .student-desk .steps {
-    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  .student-desk .home-desk .steps {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
-  .student-desk .steps li {
-    font-size: 0 !important;
-    gap: 0 !important;
+  .student-desk .home-desk .steps li {
+    font-size: 0;
+    gap: 0;
   }
-  .student-desk .steps li.cur {
-    font-size: 0.8rem !important;
-    gap: 6px !important;
-    grid-column: span 1 !important;
+  .student-desk .home-desk .steps li.cur {
+    font-size: 0.8rem;
+    gap: 6px;
+    grid-column: span 1;
   }
-  .student-desk .steps li.cur span {
-    white-space: nowrap !important;
+  .student-desk .home-desk .steps li.cur span {
+    white-space: nowrap;
   }
-  .student-desk .ledger > div {
-    padding: 14px 16px !important;
+  .student-desk .home-desk .ledger > div {
+    padding: 14px 16px;
   }
-  .student-desk .val {
-    font-size: 1.6rem !important;
+  .student-desk .home-desk .val {
+    font-size: 1.6rem;
   }
-  .student-desk .row3 {
-    grid-template-columns: 1fr !important;
+  .student-desk .home-desk .row3 {
+    grid-template-columns: 1fr;
   }
-  .student-desk .tl li {
-    grid-template-columns: 22px minmax(0, 1fr) !important;
-    gap: 4px 12px !important;
+  .student-desk .home-desk .tl li {
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 4px 12px;
   }
-  .student-desk .tl time {
-    grid-column: 2 !important;
-    grid-row: 1 !important;
-    font-size: 0.85rem !important;
-    padding: 0 !important;
+  .student-desk .home-desk .tl time {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 0.85rem;
+    padding: 0;
   }
-  .student-desk .tl .chk {
-    grid-row: 1 / span 2 !important;
-    grid-column: 1 !important;
+  .student-desk .home-desk .tl .chk {
+    grid-row: 1 / span 2;
+    grid-column: 1;
   }
-  .student-desk .tl .what {
-    grid-column: 2 !important;
+  .student-desk .home-desk .tl .what {
+    grid-column: 2;
   }
-  .student-desk .tl .start {
-    grid-column: 2 !important;
-    justify-self: start !important;
-    margin-top: 6px !important;
+  .student-desk .home-desk .tl .start {
+    grid-column: 2;
+    justify-self: start;
+    margin-top: 6px;
   }
-  .student-desk .panel {
-    padding: 18px !important;
-    border-radius: 20px !important;
+  .student-desk .home-desk .panel {
+    padding: 18px;
+    border-radius: 20px;
   }
   .student-desk .tabbar {
-    display: grid !important;
-    grid-template-columns: repeat(5, 1fr) !important;
-    position: fixed !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    z-index: 50 !important;
-    background: rgba(19, 34, 28, 0.96) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border-top: 1px solid var(--rule) !important;
-    padding: 6px max(8px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px)) !important;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    background: rgba(19, 34, 28, 0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--rule);
+    padding: 6px max(8px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px));
   }
   .student-desk .tabbar a {
-    display: grid !important;
-    justify-items: center !important;
-    gap: 2px !important;
-    min-height: 54px !important;
-    align-content: center !important;
-    font-size: 0.72rem !important;
-    color: var(--chalk-3) !important;
-    border-radius: 12px !important;
-    text-decoration: none !important;
+    display: grid;
+    justify-items: center;
+    gap: 2px;
+    min-height: 54px;
+    align-content: center;
+    font-size: 0.75rem;
+    color: var(--chalk-3);
+    border-radius: 12px;
+    text-decoration: none;
   }
   .student-desk .tabbar a[aria-current="page"] {
-    color: var(--chalk) !important;
+    color: var(--chalk);
   }
   .student-desk .tabbar a[aria-current="page"] .ico {
-    color: var(--marigold) !important;
+    color: var(--marigold);
   }
   .student-desk .tabbar .tutor {
-    position: relative !important;
-    color: var(--chalk) !important;
+    position: relative;
+    color: var(--chalk);
   }
   .student-desk .tabbar .tutor .ico {
-    width: 44px !important;
-    height: 44px !important;
-    padding: 11px !important;
-    border-radius: 14px 14px 14px 4px !important;
-    background: var(--marigold) !important;
-    color: var(--marigold-ink) !important;
-    margin-top: -18px !important;
-    box-shadow: 0 8px 18px -6px rgba(255, 178, 56, 0.5) !important;
+    width: 44px;
+    height: 44px;
+    padding: 11px;
+    border-radius: 14px 14px 14px 4px;
+    background: var(--marigold);
+    color: var(--marigold-ink);
+    margin-top: -18px;
+    box-shadow: 0 8px 18px -6px rgba(255, 178, 56, 0.5);
   }
 }
 
 @media (max-width: 420px) {
-  .student-desk .ledger {
-    grid-template-columns: 1fr 1fr !important;
+  .student-desk .home-desk .ledger {
+    grid-template-columns: 1fr 1fr;
   }
-  .student-desk .week i {
-    width: 20px !important;
-    height: 20px !important;
+  .student-desk .home-desk .week i {
+    width: 20px;
+    height: 20px;
   }
-  .student-desk .week {
-    gap: 4px !important;
+  .student-desk .home-desk .week {
+    gap: 4px;
   }
+}
+
+/* ---------- shared shell additions (every signed-in page) ---------- */
+
+/* content column for pages other than the dashboard */
+.student-desk .page {
+  width: 100%;
+  max-width: 1240px;
+  min-width: 0;
+  padding-block: 28px 64px;
+  padding-left: clamp(16px, 3vw, 36px);
+  padding-right: max(clamp(16px, 3vw, 36px), env(safe-area-inset-right, 0px));
+}
+
+.student-desk .page.wide {
+  max-width: none;
+}
+
+.student-desk .page-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.student-desk .page-head h1 {
+  margin: 0;
+  font-family: var(--f-display);
+  font-stretch: 80%;
+  font-weight: 750;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  line-height: 1.15;
+  text-wrap: balance;
+  color: var(--chalk);
+}
+
+.student-desk .page-head p {
+  margin: 6px 0 0;
+  max-width: 60ch;
+  color: var(--chalk-2);
+  font-size: 1rem;
+}
+
+.student-desk .child-switch {
+  flex: 1;
+  min-width: 0;
+}
+
+/* "আরও" sheet that carries the full menu on phones */
+.student-desk .more-sheet {
+  display: none;
+}
+
+.student-desk .tabbar button {
+  all: unset;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  min-height: 54px;
+  align-content: center;
+  font-size: 0.75rem;
+  color: var(--chalk-3);
+  border-radius: 12px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-family: var(--f-body);
+}
+
+.student-desk .tabbar button[aria-expanded="true"] {
+  color: var(--chalk);
+}
+
+@media (max-width: 720px) {
+  .student-desk .page {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-top: 20px;
+    padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .student-desk .more-sheet {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+  }
+
+  .student-desk .more-backdrop {
+    all: unset;
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 10, 8, 0.6);
+  }
+
+  .student-desk .more-panel {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+    max-height: 70dvh;
+    overflow-y: auto;
+    background: var(--slate-2);
+    border: 1px solid var(--rule-2);
+    border-radius: 20px;
+    padding: 10px;
+    display: grid;
+    gap: 2px;
+    box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.8);
+  }
+
+  .student-desk .more-panel .nav-label {
+    font-size: 0.75rem;
+    color: var(--chalk-3);
+    padding: 8px 12px 2px;
+    margin: 0;
+  }
+
+  .student-desk .more-panel a,
+  .student-desk .more-panel button {
+    all: unset;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    color: var(--chalk-2);
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .student-desk .more-panel a[aria-current="page"] {
+    background: var(--slate-3);
+    color: var(--chalk);
+  }
+
+  .student-desk .more-panel a[aria-current="page"] .ico {
+    color: var(--marigold);
+  }
+
+  .student-desk .more-panel .logout {
+    color: var(--redpen);
+    border-top: 1px solid var(--rule);
+    border-radius: 0 0 12px 12px;
+    margin-top: 4px;
+  }
+}
+
+/* ==========================================================================
+   Light-card bridge
+   Feature pages (tutor, planner, exams, scripts, analytics, teachers, group
+   learning) still render Tailwind "paper" cards inside the dark desk. These
+   rules keep every pairing on the desk palette and above WCAG AA. Paper surfaces
+   are named bg-desk-paper / -paper-2 / -paper-3 (see tailwind.config.ts); the selector below
+   re-binds the text roles (--desk-text, --desk-text-2, --desk-muted) from chalk to ink on them.
+   Light surfaces re-bind the semantic colour tokens so every Tailwind
+   brand and status utility resolves to a value that reads on paper.
+   ========================================================================== */
+.student-desk :is(
+  [class~="bg-desk-paper"], [class~="bg-desk-paper-2"], [class~="bg-desk-paper-3"],
+  [class*="bg-desk-accent-soft"], [class*="bg-amber-50"], [class*="bg-amber-100"],
+  [class*="bg-emerald-50"], [class*="bg-emerald-100"], [class*="bg-rose-50"]
+) {
+  --brand-primary: #7A4A00;
+  --brand-coral: #7A4A00;
+  --accent-warm: #7A4A00;
+  --status-warning: #7A4A00;
+  --brand-secondary: #1B6B3C;
+  --status-success: #1B6B3C;
+  --status-danger: #B3261E;
+  --text-primary: var(--board-ink);
+  --text-secondary: #3F4A44;
+  --border-subtle: #D9D3C1;
+  --bg-subtle: #F1ECDD;
+  --bg-surface: #FFFFFF;
+  --desk-text: var(--board-ink);
+  --desk-text-2: #2F3B35;
+  --desk-muted: #4A5560;
+}
+
+/* Chalk text must never inherit onto paper (Chalk-Card Text Rule). Zero
+   specificity so any explicit text-* utility still wins. */
+:where(.student-desk) :where(
+  [class~="bg-desk-paper"], [class~="bg-desk-paper-2"], [class~="bg-desk-paper-3"],
+  [class*="bg-desk-accent-soft"], [class*="bg-amber-50"], [class*="bg-emerald-50"]
+) {
+  color: var(--board-ink);
+}
+
+/* Slate text that lands directly on the dark desk (not on a card) */
+.student-desk [class*="text-slate-"]:not(:is(
+  [class~="bg-desk-paper"], [class~="bg-desk-paper-2"], [class~="bg-desk-paper-3"],
+  [class*="bg-desk-accent-soft"], [class*="bg-amber-50"], [class*="bg-emerald-50"], [class*="bg-amber-100"],
+  [class*="bg-emerald-100"]
+) *) {
+  color: var(--chalk-2);
+}
+
+/* Desk accent roles used by feature components (Tailwind: bg-desk-accent, text-desk-accent-ink, ...).
+   Ink-on-marigold for fills, deep marigold for text on paper (7.4:1), soft tint + line for chips. */
+.student-desk {
+  --desk-accent-rgb: 255 178 56;
+  --desk-ink-rgb: 20 32 27;
+  --desk-accent-hover: #F2A21F;
+  --desk-accent-ink: #7A4A00;
+  --desk-accent-soft: #FFF4DC;
+  --desk-accent-soft-hover: #FFE9BD;
+  --desk-accent-line: #E3B15A;
+  --desk-ink-hover: #1F3029;
+  /* Paper surfaces, rules and contextual text roles (chalk on the desk, ink on paper) */
+  --desk-paper: #FFFFFF;
+  --desk-paper-2: #F8FAFC;
+  --desk-paper-3: #F1F5F9;
+  --desk-track: #E2E8F0;
+  --desk-line-soft: #F1F5F9;
+  --desk-line: #E2E8F0;
+  --desk-line-strong: #CBD5E1;
+  --desk-text: var(--chalk);
+  --desk-text-2: var(--chalk-2);
+  --desk-muted: var(--chalk-3);
+}
+/* A solid accent fill always carries ink text, whatever text-* utility sits beside it. */
+.student-desk .bg-desk-accent,
+.student-desk .hover\:bg-desk-accent-hover:hover {
+  color: var(--marigold-ink);
+}
+.student-desk .bg-brand-primary {
+  color: var(--marigold-ink);
+}
+.student-desk :is([class~="bg-desk-paper"], [class~="bg-desk-paper-2"]) .bg-brand-primary {
+  color: #FFFFFF;
+}
+
+/* Targets and small type (WCAG 2.5.8 minimum 24px) */
+.student-desk button,
+.student-desk [role="button"] {
+  min-height: 24px;
+}
+.student-desk input[type="checkbox"],
+.student-desk input[type="radio"] {
+  width: 24px;
+  height: 24px;
+  accent-color: var(--marigold);
+}
+.student-desk [data-testid^="flag-tutor-msg-"] {
+  min-height: 32px;
+  padding: 6px 10px;
+  font-size: 0.75rem;
+}
+.student-desk .home-desk a:not([class]) {
+  display: inline-block;
+  padding-block: 4px;
+}
+
+/* Maths never widens the page: scroll inside the line */
+.student-desk .katex-display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.student-desk .math-bangla-prose {
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+
+/* Follow-up: tinted brand chips and lesson prose also live on paper */
+.student-desk :is(
+  [class*="bg-brand-primary/"], [class*="bg-brand-secondary/"], [class*="bg-accent-warm/"],
+  [class*="bg-status-"], [class*="bg-[#FAF8F5]"], [class*="bg-[#FFFCF1]"]
+) {
+  --brand-primary: #7A4A00;
+  --brand-coral: #7A4A00;
+  --accent-warm: #7A4A00;
+  --status-warning: #7A4A00;
+  --brand-secondary: #1B6B3C;
+  --status-success: #1B6B3C;
+  --status-danger: #B3261E;
+  --text-primary: var(--board-ink);
+  --text-secondary: #3F4A44;
+}
+.student-desk :is([class~="bg-desk-paper"], [class~="bg-desk-paper-2"], [class*="bg-desk-accent-soft"], [class*="bg-amber-50"], [class*="bg-emerald-50"], [class*="bg-[#FAF8F5]"], [class*="bg-[#FFFCF1]"]) .math-bangla-prose {
+  --text-primary: var(--board-ink);
+  color: var(--board-ink);
+}
+.student-desk .text-rose-600 {
+  color: #B3261E;
+}
+.student-desk :is(.bg-emerald-600, .bg-emerald-700) {
+  background-color: #1B6B3C;
+}
+
+/* ==========================================================================
+   Focus visibility (a11y): Tailwind's focus:outline-none on form controls must not
+   remove the keyboard ring. Specificity (0,2,1) beats the utility (0,2,0).
+   ========================================================================== */
+.student-desk :is(input, textarea, select, button, a, [tabindex]):focus-visible {
+  outline: 2px solid var(--marigold);
+  outline-offset: 2px;
+}
+.student-desk :is([class~="bg-desk-paper"], [class~="bg-desk-paper-2"], [class~="bg-desk-paper-3"]) :is(input, textarea, select, button, a):focus-visible {
+  outline-color: #7A4A00;
+}
+.student-desk .more-sheet:focus,
+.student-desk [role="dialog"]:focus {
+  outline: none;
 }

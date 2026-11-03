@@ -111,6 +111,7 @@ const TASK_TYPE_BADGE: Record<
 > = {
   prerequisite_remedial: { labelBn: 'পূর্বজ্ঞান প্রতিকার', variant: 'warning' },
   concept_lesson: { labelBn: 'মূল পাঠ', variant: 'teal' },
+  concept_review: { labelBn: 'পাঠ পর্যালোচনা', variant: 'teal' },
   guided_practice: { labelBn: 'নির্দেশিত অনুশীলন', variant: 'navy' },
   revision: { labelBn: 'পুনরালোচনা', variant: 'neutral' },
   chapter_quiz: { labelBn: 'অধ্যায় কুইজ', variant: 'success' },
@@ -309,13 +310,13 @@ export function StudyPlannerAndCalendarWorkspace(): React.ReactElement {
   return (
     <div className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
       {/* Top Active Study Heartbeat & Coach Banner */}
-      <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-desk-line bg-desk-paper p-5 shadow-sm">
         <div>
-          <span className="font-bangla text-xs font-semibold text-teal-700">
+          <span className="font-bangla text-xs font-semibold text-desk-accent-ink">
             ব্যক্তিগতকৃত অধ্যয়ন পরিকল্পনাকারী (Study Planner & Calendar)
           </span>
-          <h1 className="font-bangla text-xl font-bold text-[#0F2942]">{plan.title}</h1>
-          <p className="mt-1 font-bangla text-sm text-slate-600">
+          <h2 className="font-bangla text-xl font-bold text-desk-ink">{plan.title}</h2>
+          <p className="mt-1 font-bangla text-sm text-desk-muted">
             {plan.config_json.coach_message_bn}
           </p>
         </div>
@@ -323,13 +324,13 @@ export function StudyPlannerAndCalendarWorkspace(): React.ReactElement {
         {/* Active Study Heartbeat Live Meter */}
         <div
           data-testid="active-heartbeat-widget"
-          className="flex items-center gap-3 rounded-lg border border-teal-100 bg-teal-50/60 px-4 py-2.5"
+          className="flex items-center gap-3 rounded-lg border border-desk-accent-line bg-desk-accent-soft px-4 py-2.5"
         >
           <div>
-            <span className="block font-bangla text-xs text-slate-600">
+            <span className="block font-bangla text-xs text-desk-muted">
               যাচাইকৃত সক্রিয় অধ্যয়ন সময় (৩০ সেকেন্ড হার্টবিট)
             </span>
-            <span className="font-bangla text-sm font-bold text-[#0F2942]">
+            <span className="font-bangla text-sm font-bold text-desk-ink">
               সক্রিয়: {toBanglaNumerals(heartbeat.activeSeconds)} সেকেন্ড | বিরতি:{' '}
               {toBanglaNumerals(heartbeat.pausedSeconds)} সেকেন্ড
             </span>
@@ -338,7 +339,7 @@ export function StudyPlannerAndCalendarWorkspace(): React.ReactElement {
             type="button"
             data-testid="manual-heartbeat-ping-btn"
             onClick={() => void heartbeat.triggerManualPing(false)}
-            className="rounded border border-teal-300 bg-white px-2.5 py-1 font-bangla text-xs font-semibold text-teal-800 hover:bg-teal-100"
+            className="rounded border border-desk-accent-line bg-desk-paper px-2.5 py-1 font-bangla text-xs font-semibold text-desk-accent-ink hover:bg-desk-accent-soft-hover"
           >
             হার্টবিট পিং
           </button>
@@ -358,18 +359,18 @@ export function StudyPlannerAndCalendarWorkspace(): React.ReactElement {
         {/* Left Column: Study Plan Creation Wizard */}
         <section
           aria-label="স্টাডি প্ল্যান তৈরির উইজার্ড"
-          className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:col-span-4"
+          className="rounded-xl border border-desk-line bg-desk-paper p-5 shadow-sm lg:col-span-4"
         >
-          <h2 className="font-bangla text-base font-bold text-[#0F2942]">
+          <h2 className="font-bangla text-base font-bold text-desk-ink">
             নতুন অধ্যয়ন পরিকল্পনা তৈরি করো
           </h2>
-          <p className="mt-1 font-bangla text-xs text-slate-500">
+          <p className="mt-1 font-bangla text-xs text-desk-muted">
             তোমার অধ্যায় ও প্রতিদিনের সময় নির্বাচন করলে এআই গৃহশিক্ষক পূর্বজ্ঞান যাচাইসহ রুটিন তৈরি করবে।
           </p>
 
           <form onSubmit={(e) => void handleGeneratePlan(e)} className="mt-4 space-y-4">
             <div>
-              <span className="block font-bangla text-xs font-semibold text-slate-700">
+              <span className="block font-bangla text-xs font-semibold text-desk-text-2">
                 এনসিটিবি অধ্যায় নির্বাচন করো:
               </span>
               <div className="mt-2 space-y-2">
@@ -380,21 +381,21 @@ export function StudyPlannerAndCalendarWorkspace(): React.ReactElement {
                       key={ch.id}
                       className={`flex cursor-pointer items-start gap-2.5 rounded-lg border p-2.5 text-xs ${
                         isChecked
-                          ? 'border-teal-600 bg-teal-50/50'
-                          : 'border-slate-200 bg-white'
+                          ? 'border-desk-accent-line bg-desk-accent-soft'
+                          : 'border-desk-line bg-desk-paper'
                       }`}
                     >
                       <input
                         type="checkbox"
                         checked={isChecked}
                         onChange={() => toggleChapter(ch.id)}
-                        className="mt-0.5 rounded border-slate-300 text-teal-600"
+                        className="mt-0.5 rounded border-desk-line-strong text-desk-accent-ink"
                       />
                       <div>
-                        <span className="block font-bangla font-semibold text-slate-900">
+                        <span className="block font-bangla font-semibold text-desk-text">
                           অধ্যায় {toBanglaNumerals(ch.chapterNumber)}: {ch.titleBn}
                         </span>
-                        <span className="font-bangla text-[11px] text-slate-500">
+                        <span className="font-bangla text-xs text-desk-muted">
                           {ch.subjectBn} • আনুমানিক {toBanglaNumerals(ch.estimatedMins)} মিনিট
                         </span>
                       </div>
@@ -407,7 +408,7 @@ export function StudyPlannerAndCalendarWorkspace(): React.ReactElement {
             <div>
               <label
                 htmlFor="daily-minutes-select"
-                className="block font-bangla text-xs font-semibold text-slate-700"
+                className="block font-bangla text-xs font-semibold text-desk-text-2"
               >
                 প্রতিদিনের অধ্যয়ন লক্ষ্যমাত্রা (মিনিট):
               </label>
@@ -415,7 +416,7 @@ export function StudyPlannerAndCalendarWorkspace(): React.ReactElement {
                 id="daily-minutes-select"
                 value={dailyMinutes}
                 onChange={(e) => setDailyMinutes(Number(e.target.value))}
-                className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 font-bangla text-sm text-slate-900"
+                className="mt-1 w-full rounded-lg border border-desk-line-strong px-3 py-2 font-bangla text-sm text-desk-text"
               >
                 <option value={30}>৩০ মিনিট / দিন</option>
                 <option value={60}>৬০ মিনিট / দিন (প্রস্তাবিত)</option>
@@ -426,7 +427,7 @@ export function StudyPlannerAndCalendarWorkspace(): React.ReactElement {
             <div>
               <label
                 htmlFor="target-date-input"
-                className="block font-bangla text-xs font-semibold text-slate-700"
+                className="block font-bangla text-xs font-semibold text-desk-text-2"
               >
                 লক্ষ্যমাত্রার তারিখ (পরীক্ষার আগে):
               </label>
@@ -435,7 +436,7 @@ export function StudyPlannerAndCalendarWorkspace(): React.ReactElement {
                 type="date"
                 value={targetDate}
                 onChange={(e) => setTargetDate(e.target.value)}
-                className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900"
+                className="mt-1 w-full rounded-lg border border-desk-line-strong px-3 py-2 text-sm text-desk-text"
               />
             </div>
 
@@ -453,14 +454,14 @@ export function StudyPlannerAndCalendarWorkspace(): React.ReactElement {
         {/* Right Column: Daily / Weekly / Monthly Learning Calendar & Task Rescheduler */}
         <section
           aria-label="লার্নিং ক্যালেন্ডার ও রুটিন তালিকা"
-          className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:col-span-8"
+          className="rounded-xl border border-desk-line bg-desk-paper p-5 shadow-sm lg:col-span-8"
         >
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-desk-line-soft pb-4">
             <div>
-              <h2 className="font-bangla text-base font-bold text-[#0F2942]">
+              <h2 className="font-bangla text-base font-bold text-desk-ink">
                 লার্নিং ক্যালেন্ডার ও প্রতিদিনের পাঠ তালিকা
               </h2>
-              <p className="font-bangla text-xs text-slate-500">
+              <p className="font-bangla text-xs text-desk-muted">
                 সম্পন্ন অগ্রগতি:{' '}
                 <strong data-testid="plan-completion-pct">
                   {toBanglaNumerals(Math.round(plan.completion_percentage))}%
@@ -478,8 +479,8 @@ export function StudyPlannerAndCalendarWorkspace(): React.ReactElement {
                   onClick={() => setViewMode(mode)}
                   className={`rounded-lg px-3 py-1.5 font-bangla text-xs font-semibold ${
                     viewMode === mode
-                      ? 'bg-[#0F2942] text-white'
-                      : 'border border-slate-200 bg-slate-50 text-slate-700'
+                      ? 'bg-desk-ink text-white'
+                      : 'border border-desk-line bg-desk-paper-2 text-desk-text-2'
                   }`}
                 >
                   {mode === 'daily' ? 'দৈনিক' : mode === 'weekly' ? 'সাপ্তাহিক' : 'মাসিক'}
@@ -491,7 +492,7 @@ export function StudyPlannerAndCalendarWorkspace(): React.ReactElement {
                 data-testid="auto-rebalance-btn"
                 onClick={() => void handleRebalance()}
                 disabled={isBusy}
-                className="rounded-lg border border-teal-300 bg-teal-50 px-3 py-1.5 font-bangla text-xs font-semibold text-teal-900 hover:bg-teal-100"
+                className="rounded-lg border border-desk-accent-line bg-desk-accent-soft px-3 py-1.5 font-bangla text-xs font-semibold text-desk-accent-ink hover:bg-desk-accent-soft-hover"
               >
                 স্বয়ংক্রিয় রুটিন সমন্বয়
               </button>
@@ -500,14 +501,14 @@ export function StudyPlannerAndCalendarWorkspace(): React.ReactElement {
 
           <div
             data-testid="calendar-active-mode-indicator"
-            className="mt-3 font-bangla text-xs font-medium text-slate-500"
+            className="mt-3 font-bangla text-xs font-medium text-desk-muted"
           >
             সক্রিয় ভিউ: {viewMode === 'daily' ? 'দৈনিক' : viewMode === 'weekly' ? 'সাপ্তাহিক' : 'মাসিক'} ক্যালেন্ডার
           </div>
 
           <ul className="mt-4 space-y-3">
             {plan.items.map((item) => {
-              const badgeInfo = TASK_TYPE_BADGE[item.task_type];
+              const badgeInfo = TASK_TYPE_BADGE[item.task_type] ?? { labelBn: 'পাঠ', variant: 'neutral' as const };
               const isCompleted = item.status === 'completed';
 
               return (
@@ -519,25 +520,25 @@ export function StudyPlannerAndCalendarWorkspace(): React.ReactElement {
                       ? 'border-emerald-200 bg-emerald-50/40'
                       : item.status === 'rescheduled'
                         ? 'border-amber-200 bg-amber-50/40'
-                        : 'border-slate-200 bg-white'
+                        : 'border-desk-line bg-desk-paper'
                   }`}
                 >
                   <div className="space-y-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <Badge variant={badgeInfo.variant}>{badgeInfo.labelBn}</Badge>
-                      <span className="font-mono text-xs font-medium text-slate-500">
+                      <span className="font-mono text-xs font-medium text-desk-muted">
                         {item.scheduled_date}
                       </span>
                       {item.rescheduled_from_date && (
-                        <span className="font-bangla text-[11px] font-medium text-amber-800">
+                        <span className="font-bangla text-xs font-medium text-amber-800">
                           (পূর্বের তারিখ: {item.rescheduled_from_date})
                         </span>
                       )}
                     </div>
-                    <h3 className="font-bangla text-sm font-bold text-slate-900">
+                    <h3 className="font-bangla text-sm font-bold text-desk-text">
                       {item.title_bn}
                     </h3>
-                    <p className="font-bangla text-xs text-slate-600">
+                    <p className="font-bangla text-xs text-desk-muted">
                       নির্ধারিত সময়: {toBanglaNumerals(item.planned_minutes)} মিনিট • অবস্থা:{' '}
                       <strong>
                         {isCompleted
@@ -556,7 +557,7 @@ export function StudyPlannerAndCalendarWorkspace(): React.ReactElement {
                         data-testid={`reschedule-item-${item.id}`}
                         onClick={() => void handleRescheduleItem(item, '2026-11-05')}
                         disabled={isBusy}
-                        className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 font-bangla text-xs font-medium text-slate-700 hover:bg-slate-50"
+                        className="rounded-lg border border-desk-line-strong bg-desk-paper px-3 py-1.5 font-bangla text-xs font-medium text-desk-text-2 hover:bg-desk-paper-2"
                       >
                         তারিখ পরিবর্তন
                       </button>
@@ -565,7 +566,7 @@ export function StudyPlannerAndCalendarWorkspace(): React.ReactElement {
                         data-testid={`complete-item-${item.id}`}
                         onClick={() => void handleMarkComplete(item)}
                         disabled={isBusy}
-                        className="rounded-lg bg-teal-600 px-3 py-1.5 font-bangla text-xs font-semibold text-white hover:bg-teal-700"
+                        className="rounded-lg bg-desk-accent px-3 py-1.5 font-bangla text-xs font-semibold text-white hover:bg-desk-accent-hover"
                       >
                         সম্পন্ন করো
                       </button>

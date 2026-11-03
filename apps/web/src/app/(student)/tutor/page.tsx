@@ -8,6 +8,7 @@ export default function StudentAiTutorPage(): React.ReactElement {
   return (
     <RoleGuard allowedRoles={['student']}>
       <AppShell
+        wide
         title="ব্যক্তিগত এআই গৃহশিক্ষক (NCTB AI Tutor)"
         subtitle="৩-পেন অ্যাকাডেমিক লার্নিং ওয়ার্কস্পেস · ধাপে ধাপে পাঠদান ও সার্বক্ষণিক সহায়তা"
       >

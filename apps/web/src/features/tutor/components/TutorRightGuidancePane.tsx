@@ -63,15 +63,15 @@ export function TutorRightGuidancePane({
   return (
     <aside
       aria-label="সহকারী গৃহশিক্ষক নিয়ন্ত্রণ ও কথোপকথন"
-      className="flex flex-col gap-5 rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
+      className="flex flex-col gap-5 rounded-xl border border-desk-line bg-desk-paper p-5 shadow-sm"
     >
       {/* Session Status & Pause Bar */}
-      <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+      <div className="flex items-center justify-between border-b border-desk-line-soft pb-3">
         <div>
-          <h2 className="font-bangla text-base font-bold text-[#0F2942]">
+          <h2 className="font-bangla text-base font-bold text-desk-ink">
             গৃহশিক্ষক সহায়তা প্যানেল
           </h2>
-          <p className="font-bangla text-xs text-slate-500">
+          <p className="font-bangla text-xs text-desk-muted">
             সক্রিয় পাঠ সময়: {toBanglaNumerals(activeMins)} মিনিট
           </p>
         </div>
@@ -80,7 +80,7 @@ export function TutorRightGuidancePane({
           data-testid="pause-session-btn"
           onClick={onPauseSession}
           disabled={isSubmitting}
-          className="rounded-lg border border-slate-300 bg-slate-50 px-3 py-1.5 font-bangla text-xs font-semibold text-slate-700 hover:bg-slate-100"
+          className="rounded-lg border border-desk-line-strong bg-desk-paper-2 px-3 py-1.5 font-bangla text-xs font-semibold text-desk-text-2 hover:bg-desk-paper-3"
         >
           {session.session_status === 'paused' ? 'পাঠ চালু করো' : 'বিরতি নাও (Pause)'}
         </button>
@@ -88,7 +88,7 @@ export function TutorRightGuidancePane({
 
       {/* 1-Click Bangla Pedagogical Action Buttons */}
       <div>
-        <h3 className="mb-2.5 font-bangla text-xs font-semibold uppercase tracking-wider text-slate-500">
+        <h3 className="mb-2.5 font-bangla text-xs font-semibold uppercase tracking-wider text-desk-muted">
           এক-ক্লিকে গৃহশিক্ষকের সাহায্য নাও
         </h3>
         <div className="grid grid-cols-1 gap-2">
@@ -101,12 +101,12 @@ export function TutorRightGuidancePane({
                 data-testid={`pedagogical-action-${btn.action}`}
                 disabled={isSubmitting || disabledForMini}
                 onClick={() => onPedagogicalAction(btn.action, btn.labelBn)}
-                className="flex flex-col items-start rounded-lg border border-teal-200 bg-teal-50/40 px-3.5 py-2.5 text-left transition hover:border-teal-600 hover:bg-teal-50 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex flex-col items-start rounded-lg border border-desk-accent-line bg-desk-accent-soft px-3.5 py-2.5 text-left transition hover:border-desk-accent-ink hover:bg-desk-accent-soft-hover disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <span className="font-bangla text-sm font-bold text-[#0F2942]">
+                <span className="font-bangla text-sm font-bold text-desk-ink">
                   {btn.labelBn}
                 </span>
-                <span className="font-bangla text-xs text-slate-600">
+                <span className="font-bangla text-xs text-desk-muted">
                   {btn.descriptionBn}
                 </span>
               </button>
@@ -118,7 +118,7 @@ export function TutorRightGuidancePane({
       {/* Turn History & One-Click Hallucination / Quality Escalation */}
       <div className="flex-1">
         <div className="mb-2.5 flex items-center justify-between">
-          <h3 className="font-bangla text-xs font-semibold uppercase tracking-wider text-slate-500">
+          <h3 className="font-bangla text-xs font-semibold uppercase tracking-wider text-desk-muted">
             সাম্প্রতিক পাঠের ধাপসমূহ
           </h3>
           <Badge variant="neutral">
@@ -136,26 +136,28 @@ export function TutorRightGuidancePane({
                 key={msg.id}
                 className={`rounded-lg border p-3 text-xs ${
                   isTutor
-                    ? 'border-slate-200 bg-slate-50 text-slate-800'
-                    : 'border-teal-200 bg-teal-50/40 text-slate-900'
+                    ? 'border-desk-line bg-desk-paper-2 text-desk-text'
+                    : 'border-desk-accent-line bg-desk-accent-soft text-desk-text'
                 }`}
               >
                 <div className="mb-1 flex items-center justify-between gap-2">
-                  <span className="font-bangla font-bold text-[#0F2942]">
+                  <span className="font-bangla font-bold text-desk-ink">
                     {isTutor ? 'এআই গৃহশিক্ষক' : 'তুমি'}
                   </span>
-                  <span className="font-mono text-[10px] text-slate-500">
-                    {msg.lesson_stage}
-                  </span>
+                  {isTutor && msg.structured_payload_json?.stage_label_bn ? (
+                    <span className="font-bangla text-xs text-desk-muted">
+                      {msg.structured_payload_json.stage_label_bn}
+                    </span>
+                  ) : null}
                 </div>
 
                 {isTutor && msg.structured_payload_json ? (
                   <MathBanglaText
                     content={msg.structured_payload_json.explanation_bn}
-                    className="font-bangla text-xs leading-relaxed text-slate-700"
+                    className="font-bangla text-xs leading-relaxed text-desk-text-2"
                   />
                 ) : (
-                  <p className="font-bangla text-xs text-slate-800">
+                  <p className="font-bangla text-xs text-desk-text">
                     {msg.student_input_text ?? msg.student_action_type}
                   </p>
                 )}
@@ -167,7 +169,7 @@ export function TutorRightGuidancePane({
                       data-testid={`flag-tutor-msg-${msg.id}`}
                       onClick={() => handleFlagClick(msg.id)}
                       disabled={isFlagged}
-                      className="font-bangla text-[11px] font-medium text-slate-500 underline hover:text-rose-700 disabled:no-underline"
+                      className="font-bangla text-xs font-medium text-desk-muted underline hover:text-rose-700 disabled:no-underline"
                     >
                       {isFlagged
                         ? 'রিপোর্ট গ্রহণ করা হয়েছে ✓'

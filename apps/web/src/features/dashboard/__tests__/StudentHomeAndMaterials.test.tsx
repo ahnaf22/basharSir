@@ -60,7 +60,28 @@ describe('Chunk 7.5: Student Home Dashboard & Learn Materials', () => {
     useAuthStore.getState().setSession(mockStudentUser, 'token-123');
   });
 
-  it('renders StudentHomePage with real aggregated metrics and continue lesson card', async () => {
+  it('renders the study desk from real dashboard data (resume lesson, routine, mastery, quota, badges)', async () => {
+    const today = new Date();
+    const iso = (offset: number): string => {
+      const d = new Date(today);
+      d.setDate(d.getDate() + offset);
+      return d.toISOString().slice(0, 10);
+    };
+    vi.spyOn(dashboardApi, 'fetchMyEntitlementsApi').mockResolvedValue({
+      success: true,
+      message: 'ok',
+      meta: { correlation_id: 'req_e', curriculum_version: 'v1' },
+      data: {
+        plan: { id: 1, code: 'family', name_bn: 'ফ্যামিলি প্যাক', name_en: 'Family', tier: 'family', max_children_supported: 4 },
+        features: {
+          'ai_tutor.daily_turns': {
+            is_enabled: true,
+            can_access: true,
+            quota: { used: 12, limit: 40, remaining: 28 },
+          },
+        },
+      },
+    });
     vi.spyOn(dashboardApi, 'fetchStudentDashboardApi').mockResolvedValueOnce({
       success: true,
       message: 'Dashboard loaded',
@@ -75,33 +96,58 @@ describe('Chunk 7.5: Student Home Dashboard & Learn Materials', () => {
           daily_study_target_mins: 45,
         },
         continue_lesson: {
-          session_id: 1,
+          session_id: 7,
           session_uuid: 'uuid-1',
-          current_stage: 'CHECK_PREREQUISITES',
-          title_bn: 'বীজগণিতীয় প্রতীক, চলক ও সহগ শনাক্তকরণ',
-          chapter_title_bn: 'বীজগণিতীয় রাশি',
+          current_stage: 'WORKED_EXAMPLE',
+          learning_objective_id: 1,
+          title_bn: 'বীজগণিতীয় প্রতীক, চলক ও সহগ শনাক্তকরণ',
+          chapter_title_bn: 'বীজগণিতীয় রাশি',
+          chapter_number: 3,
           subject_title_bn: 'গণিত',
           active_duration_seconds: 120,
+          estimated_remaining_minutes: 15,
         },
+        next_lesson: null,
         today_tasks: [
           {
             id: 1,
             title_bn: 'বর্গের সূত্রাবলি অনুশীলন',
+            task_type: 'guided_practice',
             subject_title_bn: 'গণিত',
+            chapter_title_bn: 'বীজগণিতীয় রাশি',
+            chapter_number: 3,
             estimated_minutes: 25,
             status: 'in_progress',
             learning_objective_id: 1,
+          },
+          {
+            id: 2,
+            title_bn: 'সদৃশ ও বিসদৃশ পদ',
+            task_type: 'revision',
+            subject_title_bn: 'গণিত',
+            chapter_title_bn: 'বীজগণিতীয় রাশি',
+            chapter_number: 3,
+            estimated_minutes: 20,
+            status: 'completed',
+            learning_objective_id: 2,
           },
         ],
         streak: {
           current_days: 3,
           longest_days: 3,
           freezes_available: 1,
-          last_active_date: '2026-11-01',
+          last_active_date: iso(-1),
+          week: [-2, -1, 0, 1, 2, 3, 4].map((o, i) => ({
+            date: iso(o),
+            weekday: (6 + i) % 7,
+            studied: o < 0,
+            is_today: o === 0,
+          })),
+          next_milestone: { target_days: 7, remaining_days: 4 },
         },
         gamification: {
           total_xp: 100,
-          badges_count: 2,
+          badges_count: 1,
           badges: [
             {
               id: 1,
@@ -110,12 +156,9 @@ describe('Chunk 7.5: Student Home Dashboard & Learn Materials', () => {
               awarded_at: '2026-11-01',
             },
           ],
+          level: { number: 1, xp_into_level: 100, xp_per_level: 250, next_level_total_xp: 250 },
         },
-        today_study_time: {
-          active_seconds: 1800,
-          active_minutes: 30,
-          target_minutes: 45,
-        },
+        today_study_time: { active_seconds: 1800, active_minutes: 30, target_minutes: 45 },
         subject_mastery: [
           {
             id: 5,
@@ -124,21 +167,109 @@ describe('Chunk 7.5: Student Home Dashboard & Learn Materials', () => {
             subject_code: '109',
             mastery_pct: 65,
             total_chapters: 4,
-            total_objectives: 4,
-            mastered_objectives: 2,
+            total_objectives: 3,
+            mastered_objectives: 1,
+            attempted_objectives: 2,
+            objectives: [
+              { id: 1, state: 'mastered' },
+              { id: 2, state: 'in_progress' },
+              { id: 3, state: 'not_started' },
+            ],
+            next_chapter: { id: 33, chapter_number: 3, title_bn: 'বীজগণিতীয় রাশি' },
           },
         ],
+        upcoming_exams: [
+          {
+            id: 9,
+            title_bn: 'বীজগণিত মডেল টেস্ট',
+            subject_title_bn: 'গণিত',
+            exam_type: 'model_test',
+            duration_minutes: 40,
+            total_marks: '30.00',
+            question_count: 22,
+            mcq_count: 20,
+            creative_count: 2,
+          },
+        ],
+      },
+    });
+
+    renderWithClient(<StudentHomePage />);
+
+    // routine + hero come from the API payload
+    expect(await screen.findByText('বর্গের সূত্রাবলি অনুশীলন')).toBeInTheDocument();
+    expect(screen.getByText('বীজগণিতীয় প্রতীক, চলক ও সহগ শনাক্তকরণ')).toBeInTheDocument();
+    expect(screen.getByText(/অধ্যায় ৩: বীজগণিতীয় রাশি/)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /পাঠ চালিয়ে যাও/ })).toHaveAttribute('href', '/tutor?session_id=7');
+    expect(screen.getByText('আর আনুমানিক ১৫ মিনিট')).toBeInTheDocument();
+
+    // ledger: done-count derives from task status, goal from the study-time log
+    expect(screen.getByText('/২ শেষ')).toBeInTheDocument();
+    expect(screen.getByText('/৪৫ মি')).toBeInTheDocument();
+
+    // mastery blocks reflect per-objective state
+    expect(screen.getByText('৩টি শিখনফলের ১টি পোক্ত')).toBeInTheDocument();
+    expect(screen.getByLabelText('পোক্ত')).toBeInTheDocument();
+
+    // badges, level and next streak milestone are API-driven
+    expect(screen.getByText('ধারাবাহিক সাধক')).toBeInTheDocument();
+    expect(screen.getByText('আর ৪ দিন')).toBeInTheDocument();
+    expect(screen.getByText('লেভেল ১')).toBeInTheDocument();
+
+    // exam composition + sidebar quota come from the API, not constants
+    expect(screen.getByText('বীজগণিত মডেল টেস্ট')).toBeInTheDocument();
+    expect(screen.getByText('২০টি MCQ')).toBeInTheDocument();
+    expect(await screen.findByText('১২/৪০')).toBeInTheDocument();
+    expect(screen.getByText('ফ্যামিলি প্যাক')).toBeInTheDocument();
+  });
+
+  it('shows honest empty states (no invented lesson or tasks) when nothing is planned', async () => {
+    vi.spyOn(dashboardApi, 'fetchMyEntitlementsApi').mockRejectedValue(new Error('offline'));
+    vi.spyOn(dashboardApi, 'fetchStudentDashboardApi').mockResolvedValueOnce({
+      success: true,
+      message: 'Dashboard loaded',
+      meta: { correlation_id: 'req_1', curriculum_version: 'v1' },
+      data: {
+        student: {
+          student_code: 'STU-2026-8002',
+          name_bn: 'নুসরাত জাহান',
+          name_en: 'Nusrat Jahan',
+          current_class_level: 7,
+          medium: 'bangla',
+          daily_study_target_mins: 30,
+        },
+        continue_lesson: null,
+        next_lesson: null,
+        today_tasks: [],
+        streak: {
+          current_days: 0,
+          longest_days: 0,
+          freezes_available: 0,
+          last_active_date: null,
+          week: [],
+          next_milestone: { target_days: 3, remaining_days: 3 },
+        },
+        gamification: {
+          total_xp: 0,
+          badges_count: 0,
+          badges: [],
+          level: { number: 1, xp_into_level: 0, xp_per_level: 250, next_level_total_xp: 250 },
+        },
+        today_study_time: { active_seconds: 0, active_minutes: 0, target_minutes: 30 },
+        subject_mastery: [],
         upcoming_exams: [],
       },
     });
 
     renderWithClient(<StudentHomePage />);
 
-    expect(await screen.findByText(/বর্গের সূত্রাবলি অনুশীলন/)).toBeInTheDocument();
-    expect(screen.getByText(/বীজগণিতীয় প্রতীক, চলক ও সহগ শনাক্তকরণ/)).toBeInTheDocument();
-    expect(screen.getByText(/ধারাবাহিক সাধক/)).toBeInTheDocument();
-    expect(screen.getByText(/পাঠ চালি/)).toBeInTheDocument();
+    expect(await screen.findByText('রুটিন বানিয়ে প্রথম লেসনটা বেছে নাও')).toBeInTheDocument();
+    expect(screen.getByText(/আজকের জন্য কোনো কাজ ঠিক করা নেই/)).toBeInTheDocument();
+    expect(screen.getByText('এখনো কোনো টেস্ট নেই')).toBeInTheDocument();
+    expect(screen.queryByText(/বর্গের সূত্রাবলি/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/সহগ আর চলকের/)).not.toBeInTheDocument();
   });
+
 
   it('renders StudentMaterialsPage with enrolled subjects and chapter objectives', async () => {
     vi.spyOn(curriculumApi, 'fetchMySubjectsApi').mockResolvedValueOnce({

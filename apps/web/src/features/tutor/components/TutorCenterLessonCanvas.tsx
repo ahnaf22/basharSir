@@ -12,6 +12,8 @@ interface TutorCenterLessonCanvasProps {
   isSubmitting: boolean;
   onSubmitAnswer: (answerText: string) => void;
   onRequestHint: () => void;
+  /** Pre-fills the composer (e.g. a question typed on the dashboard). Never auto-submitted. */
+  initialInput?: string;
 }
 
 const QUICK_MATH_SNIPPETS: ReadonlyArray<{ label: string; insert: string }> = [
@@ -28,8 +30,9 @@ export function TutorCenterLessonCanvas({
   isSubmitting,
   onSubmitAnswer,
   onRequestHint,
+  initialInput = '',
 }: TutorCenterLessonCanvasProps): React.ReactElement {
-  const [answerInput, setAnswerInput] = useState<string>('');
+  const [answerInput, setAnswerInput] = useState<string>(initialInput);
   const latestTurn = session.latest_tutor_turn;
   const payload = latestTurn?.payload ?? null;
   const unlockedHintsCount = session.state_metadata.hints_used_current_turn;
@@ -50,19 +53,19 @@ export function TutorCenterLessonCanvas({
   };
 
   return (
-    <main
+    <section
       aria-label="এনসিটিবি পাঠ ও অনুশীলন বোর্ড"
-      className="flex flex-col gap-5 rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
+      className="flex flex-col gap-5 rounded-xl border border-desk-line bg-desk-paper p-6 shadow-sm"
     >
       {/* Top NCTB Textbook Grounding Header */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-desk-line-soft pb-4">
         <div>
-          <span className="font-bangla text-xs font-semibold text-teal-700">
+          <span className="font-bangla text-xs font-semibold text-desk-accent-ink">
             এনসিটিবি অনুমোদিত পাঠ্যবই রেফারেন্স
           </span>
-          <h1 className="font-bangla text-lg font-bold text-[#0F2942]">
+          <h2 className="font-bangla text-lg font-bold text-desk-ink">
             {payload?.nctb_reference ?? 'অষ্টম শ্রেণি গণিত, চতুর্থ অধ্যায়'}
-          </h1>
+          </h2>
         </div>
         <Badge variant="navy">{session.stage_label_bn}</Badge>
       </div>
@@ -95,24 +98,24 @@ export function TutorCenterLessonCanvas({
       {payload && (
         <section
           data-testid="concept-explanation-board"
-          className="rounded-xl border border-slate-200 bg-[#FAF8F5] p-5"
+          className="rounded-xl border border-desk-line bg-[#FAF8F5] p-5"
         >
-          <h2 className="mb-2 font-bangla text-sm font-bold text-[#0F2942]">
+          <h2 className="mb-2 font-bangla text-sm font-bold text-desk-ink">
             গৃহশিক্ষকের ব্যাখ্যা:
           </h2>
           <MathBanglaText
             content={payload.explanation_bn}
-            className="font-bangla text-base leading-relaxed text-slate-800"
+            className="font-bangla text-base leading-relaxed text-desk-text"
           />
 
           {payload.worked_step_latex && (
-            <div className="mt-4 rounded-lg border border-teal-200 bg-white p-4">
-              <span className="block font-bangla text-xs font-semibold text-teal-800">
+            <div className="mt-4 rounded-lg border border-desk-accent-line bg-desk-paper p-4">
+              <span className="block font-bangla text-xs font-semibold text-desk-accent-ink">
                 গাণিতিক ধাপ (Worked Step):
               </span>
               <MathBanglaText
                 content={`$$${payload.worked_step_latex}$$`}
-                className="mt-1 text-slate-900"
+                className="mt-1 text-desk-text"
               />
             </div>
           )}
@@ -135,21 +138,21 @@ export function TutorCenterLessonCanvas({
             তুমি এই শিখনফলের সবগুলো ধাপ ও সংক্ষিপ্ত মূল্যায়ন সম্পন্ন করেছ।
           </p>
           <div className="mt-4 grid grid-cols-3 gap-3">
-            <div className="rounded-lg bg-white p-3 text-center shadow-sm">
-              <span className="block font-bangla text-xs text-slate-500">মোট প্রশ্ন উত্তর</span>
-              <span className="font-bangla text-lg font-bold text-[#0F2942]">
+            <div className="rounded-lg bg-desk-paper p-3 text-center shadow-sm">
+              <span className="block font-bangla text-xs text-desk-muted">মোট প্রশ্ন উত্তর</span>
+              <span className="font-bangla text-lg font-bold text-desk-ink">
                 {toBanglaNumerals(session.state_metadata.questions_attempted)}টি
               </span>
             </div>
-            <div className="rounded-lg bg-white p-3 text-center shadow-sm">
-              <span className="block font-bangla text-xs text-slate-500">সঠিক উত্তর</span>
+            <div className="rounded-lg bg-desk-paper p-3 text-center shadow-sm">
+              <span className="block font-bangla text-xs text-desk-muted">সঠিক উত্তর</span>
               <span className="font-bangla text-lg font-bold text-emerald-700">
                 {toBanglaNumerals(session.state_metadata.questions_correct)}টি
               </span>
             </div>
-            <div className="rounded-lg bg-white p-3 text-center shadow-sm">
-              <span className="block font-bangla text-xs text-slate-500">অর্জিত দক্ষতা</span>
-              <span className="font-bangla text-lg font-bold text-teal-700">
+            <div className="rounded-lg bg-desk-paper p-3 text-center shadow-sm">
+              <span className="block font-bangla text-xs text-desk-muted">অর্জিত দক্ষতা</span>
+              <span className="font-bangla text-lg font-bold text-desk-accent-ink">
                 {toBanglaNumerals(Math.round(session.mastery.score))}%
               </span>
             </div>
@@ -160,10 +163,10 @@ export function TutorCenterLessonCanvas({
         payload?.interactive_question && (
           <section
             data-testid="interactive-question-card"
-            className="rounded-xl border border-teal-200 bg-white p-5 shadow-sm"
+            className="rounded-xl border border-desk-accent-line bg-desk-paper p-5 shadow-sm"
           >
             <div className="flex items-center justify-between gap-2">
-              <span className="font-bangla text-xs font-bold uppercase tracking-wider text-teal-700">
+              <span className="font-bangla text-xs font-bold uppercase tracking-wider text-desk-accent-ink">
                 তোমার অনুশীলন প্রশ্ন
               </span>
               <Badge variant="teal">
@@ -174,19 +177,19 @@ export function TutorCenterLessonCanvas({
             <div className="mt-3">
               <MathBanglaText
                 content={payload.interactive_question.question_text_bn}
-                className="font-bangla text-base font-semibold text-slate-900"
+                className="font-bangla text-base font-semibold text-desk-text"
               />
             </div>
 
             {/* Math Symbol Quick-Insert Toolbar */}
             <div className="mt-4 flex flex-wrap items-center gap-1.5">
-              <span className="mr-1 font-bangla text-xs text-slate-500">প্রতীক যুক্ত করো:</span>
+              <span className="mr-1 font-bangla text-xs text-desk-muted">প্রতীক যুক্ত করো:</span>
               {QUICK_MATH_SNIPPETS.map((item) => (
                 <button
                   key={item.label}
                   type="button"
                   onClick={() => handleInsertSnippet(item.insert)}
-                  className="rounded border border-slate-200 bg-slate-50 px-2.5 py-1 font-mono text-xs font-medium text-slate-700 hover:border-teal-500 hover:bg-teal-50"
+                  className="rounded border border-desk-line bg-desk-paper-2 px-2.5 py-1 font-mono text-xs font-medium text-desk-text-2 hover:border-desk-accent-ink hover:bg-desk-accent-soft-hover"
                 >
                   {item.label}
                 </button>
@@ -201,7 +204,7 @@ export function TutorCenterLessonCanvas({
                 value={answerInput}
                 onChange={(e) => setAnswerInput(e.target.value)}
                 disabled={isSubmitting}
-                className="flex-1 rounded-lg border border-slate-300 px-3.5 py-2.5 font-bangla text-sm text-slate-900 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600/20"
+                className="min-w-0 flex-1 rounded-lg border border-desk-line-strong px-3.5 py-2.5 font-bangla text-sm text-desk-text focus:border-desk-accent-ink focus:outline-none focus:ring-2 focus:ring-desk-accent-line"
               />
               <Button type="submit" variant="primary" disabled={isSubmitting || !answerInput.trim()}>
                 {isSubmitting ? 'যাচাই হচ্ছে...' : 'উত্তর জমা দাও'}
@@ -209,9 +212,9 @@ export function TutorCenterLessonCanvas({
             </form>
 
             {/* Progressive 3-Level Hint Drawer */}
-            <div className="mt-5 border-t border-slate-100 pt-4">
+            <div className="mt-5 border-t border-desk-line-soft pt-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="font-bangla text-xs font-semibold text-slate-600">
+                <span className="font-bangla text-xs font-semibold text-desk-muted">
                   ধাপে ধাপে ইঙ্গিত (ব্যবহৃত: {toBanglaNumerals(unlockedHintsCount)}/
                   {toBanglaNumerals(Math.max(availableHints.length, 3))})
                 </span>
@@ -251,7 +254,7 @@ export function TutorCenterLessonCanvas({
           </section>
         )
       )}
-    </main>
+    </section>
   );
 }
 

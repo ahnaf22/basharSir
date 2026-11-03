@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { useFocusTrap } from '@/lib/useFocusTrap';
 import { ShieldCheck, RefreshCw, X } from 'lucide-react';
 import { toAsciiNumerals, toBanglaNumerals } from '@/components/math-bangla/bangla-numerals';
 import { Badge } from '@/components/ui/Badge';
@@ -27,6 +28,8 @@ export function OtpVerificationModal({
   onVerified,
   onClose,
 }: OtpVerificationModalProps): React.ReactElement | null {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(dialogRef, true, onClose);
   const [code, setCode] = useState<string>(initialDebugCode ?? '');
   const [debugCode, setDebugCode] = useState<string | null>(initialDebugCode);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -95,10 +98,12 @@ export function OtpVerificationModal({
 
   return (
     <div
+      ref={dialogRef}
+      tabIndex={-1}
       role="dialog"
       aria-modal="true"
       aria-labelledby="otp-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-brand-primary/40 p-4 backdrop-blur-xs"
+      className="fixed inset-0 z-50 flex outline-none items-center justify-center bg-brand-primary/40 p-4 backdrop-blur-xs"
       data-testid="otp-verification-modal"
     >
       <Card className="w-full max-w-md" elevated>
@@ -138,7 +143,7 @@ export function OtpVerificationModal({
             >
               <span className="font-bangla">টেস্টিং ওটিপি কোড: </span>
               <span className="font-mono font-bold tracking-widest text-teal-800">{debugCode}</span>
-              <span className="block text-[10px] text-teal-700/80 mt-0.5">(স্বয়ংক্রিয়ভাবে বসাতে ক্লিক করুন)</span>
+              <span className="block text-xs text-teal-700/80 mt-0.5">(স্বয়ংক্রিয়ভাবে বসাতে ক্লিক করুন)</span>
             </div>
           )}
 

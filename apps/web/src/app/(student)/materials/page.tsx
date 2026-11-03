@@ -34,6 +34,12 @@ import { cn } from '@/lib/utils';
 
 export default function StudentMaterialsPage(): React.ReactElement {
   const [selectedSubjectId, setSelectedSubjectId] = useState<number | null>(null);
+  // Deep link from the dashboard (search / mastery): /materials?chapter_id=12
+  const [linkedChapterId] = useState<number | null>(() => {
+    if (typeof window === 'undefined') return null;
+    const raw = Number(new URLSearchParams(window.location.search).get('chapter_id'));
+    return Number.isInteger(raw) && raw > 0 ? raw : null;
+  });
   const [selectedChapterId, setSelectedChapterId] = useState<number | null>(null);
 
   // 1. Fetch Student Enrolled Subjects
@@ -53,12 +59,18 @@ export default function StudentMaterialsPage(): React.ReactElement {
   });
 
   const subjects = subjectsData?.subjects ?? [];
+  const linkedSubject =
+    selectedSubjectId === null && linkedChapterId !== null
+      ? subjects.find((s) => s.chapters.some((c) => c.id === linkedChapterId))
+      : undefined;
   const activeSubject =
-    subjects.find((s) => s.id === selectedSubjectId) ?? subjects[0];
+    subjects.find((s) => s.id === selectedSubjectId) ?? linkedSubject ?? subjects[0];
 
   const chapters = activeSubject?.chapters ?? [];
   const activeChapter =
-    chapters.find((c) => c.id === selectedChapterId) ?? chapters[0];
+    chapters.find((c) => c.id === selectedChapterId) ??
+    (selectedSubjectId === null ? chapters.find((c) => c.id === linkedChapterId) : undefined) ??
+    chapters[0];
 
   // 2. Fetch Resources for Active Chapter
   const {
@@ -95,9 +107,9 @@ export default function StudentMaterialsPage(): React.ReactElement {
         ) : isSubjectsError ? (
           <div className="rounded-xl border border-status-danger/30 bg-status-danger/10 p-6 text-center">
             <AlertCircle className="mx-auto h-8 w-8 text-status-danger mb-2" />
-            <h3 className="font-heading font-semibold text-status-danger">
+            <h2 className="font-heading font-semibold text-status-danger">
               পাঠ্যক্রম তথ্য লোড করা যায়নি
-            </h3>
+            </h2>
             <p className="mt-1 font-bangla text-xs text-content-secondary">
               {(subjectsError as Error)?.message || 'অনুগ্রহ করে পুনরায় চেষ্টা করুন।'}
             </p>
@@ -135,7 +147,7 @@ export default function StudentMaterialsPage(): React.ReactElement {
                   >
                     <BookOpen className="h-3.5 w-3.5" />
                     <span>{subj.title_bn}</span>
-                    <span className="font-mono text-[10px] opacity-80">
+                    <span className="font-mono text-xs opacity-80">
                       ({subj.subject_code})
                     </span>
                   </button>
@@ -148,9 +160,9 @@ export default function StudentMaterialsPage(): React.ReactElement {
               {/* Left Column: Chapters & Objectives Accordion (5 cols) */}
               <div className="lg:col-span-5 space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-heading text-sm font-bold text-content-primary">
+                  <h2 className="font-heading text-sm font-bold text-content-primary">
                     অধ্যায় তালিকা ({toBanglaNumerals(chapters.length)}টি)
-                  </h3>
+                  </h2>
                 </div>
 
                 <div className="space-y-3">
@@ -182,9 +194,9 @@ export default function StudentMaterialsPage(): React.ReactElement {
                               </Badge>
                             </div>
 
-                            <h4 className="font-heading text-sm font-bold text-content-primary">
+                            <h3 className="font-heading text-sm font-bold text-content-primary">
                               {ch.title_bn}
-                            </h4>
+                            </h3>
                           </div>
 
                           <ChevronRight
@@ -198,7 +210,7 @@ export default function StudentMaterialsPage(): React.ReactElement {
                         {/* Objectives List when chapter is selected */}
                         {isChapterActive && (
                           <div className="border-t border-border-subtle/80 bg-subtle/30 p-3 space-y-2">
-                            <span className="font-heading text-[11px] font-semibold text-content-secondary uppercase">
+                            <span className="font-heading text-xs font-semibold text-content-secondary uppercase">
                               শিখনফল ও এআই টিউটর পাঠ:
                             </span>
 
@@ -210,7 +222,7 @@ export default function StudentMaterialsPage(): React.ReactElement {
                                     className="flex items-center justify-between gap-2 rounded-lg border border-border-subtle/60 bg-surface p-2.5 text-xs"
                                   >
                                     <div className="flex-1 space-y-0.5">
-                                      <span className="font-mono text-[10px] text-content-secondary">
+                                      <span className="font-mono text-xs text-content-secondary">
                                         {obj.code}
                                       </span>
                                       <p className="font-bangla font-medium text-content-primary leading-tight">
@@ -246,9 +258,9 @@ export default function StudentMaterialsPage(): React.ReactElement {
                         <span className="font-mono text-xs text-brand-secondary font-semibold">
                           অধ্যায় {toBanglaNumerals(activeChapter.chapter_number)}
                         </span>
-                        <h3 className="font-heading text-base font-bold text-content-primary">
+                        <h2 className="font-heading text-base font-bold text-content-primary">
                           {activeChapter.title_bn}
-                        </h3>
+                        </h2>
                       </div>
 
                       {/* PDF Download Gated Feature */}
